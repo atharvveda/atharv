@@ -109,7 +109,7 @@ const Footer = () => {
                 <div className="row">
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div className="ayur-copyright-para">
-                            <p>Copyright © 2025. All Right Reserved. Atharv Veda</p>
+                            <p>Copyright © 2026. All Right Reserved. Atharv Veda</p>
                         </div>
                         <div className="ayur-disclaimer" style={{ marginTop: "20px", fontSize: "0.85rem", color: "#666", textAlign: "center", borderTop: "1px solid #eee", paddingTop: "15px" }}>
                             <p><strong>Medical Disclaimer:</strong> The information on this website is for educational purposes only and not intended as medical advice. Always consult with a qualified healthcare professional before starting any new treatment or making changes to your healthcare regimen. Atharv Veda does not claim to cure diseases but provides supportive Ayurvedic care.</p>
