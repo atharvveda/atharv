@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Archivo, Inter } from "next/font/google";
+import Script from "next/script";
 import "../styles/bootstrap.min.css";
 import "../styles/font-awesome.min.css";
 import "../styles/select2.min.css";
@@ -27,8 +28,18 @@ export const metadata: Metadata = {
     default: "Atharv Veda - Best Ayurveda Treatment & Holistic Healing",
     template: "%s | Atharv Veda",
   },
-  description: "Discover the best Ayurvedic treatments for chronic diseases. Expert doctors specializing in Kidney, Cancer, and 18+ health concerns using natural, holistic healing.",
-  keywords: ["Atharv Veda", "Ayurveda Treatment", "Ayurvedic Hospital", "Kidney Treatment Ayurveda", "Natural Healing", "Holistic Medicine", "Ayurvedic Doctor USA", "Ayurveda for Kidney Failure"],
+  description:
+    "Discover the best Ayurvedic treatments for chronic diseases. Expert doctors specializing in Kidney, Cancer, and 18+ health concerns using natural, holistic healing.",
+  keywords: [
+    "Atharv Veda",
+    "Ayurveda Treatment",
+    "Ayurvedic Hospital",
+    "Kidney Treatment Ayurveda",
+    "Natural Healing",
+    "Holistic Medicine",
+    "Ayurvedic Doctor USA",
+    "Ayurveda for Kidney Failure",
+  ],
   authors: [{ name: "Dr. Rahul Sharma" }],
   creator: "Atharv Veda",
   publisher: "Atharv Veda",
@@ -42,7 +53,8 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Atharv Veda - Best Ayurveda Treatment",
-    description: "Personalized Ayurvedic care for chronic health concerns guided by expert doctors.",
+    description:
+      "Personalized Ayurvedic care for chronic health concerns guided by expert doctors.",
     url: "https://atharvveda.us",
     siteName: "Atharv Veda",
     images: [
@@ -58,7 +70,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Atharv Veda - Best Ayurveda Treatment",
-    description: "Expert Ayurvedic care for chronic diseases using natural healing methods.",
+    description:
+      "Expert Ayurvedic care for chronic diseases using natural healing methods.",
     images: ["/assets/images/New-Logo.png"],
   },
   robots: {
@@ -83,32 +96,33 @@ const medicalSchema = {
   "@graph": [
     {
       "@type": "MedicalBusiness",
-      "name": "Atharv Veda",
-      "image": "https://atharvveda.us/assets/images/New-Logo.png",
+      name: "Atharv Veda",
+      image: "https://atharvveda.us/assets/images/New-Logo.png",
       "@id": "https://atharvveda.us",
-      "url": "https://atharvveda.us",
-      "telephone": "+13029669159",
-      "address": {
+      url: "https://atharvveda.us",
+      telephone: "+13029669159",
+      address: {
         "@type": "PostalAddress",
-        "streetAddress": "3523 Silverside Road Suite 201-B",
-        "addressLocality": "Wilmington",
-        "addressRegion": "DE",
-        "postalCode": "19810",
-        "addressCountry": "US"
-      }
+        streetAddress: "3523 Silverside Road Suite 201-B",
+        addressLocality: "Wilmington",
+        addressRegion: "DE",
+        postalCode: "19810",
+        addressCountry: "US",
+      },
     },
     {
       "@type": "Physician",
-      "name": "Dr. Rahul Sharma",
-      "image": "https://atharvveda.us/assets/images/admin.jpg",
-      "medicalSpecialty": ["Ayurveda", "Nephrology"],
-      "description": "Specialist in Ayurvedic treatment for chronic kidney diseases and autoimmune disorders with over 10 years of experience.",
-      "memberOf": {
+      name: "Dr. Rahul Sharma",
+      image: "https://atharvveda.us/assets/images/admin.jpg",
+      medicalSpecialty: ["Ayurveda", "Nephrology"],
+      description:
+        "Specialist in Ayurvedic treatment for chronic kidney diseases and autoimmune disorders with over 10 years of experience.",
+      memberOf: {
         "@type": "Organization",
-        "name": "Atharv Veda"
-      }
-    }
-  ]
+        name: "Atharv Veda",
+      },
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -118,11 +132,37 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Google Tag Manager */}
+        <Script id="gtm-script" strategy="beforeInteractive">
+          {`
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-TD492XD4');
+          `}
+        </Script>
+        {/* End Google Tag Manager */}
+      </head>
+
       <body className={`${archivo.variable} ${inter.variable}`}>
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-TD492XD4"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
+        {/* End Google Tag Manager (noscript) */}
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(medicalSchema) }}
         />
+
         <Navbar />
         {children}
         <Footer />
