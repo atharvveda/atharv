@@ -2,6 +2,9 @@ import React from "react";
 import { Metadata } from "next";
 import Breadcrumb from "@/components/Breadcrumb";
 import EnquiryFormSide from "@/components/EnquiryFormSide";
+import MedicalDisclaimer from "@/components/MedicalDisclaimer";
+import { generateMedicalWebPageSchema } from "@/lib/schema/medical-webpage";
+import { generateBreadcrumbSchema } from "@/lib/schema/breadcrumb";
 
 export const generateMetadata = (): Metadata => {
     return {
@@ -9,30 +12,42 @@ export const generateMetadata = (): Metadata => {
         description: "Start your journey to better kidney health with authentic Ayurvedic treatments. Effective solutions for CKD, Nephrotic Syndrome, and High Creatinine without dialysis.",
         keywords: ["Kidney Treatment Ayurveda", "Ayurvedic Medicine for Kidney Failure", "CKD Treatment", "Natural Kidney Healing", "Avoid Dialysis Ayurveda"],
         alternates: {
-            canonical: "/diseases/kidney",
+            canonical: "https://atharvveda.us/diseases/kidney",
+        },
+        openGraph: {
+            title: "Best Ayurvedic Kidney Treatment | Atharv Veda",
+            description: "Natural, holistic kidney disease treatment using Ayurveda.",
+            url: "https://atharvveda.us/diseases/kidney",
+            type: "website",
+            images: [
+                {
+                    url: "https://atharvveda.us/assets/images/chronic-kidney.webp",
+                    width: 1200,
+                    height: 630,
+                },
+            ],
         },
     };
 };
 
 export default function KidneyPage() {
-    const jsonLd = {
-        "@context": "https://schema.org",
-        "@type": "MedicalCondition",
-        "name": "Kidney Disease",
-        "alternateName": ["Chronic Kidney Disease", "CKD", "Kidney Failure"],
-        "description": "A condition in which the kidneys are damaged and cannot filter blood as well as they should.",
-        "possibleTreatment": [
-            {
-                "@type": "MedicalTherapy",
-                "name": "Ayurvedic Kidney Treatment",
-                "description": "Holistic Ayurvedic approach using herbs like Punarnava and Gokshura to rejuvenate kidney function."
-            }
-        ],
-        "relevantSpecialty": {
-            "@type": "MedicalSpecialty",
-            "name": "Nephrology"
-        }
-    };
+    const medicalWebPageSchema = generateMedicalWebPageSchema({
+        title: "Ayurvedic Kidney Treatment",
+        description: "Comprehensive Ayurvedic treatment for chronic kidney disease and related conditions.",
+        url: "https://atharvveda.us/diseases/kidney",
+        datePublished: "2024-01-01",
+        dateModified: "2026-01-29",
+        conditionName: "Kidney Disease",
+        conditionDescription: "A condition in which the kidneys are damaged and cannot filter blood as well as they should.",
+        reviewerName: "Dr. Rahul Sharma",
+        reviewerCredentials: "B.A.M.S., M.D.",
+    });
+
+    const breadcrumbSchema = generateBreadcrumbSchema([
+        { name: 'Home', url: '/' },
+        { name: 'Diseases', url: '/diseases' },
+        { name: 'Kidney Treatment', url: '/diseases/kidney' },
+    ]);
 
     const treatments = [
         { name: "ACUTE KIDNEY DISEASE", img: "chronic-kidney.webp" },
@@ -59,7 +74,11 @@ export default function KidneyPage() {
         <main>
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(medicalWebPageSchema) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
             />
             <Breadcrumb title="Kidney Treatment" />
 
@@ -91,6 +110,15 @@ export default function KidneyPage() {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            {/* Medical Disclaimer */}
+            <div className="container">
+                <MedicalDisclaimer
+                    lastReviewed="January 29, 2026"
+                    reviewerName="Dr. Rahul Sharma"
+                    reviewerCredentials="B.A.M.S., M.D."
+                />
             </div>
 
             {/* Info Section */}

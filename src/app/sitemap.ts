@@ -1,54 +1,84 @@
-import { MetadataRoute } from 'next';
+import { MetadataRoute } from "next";
+import { getBlogPosts } from "@/lib/blog/adapter";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://atharvveda.us'; // Assuming this as the base URL based on previous info
+const baseUrl = "https://atharvveda.us";
 
-  const diseases = [
-    'kidney', 'cancer', 'leucoderma', 'alzheimer', 'motor-neuron-disease',
-    'fatty-liver', 'parkinson', 'psoriasis', 'pcod', 'erectile-dysfunction',
-    'eczema', 'jaundice', 'gallbladder', 'diabetes', 'arthritis',
-    'cerebral-palsy', 'panchkarma', 'liver-cirrhosis'
-  ];
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const now = new Date();
 
-  const diseaseUrls = diseases.map((disease) => ({
-    url: `${baseUrl}/diseases/${disease}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.8,
-  }));
-
-  const staticUrls = [
+  // Static pages
+  const staticPages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 1,
+      lastModified: new Date("2024-01-01"),
+      changeFrequency: "weekly",
+      priority: 1.0,
     },
     {
       url: `${baseUrl}/about`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+      lastModified: new Date("2024-01-01"),
+      changeFrequency: "monthly",
       priority: 0.7,
     },
     {
       url: `${baseUrl}/services`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+      lastModified: new Date("2024-01-01"),
+      changeFrequency: "monthly",
       priority: 0.7,
     },
     {
       url: `${baseUrl}/blog`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
+      lastModified: now,
+      changeFrequency: "weekly",
       priority: 0.8,
     },
     {
       url: `${baseUrl}/contact`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+      lastModified: new Date("2024-01-01"),
+      changeFrequency: "monthly",
       priority: 0.6,
     },
   ];
 
-  return [...staticUrls, ...diseaseUrls];
+  // Disease pages (hardcoded, not from CMS)
+  const diseases = [
+    "kidney",
+    "cancer",
+    "leucoderma",
+    "alzheimer",
+    "motor-neuron-disease",
+    "fatty-liver",
+    "parkinson",
+    "psoriasis",
+    "pcod",
+    "erectile-dysfunction",
+    "eczema",
+    "jaundice",
+    "gallbladder",
+    "diabetes",
+    "arthritis",
+    "cerebral-palsy",
+    "panchkarma",
+    "liver-cirrhosis",
+  ];
+
+  const diseasePages: MetadataRoute.Sitemap = diseases.map((slug) => ({
+    url: `${baseUrl}/diseases/${slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  // Blog posts (from adapter - CMS or fallback)
+  const blogPosts = await getBlogPosts();
+  const blogPages: MetadataRoute.Sitemap = blogPosts
+    .filter((post) => post.status === 'published') // Exclude drafts
+    .map((post) => ({
+      url: `${baseUrl}/blog/${post.slug}`,
+      lastModified: post.updatedAt || post.publishedAt || now,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    }));
+
+  return [...staticPages, ...diseasePages, ...blogPages];
 }

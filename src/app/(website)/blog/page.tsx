@@ -1,24 +1,11 @@
-"use client";
-
-import React, { useState } from "react";
+import React from "react";
 import Breadcrumb from "@/components/Breadcrumb";
 import BlogCard from "@/components/BlogCard";
+import { getBlogPosts, toBlogCardData } from "@/lib/blog/adapter";
 
-export default function Blog() {
-    const [isVideoOpen, setIsVideoOpen] = useState(false);
-
-    const allBlogs = [
-        {
-            image: "/assets/images/blog-single.png",
-            category: "Ayurveda Medicine",
-            date: "24 March 2022",
-            title: "Why Choose Ayurveda for a Healthier Life?",
-            description: "Discover the ancient wisdom of Ayurveda combined with modern clinical excellence.",
-            slug: "why-choose-ayurveda-for-a-healthier-life"
-        },
-        { image: "/assets/images/blog-1.png", category: "Ayurveda Medicine", date: "June 17,2024", title: "Duis aute irure dolor in velit voluptate esse", description: "It is a long established was a fact that a reader will be distracted by the readable content.", slug: "why-choose-ayurveda-for-a-healthier-life" },
-        { image: "/assets/images/blog-2.png", category: "Ayurveda Medicine", date: "June 17,2024", title: "Duis aute irure dolor in velit voluptate esse", description: "It is a long established was a fact that a reader will be distracted by the readable content.", slug: "why-choose-ayurveda-for-a-healthier-life" },
-    ];
+export default async function Blog() {
+    const posts = await getBlogPosts();
+    const allBlogs = posts.map(toBlogCardData);
 
     return (
         <main>
@@ -81,17 +68,6 @@ export default function Blog() {
                             <div className="ayur-video-section">
                                 <div className="ayur-video-img">
                                     <img src="/assets/images/video-bg.png" alt="img" />
-                                    <button className="ayur-video-playicon" onClick={() => setIsVideoOpen(true)} style={{ border: "none", background: "none" }}>
-                                        <img src="/assets/images/play-icon.svg" alt="icon" />
-                                    </button>
-                                    {isVideoOpen && (
-                                        <div id="videoPopup1" className="ayur-popup" style={{ display: "block" }}>
-                                            <div className="ayur-popup-content">
-                                                <span className="close" onClick={() => setIsVideoOpen(false)}>×</span>
-                                                <iframe src="https://www.youtube.com/embed/hJTmi9euoNg?autoplay=1" frameBorder="0" allowFullScreen></iframe>
-                                            </div>
-                                        </div>
-                                    )}
                                 </div>
                             </div>
                         </div>

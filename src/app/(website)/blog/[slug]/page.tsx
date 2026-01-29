@@ -1,21 +1,74 @@
 import React from "react";
+import { Metadata } from "next";
 import Breadcrumb from "@/components/Breadcrumb";
-import { blogs } from "@/data/blogs";
+import { getBlogPost } from "@/lib/blog/adapter";
+import { generateArticleSchema } from "@/lib/schema/article";
+import { generateBreadcrumbSchema } from "@/lib/schema/breadcrumb";
 import { notFound } from "next/navigation";
 
-export default function BlogSinglePage({ params }: { params: { slug: string } }) {
-    const blog = blogs.find((b) => b.slug === params.slug);
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const { slug } = await params;
+    const blog = await getBlogPost(slug);
 
     if (!blog) {
-        // For now, let's use the first blog as a fallback if the slug doesn't match
-        // in a real app, you might want to call notFound()
-        // but since we only have one blog in data, let's just show it.
+        return {};
     }
 
-    const activeBlog = blog || blogs[0];
+    return {
+        title: blog.seoTitle || blog.title,
+        description: blog.seoDescription || blog.description,
+        keywords: blog.keywords,
+        alternates: {
+            canonical: `https://atharvveda.us/blog/${blog.slug}`,
+        },
+        openGraph: {
+            title: blog.title,
+            description: blog.description,
+            type: 'article',
+            publishedTime: blog.publishedAt.toISOString(),
+            modifiedTime: blog.updatedAt?.toISOString(),
+            authors: [blog.author],
+            images: [blog.image],
+            url: `https://atharvveda.us/blog/${blog.slug}`,
+        },
+    };
+}
+
+export default async function BlogSinglePage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
+    const blog = await getBlogPost(slug);
+
+    if (!blog) {
+        notFound();
+    }
+
+    const articleSchema = generateArticleSchema({
+        title: blog.title,
+        description: blog.description,
+        url: `https://atharvveda.us/blog/${blog.slug}`,
+        imageUrl: `https://atharvveda.us${blog.image}`,
+        datePublished: blog.publishedAt.toISOString(),
+        dateModified: blog.updatedAt?.toISOString() || blog.publishedAt.toISOString(),
+        authorName: blog.author,
+    });
+
+    const breadcrumbSchema = generateBreadcrumbSchema([
+        { name: 'Home', url: '/' },
+        { name: 'Blog', url: '/blog' },
+        { name: blog.title, url: `/blog/${blog.slug}` },
+    ]);
 
     return (
         <main>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+            />
             <Breadcrumb title="Blog" />
 
             <div className="ayur-bgcover ayur-blogsin-section">
@@ -25,27 +78,27 @@ export default function BlogSinglePage({ params }: { params: { slug: string } })
                             <div className="ayur-blogsingle-sec">
                                 <div className="ayur-blogsingle-imgsec">
                                     <div className="ayur-blog-img">
-                                        <img src={activeBlog.image} alt={activeBlog.title} />
+                                        <img src={blog.image} alt={blog.title} />
                                     </div>
                                     <div className="ayur_blosing-postdata">
                                         <div className="ayur-blogsingle-title">
-                                            <h3>{activeBlog.title}</h3>
+                                            <h3>{blog.title}</h3>
                                         </div>
                                         <div className="ayur-post-data">
                                             <span className="post-like">
                                                 <img src="/assets/images/user-svg.svg" alt="icon" style={{ width: "20px", marginRight: "8px" }} />
-                                                <span>Post by - {activeBlog.author}</span>
+                                                <span>Post by - {blog.author}</span>
                                             </span>
                                             <span className="post-like" style={{ marginLeft: "20px" }}>
                                                 <img src="/assets/images/calender.svg" alt="icon" style={{ width: "20px", marginRight: "8px" }} />
-                                                {activeBlog.date}
+                                                {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(blog.publishedAt)}
                                             </span>
                                         </div>
 
                                         <div
                                             className="blog-content"
                                             style={{ marginTop: "24px", fontSize: "1.1rem" }}
-                                            dangerouslySetInnerHTML={{ __html: activeBlog.content }}
+                                            dangerouslySetInnerHTML={{ __html: blog.content }}
                                         />
 
                                         <div className="ayur-blockquote" style={{ margin: "32px 0", padding: "24px", background: "#f8f9fa", borderLeft: "4px solid #ffb300" }}>

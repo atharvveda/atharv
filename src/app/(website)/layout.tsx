@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { Archivo, Inter } from "next/font/google";
 import Script from "next/script";
-import "../styles/bootstrap.min.css";
-import "../styles/font-awesome.min.css";
-import "../styles/select2.min.css";
-import "../styles/flatpickr.min.css";
-import "../styles/swiper-bundle.min.css";
-import "../styles/style.css";
-import "../styles/responsive.css";
-import "./globals.css";
+import "../../styles/bootstrap.min.css";
+import "../../styles/font-awesome.min.css";
+import "../../styles/select2.min.css";
+import "../../styles/flatpickr.min.css";
+import "../../styles/swiper-bundle.min.css";
+import "../../styles/style.css";
+import "../../styles/responsive.css";
+import "../globals.css";
 
 const archivo = Archivo({
   variable: "--font-archivo",
@@ -90,39 +90,38 @@ export const metadata: Metadata = {
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingContact from "@/components/FloatingContact";
+import { generateOrganizationSchema } from "@/lib/schema/organization";
 
-const medicalSchema = {
+const organizationSchema = generateOrganizationSchema();
+
+const physicianSchema = {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "MedicalBusiness",
-      name: "Atharv Veda",
-      image: "https://atharvveda.us/assets/images/New-Logo.png",
-      "@id": "https://atharvveda.us",
-      url: "https://atharvveda.us",
-      telephone: "+13029669159",
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: "3523 Silverside Road Suite 201-B",
-        addressLocality: "Wilmington",
-        addressRegion: "DE",
-        postalCode: "19810",
-        addressCountry: "US",
-      },
+  "@type": "Physician",
+  name: "Dr. Rahul Sharma",
+  image: "https://atharvveda.us/assets/images/admin.jpg",
+  medicalSpecialty: ["Ayurveda", "Nephrology"],
+  description:
+    "Specialist in Ayurvedic treatment for chronic kidney diseases and autoimmune disorders with over 10 years of experience.",
+  memberOf: {
+    "@type": "Organization",
+    name: "Atharv Veda",
+  },
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://atharvveda.us/#website",
+  url: "https://atharvveda.us",
+  name: "Atharv Veda",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: "https://atharvveda.us/search?q={search_term_string}",
     },
-    {
-      "@type": "Physician",
-      name: "Dr. Rahul Sharma",
-      image: "https://atharvveda.us/assets/images/admin.jpg",
-      medicalSpecialty: ["Ayurveda", "Nephrology"],
-      description:
-        "Specialist in Ayurvedic treatment for chronic kidney diseases and autoimmune disorders with over 10 years of experience.",
-      memberOf: {
-        "@type": "Organization",
-        name: "Atharv Veda",
-      },
-    },
-  ],
+    "query-input": "required name=search_term_string",
+  },
 };
 
 export default function RootLayout({
@@ -131,7 +130,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Google Tag Manager */}
         <Script id="gtm-script" strategy="beforeInteractive">
@@ -160,7 +159,15 @@ export default function RootLayout({
 
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(medicalSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(physicianSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
 
         <Navbar />
