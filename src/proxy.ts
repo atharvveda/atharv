@@ -7,11 +7,11 @@ export function proxy(request: NextRequest) {
     const { pathname } = url;
 
     // 1. Enforce non-www (301 permanent redirect)
-    if (hostname.startsWith('www.') && !hostname.startsWith('www.shop.')) {
-        const newUrl = new URL(request.url);
-        newUrl.host = hostname.replace('www.', '');
-        return NextResponse.redirect(newUrl, { status: 301 });
-    }
+    // if (hostname.startsWith('www.') && !hostname.startsWith('www.shop.')) {
+    //     const newUrl = new URL(request.url);
+    //     newUrl.host = hostname.replace('www.', '');
+    //     return NextResponse.redirect(newUrl, { status: 301 });
+    // }
 
     // 2. Remove trailing slashes (except root)
     if (pathname !== '/' && pathname.endsWith('/')) {
