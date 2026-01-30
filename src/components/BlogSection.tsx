@@ -1,8 +1,14 @@
-"use client";
 import React from "react";
 import Link from "next/link";
+import { getBlogPosts } from "@/lib/blog/adapter";
 
-const BlogSection = () => {
+const BlogSection = async () => {
+    const allPosts = await getBlogPosts();
+    const recentPosts = allPosts.slice(0, 5); // Get first 5 for the section
+
+    const mainPosts = recentPosts.slice(0, 2);
+    const sidePosts = recentPosts.slice(2, 5);
+
     return (
         <div className="ayur-bgcover ayur-blog-sec">
             <div className="container">
@@ -15,51 +21,34 @@ const BlogSection = () => {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-lg-4 col-md-6 col-sm-6">
-                        <div className="ayur-blog-box">
-                            <div className="ayur-blog-img">
-                                <img src="/assets/images/blog-1.png" alt="image" />
-                            </div>
-                            <div className="ayur-blog-text">
-                                <div className="ayur-blog-date">
-                                    <h4>Ayurveda Medicine</h4>
-                                    <p>June 17,2024</p>
-                                </div>
-                                <h3><Link href="/blog">How Ayurveda Supports Kidney Health Naturally</Link></h3>
-                                <p>It is a long established was a fact that a reader will be distracted by the readable content.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-lg-4 col-md-6 col-sm-6">
-                        <div className="ayur-blog-box">
-                            <div className="ayur-blog-img">
-                                <img src="/assets/images/blog-2.png" alt="image" />
-                            </div>
-                            <div className="ayur-blog-text">
-                                <div className="ayur-blog-date">
-                                    <h4>Ayurveda Medicine</h4>
-                                    <p>June 17,2024</p>
-                                </div>
-                                <h3><Link href="/blog">The Link Between PCOS and Diet: An Ayurvedic Perspective</Link></h3>
-                                <p>It is a long established was a fact that a reader will be distracted by the readable content.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-lg-4 col-md-12 col-sm-12">
-                        {[
-                            { title: "How Ayurveda Supports Kidney Health Naturally", img: "blog-3.png" },
-                            { title: "The Link Between PCOS and Diet: An Ayurvedic Perspective", img: "blog-4.png" },
-                            { title: "Why Stress Management is Key in Any Healing Journey", img: "blog-5.png" }
-                        ].map((post, index) => (
-                            <div className="ayur-blog-box ayur-blog-inline" key={index}>
+                    {mainPosts.map((post, idx) => (
+                        <div className="col-lg-4 col-md-6 col-sm-6" key={idx}>
+                            <div className="ayur-blog-box">
                                 <div className="ayur-blog-img">
-                                    <img src={`/assets/images/${post.img}`} alt="image" />
+                                    <img src={post.image} alt={post.title} />
                                 </div>
                                 <div className="ayur-blog-text">
                                     <div className="ayur-blog-date">
-                                        <h4>Ayurveda Medicine</h4>
+                                        <h4>{post.category}</h4>
+                                        <p>{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(post.publishedAt)}</p>
                                     </div>
-                                    <h3><Link href="/blog">{post.title}</Link></h3>
+                                    <h3><Link href={`/blog/${post.slug}`}>{post.title}</Link></h3>
+                                    <p>{post.description}</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                    <div className="col-lg-4 col-md-12 col-sm-12">
+                        {sidePosts.map((post, index) => (
+                            <div className="ayur-blog-box ayur-blog-inline" key={index}>
+                                <div className="ayur-blog-img">
+                                    <img src={post.image} alt={post.title} />
+                                </div>
+                                <div className="ayur-blog-text">
+                                    <div className="ayur-blog-date">
+                                        <h4>{post.category}</h4>
+                                    </div>
+                                    <h3><Link href={`/blog/${post.slug}`}>{post.title}</Link></h3>
                                 </div>
                             </div>
                         ))}

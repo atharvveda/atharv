@@ -97,6 +97,9 @@ const Footer = () => {
                             </div>
                         </div>
                         <div className="col-lg-3 col-md-6 col-sm-6">
+                            <div className="ayur-social-list">
+                                {/* Social links to be added when available */}
+                            </div>
                             <div className="ayur-footer-box">
                                 <h4>Connect with Us</h4>
                                 <ul className="ayur-contact-list">

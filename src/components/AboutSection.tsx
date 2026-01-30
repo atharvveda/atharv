@@ -26,7 +26,7 @@ const AboutSection = () => {
                                 expert doctors design condition-specific healing plans that work with your body - not
                                 against it.
                             </p>
-                            <Link href="/about" className="ayur-btn">Know More</Link>
+                            <a href="/about" className="ayur-btn">More About Us</a>
                         </div>
                     </div>
                 </div>

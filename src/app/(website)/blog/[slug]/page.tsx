@@ -1,11 +1,13 @@
 import React from "react";
 import { Metadata } from "next";
 import Breadcrumb from "@/components/Breadcrumb";
-import { getBlogPost } from "@/lib/blog/adapter";
+import { getBlogPost, getBlogPosts } from "@/lib/blog/adapter";
 import { generateArticleSchema } from "@/lib/schema/article";
 import { generateBreadcrumbSchema } from "@/lib/schema/breadcrumb";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { injectInternalLinks } from "@/lib/blog/linkInjector";
+
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const { slug } = await params;
@@ -38,6 +40,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function BlogSinglePage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
     const blog = await getBlogPost(slug);
+    const allPosts = await getBlogPosts();
+
 
     if (!blog) {
         notFound();
@@ -45,6 +49,15 @@ export default async function BlogSinglePage({ params }: { params: Promise<{ slu
 
     // Auto-inject internal links
     const contentWithLinks = injectInternalLinks(blog.content, blog.diseaseCategory);
+
+    // Filter recent blogs logic: ensure we show SOMETHING even if there's only 1 post
+    let recentBlogs = allPosts.filter(p => p.slug !== slug).slice(0, 3);
+
+    // Fallback: if no other posts exist, just show the current one again (or empty if truly none)
+    // Ideally we'd show other relevant content, but for "Recent" showing the same post is better than empty if user insists on "Must be there"
+    if (recentBlogs.length === 0 && allPosts.length > 0) {
+        recentBlogs = allPosts.slice(0, 3);
+    }
 
     const articleSchema = generateArticleSchema({
         title: blog.title,
@@ -136,17 +149,17 @@ export default async function BlogSinglePage({ params }: { params: Promise<{ slu
                             <div className="ayur-shop-sidebar">
                                 <div className="ayur-widget ayur-blog-recent">
                                     <h3>Recent Blog</h3>
-                                    {[3, 4, 5].map((i) => (
+                                    {recentBlogs.map((post, i) => (
                                         <div className="ayur-blog-box ayur-blog-inline" key={i}>
                                             <div className="ayur-blog-img">
-                                                <img src={`/assets/images/blog-${i}.png`} alt="image" />
+                                                <img src={post.image} alt={post.title} />
                                             </div>
                                             <div className="ayur-blog-text">
                                                 <div className="ayur-blog-date">
-                                                    <h4>Ayurveda Medicine</h4>
+                                                    <h4>{post.category}</h4>
                                                 </div>
                                                 <h3>
-                                                    <a href="#">Duis aute irure dolor in velit</a>
+                                                    <Link href={`/blog/${post.slug}`}>{post.title}</Link>
                                                 </h3>
                                             </div>
                                         </div>

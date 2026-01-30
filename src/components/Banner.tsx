@@ -109,7 +109,7 @@ const Banner = () => {
                 <img src="/assets/images/ban-leafleft.png" alt="leaf-image" />
                 <img src="/assets/images/ban-leafright.png" alt="leaf-image" />
             </div>
-        </div>
+        </div >
     );
 };
 

@@ -108,7 +108,7 @@ export default function ServicesPage() {
                                         </ul>
                                     </div>
                                     <div className="ayur-price-btn">
-                                        <a href="#" className="ayur-btn">Buy Plan</a>
+                                        <a href="/contact" className="ayur-btn">Contact for Pricing</a>
                                     </div>
                                 </div>
                             </div>

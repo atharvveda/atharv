@@ -58,6 +58,7 @@ const CareSlider = () => {
                         {careItems.map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className="ayur-careslide-box">
+                                    <a href="/contact" className="ayur-btn">Consult Now</a>
                                     <div className="ayur-careslider-img">
                                         <img src={item.img} alt={item.title} />
                                     </div>

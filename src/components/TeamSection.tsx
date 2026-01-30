@@ -35,11 +35,7 @@ const TeamSection = () => {
                                         </div>
                                         <p>special</p>
                                         <div className="ayur-team-sociallink">
-                                            {/* Social links (SVGs omitted for brevity in thought, but included in implementation) */}
-                                            <a href="#"><i className="fa fa-facebook"></i></a>
-                                            <a href="#"><i className="fa fa-twitter"></i></a>
-                                            <a href="#"><i className="fa fa-pinterest"></i></a>
-                                            <a href="#"><i className="fa fa-instagram"></i></a>
+                                            {/* Social links removed until real profiles are available */}
                                         </div>
                                     </div>
                                 </div>

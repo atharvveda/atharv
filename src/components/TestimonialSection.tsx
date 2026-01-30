@@ -8,24 +8,10 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
+import { testimonials } from "@/data/testimonials";
+
 const TestimonialSection = () => {
-    const testimonials = [
-        {
-            text: "After years of struggling with CKD, Atharvveda’s approach gave me real results without side effects.",
-            name: "Jonathan B., California",
-            img: "/assets/images/test-img1.png",
-        },
-        {
-            text: "Their doctors really listened. My PCOD symptoms are under control for the first time in years!",
-            name: "Priya R., New Jersey",
-            img: "/assets/images/test-img2.png",
-        },
-        {
-            text: "After years of struggling with CKD, Atharvveda’s approach gave me real results without side effects.",
-            name: "Jonathan B., California",
-            img: "/assets/images/test-img1.png",
-        },
-    ];
+    // testimonials imported from data file
 
     return (
         <div className="ayur-bgcover ayur-testimonial-sec">
@@ -63,8 +49,10 @@ const TestimonialSection = () => {
                                     </div>
                                     <div className="ayur-test-namesec">
                                         <div className="ayur-testname">
-                                            <img src={test.img} alt="image" />
-                                            <h3>{test.name}</h3>
+                                            <div>
+                                                <h3>{test.name}</h3>
+                                                <p style={{ fontSize: "0.9rem", color: "#666" }}>{test.location}</p>
+                                            </div>
                                         </div>
                                         <div className="ayur-testquote">
                                             <svg width="74" height="53" viewBox="0 0 74 53" fill="none" xmlns="http://www.w3.org/2000/svg">

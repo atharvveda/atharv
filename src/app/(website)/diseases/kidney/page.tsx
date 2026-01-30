@@ -1,8 +1,11 @@
 import React from "react";
 import { Metadata } from "next";
 import Breadcrumb from "@/components/Breadcrumb";
+import Link from "next/link";
+import { kidneyFAQs } from "@/data/faqs";
 import EnquiryFormSide from "@/components/EnquiryFormSide";
 import MedicalDisclaimer from "@/components/MedicalDisclaimer";
+import FAQItem from "@/components/FAQItem";
 import { generateMedicalWebPageSchema } from "@/lib/schema/medical-webpage";
 import { generateBreadcrumbSchema } from "@/lib/schema/breadcrumb";
 
@@ -134,7 +137,7 @@ export default function KidneyPage() {
                                 proper <b>fluid</b> and <b>electrolyte</b> balance. They also regulate blood pressure and help produce red
                                 blood cells...
                             </p>
-                            <button className="btn" style={{ background: "#00423b", color: "#fff", fontSize: "1rem", fontWeight: 500, padding: "10px 32px", borderRadius: "32px" }}>Book Consultation</button>
+                            <Link href="/contact" className="btn" style={{ background: "#00423b", color: "#fff", fontSize: "1rem", fontWeight: 500, padding: "10px 32px", borderRadius: "32px", display: "inline-block", textDecoration: "none" }}>Book Consultation</Link>
                         </div>
                         <div className="col-lg-5 col-md-12 text-center">
                             <div style={{ background: "#fff", borderRadius: "24px", boxShadow: "0 8px 32px rgba(0,0,0,0.08)", padding: "16px 0 0 0", display: "inline-block" }}>
@@ -161,6 +164,22 @@ export default function KidneyPage() {
                                     </div>
                                 ))}
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* FAQs Section */}
+            <div className="container mb-5">
+                <div className="row justify-content-center">
+                    <div className="col-lg-10">
+                        <h2 style={{ fontSize: "2.5rem", fontWeight: 800, color: "#00423b", marginBottom: "32px", textAlign: "center" }}>
+                            Common Questions About <span style={{ color: "#ffb300" }}>Kidney Treatment</span>
+                        </h2>
+                        <div className="accordion" id="kidneyFaqAccordion">
+                            {kidneyFAQs.map((faq, index) => (
+                                <FAQItem key={index} faq={faq} index={index} />
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -212,3 +231,4 @@ export default function KidneyPage() {
         </main>
     );
 }
+

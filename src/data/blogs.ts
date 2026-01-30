@@ -1,11 +1,11 @@
 export const blogs = [
-    {
-        slug: "why-choose-ayurveda-for-a-healthier-life",
-        title: "Why Choose Ayurveda for a Healthier Life?",
-        author: "Dr. Rahul Sharma",
-        date: "24 March 2022",
-        image: "/assets/images/blog-single.png",
-        content: `
+  {
+    slug: "why-choose-ayurveda-for-a-healthier-life",
+    title: "Why Choose Ayurveda for a Healthier Life?",
+    author: "Dr. Rahul Sharma",
+    date: "24 March 2022",
+    image: "/assets/images/blog-single.png",
+    content: `
       <p>In recent years, many Americans have started looking beyond conventional medicine for natural, holistic solutions to health problems. From stress and sleep disorders to digestive issues and chronic lifestyle conditions, people are realizing that modern medicine often addresses <strong>symptoms</strong> but not the <strong>root cause</strong>. This is where <strong>Ayurveda</strong>, India’s ancient science of life, is gaining popularity across the United States.</p>
       <p>At <strong>Atharv Veda</strong>, we bring this 5,000-year-old healing system to today’s modern lifestyle—helping you achieve balance, vitality, and long-term health.</p>
       <h2>What Makes Ayurveda Different from Modern Medicine?</h2>
@@ -45,5 +45,27 @@ export const blogs = [
       <p>Choosing Ayurveda is choosing a <strong>healthier, more natural way of life</strong>. It’s about prevention, balance, and long-term well-being. In a world where lifestyle diseases are on the rise, Ayurveda provides a path to sustainable wellness.</p>
       <p><strong>Fact:</strong> Ayurveda is officially recognized by the <strong>World Health Organization (WHO)</strong> as one of the world’s oldest and most complete traditional healing systems.</p>
     `,
-    },
+  },
+  {
+    slug: "natural-treatments-for-kidney-health",
+    title: "Natural Treatments for Kidney Health: An Ayurvedic Guide",
+    author: "Dr. Rahul Sharma",
+    date: "15 April 2024",
+    image: "/assets/images/blog-1.png",
+    content: `
+      <p>Kidney health is a major concern for many individuals today. Ayurveda offers a holistic approach to maintaining and restoring kidney function through diet, herbs, and lifestyle changes.</p>
+      <h2>Key Ayurvedic Herbs for Kidneys</h2>
+      <p>Punarnava, Varuna, and Gokshura are some of the most powerful herbs used in Ayurvedic kidney care...</p>
+    `,
+  },
+  {
+    slug: "managing-pcos-with-ayurvedic-diet",
+    title: "Managing PCOS with Ayurvedic Diet and Lifestyle",
+    author: "Dr. Rahul Sharma",
+    date: "10 May 2024",
+    image: "/assets/images/blog-2.png",
+    content: `
+      <p>PCOS is a complex hormonal condition that can be effectively managed by addressing the underlying imbalances in the body. Ayurveda focuses on balancing the doshas through a cooling and nourishing diet.</p>
+    `,
+  },
 ];
