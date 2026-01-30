@@ -48,6 +48,19 @@ export const post = defineType({
             initialValue: 'Ayurveda Medicine',
         }),
         defineField({
+            name: 'diseaseCategory',
+            title: 'Disease Category',
+            type: 'string',
+            options: {
+                list: [
+                    { title: 'None / Generic', value: 'generic' },
+                    { title: 'Kidney Disease', value: 'kidney' },
+                ],
+            },
+            initialValue: 'generic',
+            description: 'Select to enable automatic SEO internal linking to pillar pages.',
+        }),
+        defineField({
             name: 'publishedAt',
             title: 'Published at',
             type: 'datetime',

@@ -26,6 +26,7 @@ const POST_QUERY = `*[_type == "post" && slug.current == $slug][0] {
   body,
   author,
   category,
+  diseaseCategory,
   seoTitle,
   seoDescription,
   keywords
@@ -83,6 +84,7 @@ function transformSanityPost(doc: any): BlogPost {
         author: doc.author || 'Dr. Rahul Sharma',
         authorBio: '', // Sanity schema doesn't have this yet
         category: doc.category || 'Ayurveda Medicine',
+        diseaseCategory: doc.diseaseCategory || 'generic',
         image: doc.mainImage ? urlFor(doc.mainImage).url() : '/assets/images/blog-single.png',
         publishedAt: new Date(doc.publishedAt || new Date()),
         updatedAt: new Date(doc.publishedAt || new Date()),

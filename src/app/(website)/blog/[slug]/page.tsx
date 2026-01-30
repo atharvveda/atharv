@@ -5,7 +5,7 @@ import { getBlogPost } from "@/lib/blog/adapter";
 import { generateArticleSchema } from "@/lib/schema/article";
 import { generateBreadcrumbSchema } from "@/lib/schema/breadcrumb";
 import { notFound } from "next/navigation";
-
+import { injectInternalLinks } from "@/lib/blog/linkInjector";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const { slug } = await params;
@@ -42,6 +42,9 @@ export default async function BlogSinglePage({ params }: { params: Promise<{ slu
     if (!blog) {
         notFound();
     }
+
+    // Auto-inject internal links
+    const contentWithLinks = injectInternalLinks(blog.content, blog.diseaseCategory);
 
     const articleSchema = generateArticleSchema({
         title: blog.title,
@@ -98,7 +101,7 @@ export default async function BlogSinglePage({ params }: { params: Promise<{ slu
                                         <div
                                             className="blog-content"
                                             style={{ marginTop: "24px", fontSize: "1.1rem" }}
-                                            dangerouslySetInnerHTML={{ __html: blog.content }}
+                                            dangerouslySetInnerHTML={{ __html: contentWithLinks }}
                                         />
 
                                         <div className="ayur-blockquote" style={{ margin: "32px 0", padding: "24px", background: "#f8f9fa", borderLeft: "4px solid #ffb300" }}>

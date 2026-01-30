@@ -7,6 +7,7 @@ export interface BlogPost {
     authorBio?: string;
     authorImage?: string;
     category: string;
+    diseaseCategory?: string;
     image: string;
     publishedAt: Date;
     updatedAt?: Date;
