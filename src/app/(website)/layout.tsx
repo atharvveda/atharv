@@ -90,39 +90,9 @@ export const metadata: Metadata = {
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingContact from "@/components/FloatingContact";
-import { generateOrganizationSchema } from "@/lib/schema/organization";
+import { generateGlobalSchemaGraph } from "@/lib/schema/organization";
 
-const organizationSchema = generateOrganizationSchema();
-
-const physicianSchema = {
-  "@context": "https://schema.org",
-  "@type": "Physician",
-  name: "Dr. Rahul Sharma",
-  image: "https://atharvveda.us/assets/images/admin.jpg",
-  medicalSpecialty: ["Ayurveda", "Nephrology"],
-  description:
-    "Specialist in Ayurvedic treatment for chronic kidney diseases and autoimmune disorders with over 10 years of experience.",
-  memberOf: {
-    "@type": "Organization",
-    name: "Atharv Veda",
-  },
-};
-
-const websiteSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": "https://atharvveda.us/#website",
-  url: "https://atharvveda.us",
-  name: "Atharv Veda",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: {
-      "@type": "EntryPoint",
-      urlTemplate: "https://atharvveda.us/search?q={search_term_string}",
-    },
-    "query-input": "required name=search_term_string",
-  },
-};
+const globalSchemaGraph = generateGlobalSchemaGraph();
 
 export default function RootLayout({
   children,
@@ -167,15 +137,7 @@ export default function RootLayout({
 
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(physicianSchema) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(globalSchemaGraph) }}
         />
 
         <Navbar />

@@ -6,8 +6,7 @@ import { kidneyFAQs } from "@/data/faqs";
 import EnquiryFormSide from "@/components/EnquiryFormSide";
 import MedicalDisclaimer from "@/components/MedicalDisclaimer";
 import FAQItem from "@/components/FAQItem";
-import { generateMedicalWebPageSchema } from "@/lib/schema/medical-webpage";
-import { generateBreadcrumbSchema } from "@/lib/schema/breadcrumb";
+import { generateKidneyPageSchemas } from "@/lib/schema/kidneySchemas";
 
 export const generateMetadata = (): Metadata => {
     return {
@@ -34,23 +33,34 @@ export const generateMetadata = (): Metadata => {
 };
 
 export default function KidneyPage() {
-    const medicalWebPageSchema = generateMedicalWebPageSchema({
-        title: "Ayurvedic Kidney Treatment",
-        description: "Comprehensive Ayurvedic treatment for chronic kidney disease and related conditions.",
-        url: "https://atharvveda.us/diseases/kidney",
-        datePublished: "2024-01-01",
-        dateModified: "2026-01-29",
-        conditionName: "Kidney Disease",
-        conditionDescription: "A condition in which the kidneys are damaged and cannot filter blood as well as they should.",
-        reviewerName: "Dr. Rahul Sharma",
-        reviewerCredentials: "B.A.M.S., M.D.",
+    const pageSchemas = generateKidneyPageSchemas({
+        articleProps: {
+            title: "Best Ayurvedic Kidney Treatment | Atharv Veda",
+            description: "Start your journey to better kidney health with authentic Ayurvedic treatments. Effective solutions for CKD, Nephrotic Syndrome, and High Creatinine without dialysis.",
+            url: "https://atharvveda.us/diseases/kidney",
+            imageUrl: "https://atharvveda.us/assets/images/chronic-kidney.webp",
+            datePublished: "2024-01-01",
+            dateModified: "2026-01-31",
+            authorName: "Dr. Rahul Sharma",
+        },
+        medicalProps: {
+            title: "Ayurvedic Kidney Treatment",
+            description: "Comprehensive Ayurvedic treatment for chronic kidney disease and related conditions.",
+            url: "https://atharvveda.us/diseases/kidney",
+            datePublished: "2024-01-01",
+            dateModified: "2026-01-31",
+            conditionName: "Kidney Disease",
+            conditionDescription: "A condition in which the kidneys are damaged and cannot filter blood as well as they should.",
+            reviewerName: "Dr. Rahul Sharma",
+            reviewerCredentials: "B.A.M.S., M.D.",
+        },
+        faqs: kidneyFAQs,
+        breadcrumbs: [
+            { name: 'Home', url: '/' },
+            { name: 'Diseases', url: '/diseases' },
+            { name: 'Kidney Treatment', url: '/diseases/kidney' },
+        ]
     });
-
-    const breadcrumbSchema = generateBreadcrumbSchema([
-        { name: 'Home', url: '/' },
-        { name: 'Diseases', url: '/diseases' },
-        { name: 'Kidney Treatment', url: '/diseases/kidney' },
-    ]);
 
     const treatments = [
         { name: "ACUTE KIDNEY DISEASE", img: "chronic-kidney.webp" },
@@ -75,14 +85,13 @@ export default function KidneyPage() {
 
     return (
         <main>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(medicalWebPageSchema) }}
-            />
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-            />
+            {pageSchemas.map((schema, i) => (
+                <script
+                    key={i}
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+                />
+            ))}
             <Breadcrumb title="Kidney Treatment" />
 
             {/* Hero Section */}

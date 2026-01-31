@@ -1,7 +1,9 @@
 import { Metadata } from "next";
 import Breadcrumb from "@/components/Breadcrumb";
 import MedicalDisclaimer from "@/components/MedicalDisclaimer";
-import { generateBreadcrumbSchema } from "@/lib/schema/breadcrumb";
+import { generateKidneyPageSchemas } from "@/lib/schema/kidneySchemas";
+import { kidneyFAQs } from "@/data/faqs";
+import React from "react";
 
 export const metadata: Metadata = {
   title:
@@ -29,22 +31,46 @@ export const metadata: Metadata = {
 };
 
 export default function PillarKidneyPage() {
-  const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: "Home", url: "/" },
-    {
-      name: "Ayurvedic Treatment of Kidney Diseases",
-      url: "/ayurvedic-treatment-of-kidney-diseases",
+  const pageSchemas = generateKidneyPageSchemas({
+    articleProps: {
+      title: "Ayurvedic Treatment of Kidney Diseases: Herbs, Diet & Care",
+      description: "Educational guide on Ayurvedic treatment of kidney diseases covering herbs, diet, lifestyle, and limitations.",
+      url: "https://atharvveda.us/ayurvedic-treatment-of-kidney-diseases",
+      imageUrl: "https://atharvveda.us/assets/images/chronic-kidney.webp",
+      datePublished: "2024-01-01",
+      dateModified: "2026-01-31",
+      authorName: "Dr. Rahul Sharma",
     },
-  ]);
+    medicalProps: {
+      title: "Ayurvedic Treatment of Kidney Diseases",
+      description: "Learn how Ayurveda approaches kidney diseases through diet, herbs, and lifestyle support.",
+      url: "https://atharvveda.us/ayurvedic-treatment-of-kidney-diseases",
+      datePublished: "2024-01-01",
+      dateModified: "2026-01-31",
+      conditionName: "Kidney Disease",
+      conditionDescription: "Kidney diseases affect the body’s ability to remove waste and regulate fluids.",
+      reviewerName: "Dr. Rahul Sharma",
+      reviewerCredentials: "B.A.M.S., M.D.",
+    },
+    faqs: kidneyFAQs,
+    breadcrumbs: [
+      { name: "Home", url: "/" },
+      {
+        name: "Ayurvedic Treatment of Kidney Diseases",
+        url: "/ayurvedic-treatment-of-kidney-diseases",
+      },
+    ]
+  });
 
   return (
     <main className="container" style={{ padding: "40px 0" }}>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbSchema),
-        }}
-      />
+      {pageSchemas.map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
 
       <Breadcrumb title="Ayurvedic Treatment of Kidney Diseases" />
 
@@ -88,7 +114,7 @@ export default function PillarKidneyPage() {
         <p>
           In Ayurveda, kidney-related conditions are commonly associated
           with imbalances in <strong>Vata</strong> and <strong>Kapha
-          dosha</strong>. The urinary system is linked to the
+            dosha</strong>. The urinary system is linked to the
           <strong> Mutravaha Srotas</strong>, which governs urine
           formation and elimination.
         </p>
