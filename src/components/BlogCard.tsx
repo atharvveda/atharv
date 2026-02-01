@@ -11,24 +11,35 @@ interface BlogCardProps {
     slug: string;
 }
 
-const BlogCard = ({ image, category, date, title, description, slug }: BlogCardProps) => {
+const BlogCard = ({
+    image,
+    category,
+    date,
+    title,
+    description,
+    slug,
+}: BlogCardProps) => {
     return (
         <div className="col-lg-4 col-md-6 col-sm-6">
-            <div className="ayur-blog-box">
+            <Link
+                href={`/blog/${slug}`}
+                className="ayur-blog-box ayur-blog-link"
+            >
                 <div className="ayur-blog-img">
                     <img src={image} alt={title} />
                 </div>
+
                 <div className="ayur-blog-text">
                     <div className="ayur-blog-date">
                         <h4>{category}</h4>
                         <p>{date}</p>
                     </div>
-                    <h3>
-                        <Link href={`/blog/${slug}`}>{title}</Link>
-                    </h3>
-                    <p>{description}</p>
+
+                    <h3 className="ayur-blog-title">{title}</h3>
+
+                    <p className="ayur-blog-desc">{description}</p>
                 </div>
-            </div>
+            </Link>
         </div>
     );
 };

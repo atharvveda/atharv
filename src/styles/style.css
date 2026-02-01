@@ -445,6 +445,62 @@ li.ayur-has-menu a {
   line-height: 1;
 }
 
+/* Make entire card clickable */
+.ayur-blog-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Card container */
+.ayur-blog-box {
+    height: 100%;
+    cursor: pointer;
+}
+
+/* Fix image height */
+.ayur-blog-img img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Content layout */
+.ayur-blog-text {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 20px;
+}
+
+/* Clamp title */
+.ayur-blog-title {
+    margin: 10px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Clamp description (KEY FIX) */
+.ayur-blog-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* adjust if needed */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: auto;
+}
+
+/* Optional hover polish */
+.ayur-blog-box:hover {
+    transform: translateY(-4px);
+    transition: 0.3s ease;
+}
+
+
 @media (max-width: 480px) {
   .ayur-float-contact {
     left: 12px;
