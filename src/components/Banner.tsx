@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay, EffectCreative } from "swiper/modules";
 
@@ -85,7 +86,14 @@ const Banner = () => {
                                 {[1, 2, 3, 4, 5].map((item) => (
                                     <SwiperSlide key={item}>
                                         <div className="ayur-ban-slide">
-                                            <img src="/assets/images/ban-head-Image.png" alt="headerimage" />
+                                            <Image
+                                                src="/assets/images/ban-head-Image.png"
+                                                alt="headerimage"
+                                                width={636}
+                                                height={580}
+                                                priority
+                                                style={{ width: '100%', height: 'auto' }}
+                                            />
                                         </div>
                                     </SwiperSlide>
                                 ))}
