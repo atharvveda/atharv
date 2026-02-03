@@ -109,6 +109,12 @@ export default async function BlogSinglePage({ params }: { params: Promise<{ slu
                                                 <img src="/assets/images/calender.svg" alt="icon" style={{ width: "20px", marginRight: "8px" }} />
                                                 {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(blog.publishedAt)}
                                             </span>
+                                            <span className="post-like" style={{ marginLeft: "20px" }}>
+                                                <img src="/assets/images/check.png" alt="icon" style={{ width: "20px", marginRight: "8px" }} />
+                                                <span style={{ fontSize: "0.95rem" }}>
+                                                    Medically Reviewed by <Link href="/dr-rahul-sharma" style={{ color: "var(--ayur-primary-color)", fontWeight: 600 }}>Dr. Rahul Sharma</Link>
+                                                </span>
+                                            </span>
                                         </div>
 
                                         <div

@@ -32,8 +32,8 @@ const BlogSection = async () => {
                                         <h4>{post.category}</h4>
                                         <p>{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(post.publishedAt)}</p>
                                     </div>
-                                    <h3><Link href={`/blog/${post.slug}`}>{post.title}</Link></h3>
-                                    <p>{post.description}</p>
+                                    <h3 className="ayur-blog-title"><Link href={`/blog/${post.slug}`}>{post.title}</Link></h3>
+                                    <p className="ayur-blog-desc">{post.description}</p>
                                 </div>
                             </div>
                         </div>
@@ -48,7 +48,7 @@ const BlogSection = async () => {
                                     <div className="ayur-blog-date">
                                         <h4>{post.category}</h4>
                                     </div>
-                                    <h3><Link href={`/blog/${post.slug}`}>{post.title}</Link></h3>
+                                    <h3 className="ayur-blog-title"><Link href={`/blog/${post.slug}`}>{post.title}</Link></h3>
                                 </div>
                             </div>
                         ))}

@@ -7,14 +7,18 @@ import React from "react";
 
 export const metadata: Metadata = {
   title:
-    "Ayurvedic Treatment of Kidney Diseases: Herbs, Diet & Care",
+    "Chronic Kidney Disease: Herbal & Ayurvedic Treatment Guide",
   description:
-    "Educational guide on Ayurvedic treatment of kidney diseases covering herbs, diet, lifestyle, and limitations. Reviewed by qualified Ayurvedic physician.",
+    "Comprehensive US-focused guide on chronic kidney disease (CKD), including herbal and Ayurvedic treatment approaches, kidney-friendly diet, lifestyle care, and limitations. Reviewed by qualified Ayurvedic physician.",
   keywords: [
-    "ayurvedic treatment of kidney diseases",
-    "ayurveda for kidney disease",
-    "ayurvedic kidney treatment",
-    "kidney disease ayurveda",
+    "chronic kidney disease",
+    "herbal treatment of kidney disease",
+    "natural kidney treatment",
+    "ayurvedic treatment for kidney disease",
+    "chronic kidney disease treatment",
+    "kidney disease herbal medicine",
+    "reduce creatinine naturally",
+    "ayurveda for ckd"
   ],
   alternates: {
     canonical:
@@ -22,9 +26,9 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title:
-      "Ayurvedic Treatment of Kidney Diseases – Natural Care Guide",
+      "Chronic Kidney Disease – Herbal & Ayurvedic Treatment Guide",
     description:
-      "Learn how Ayurveda approaches kidney diseases through diet, herbs, and lifestyle support.",
+      "Learn about chronic kidney disease stages, herbal treatment options, Ayurvedic diet, and lifestyle support for kidney health.",
     url: "https://atharvveda.us/ayurvedic-treatment-of-kidney-diseases",
     type: "article",
   },
@@ -33,22 +37,26 @@ export const metadata: Metadata = {
 export default function PillarKidneyPage() {
   const pageSchemas = generateKidneyPageSchemas({
     articleProps: {
-      title: "Ayurvedic Treatment of Kidney Diseases: Herbs, Diet & Care",
-      description: "Educational guide on Ayurvedic treatment of kidney diseases covering herbs, diet, lifestyle, and limitations.",
+      title: "Chronic Kidney Disease: Herbal & Ayurvedic Treatment Guide",
+      description:
+        "Educational guide covering chronic kidney disease, herbal and Ayurvedic treatment approaches, diet, lifestyle, and medical limitations.",
       url: "https://atharvveda.us/ayurvedic-treatment-of-kidney-diseases",
-      imageUrl: "https://atharvveda.us/assets/images/chronic-kidney.webp",
+      imageUrl:
+        "https://atharvveda.us/assets/uploads/chronic-kidney-disease-hero.webp",
       datePublished: "2024-01-01",
-      dateModified: "2026-01-31",
+      dateModified: "2026-02-03",
       authorName: "Dr. Rahul Sharma",
     },
     medicalProps: {
-      title: "Ayurvedic Treatment of Kidney Diseases",
-      description: "Learn how Ayurveda approaches kidney diseases through diet, herbs, and lifestyle support.",
+      title: "Chronic Kidney Disease (CKD)",
+      description:
+        "Chronic kidney disease is a long-term condition affecting kidney function and waste removal.",
       url: "https://atharvveda.us/ayurvedic-treatment-of-kidney-diseases",
       datePublished: "2024-01-01",
-      dateModified: "2026-01-31",
-      conditionName: "Kidney Disease",
-      conditionDescription: "Kidney diseases affect the body’s ability to remove waste and regulate fluids.",
+      dateModified: "2026-02-03",
+      conditionName: "Chronic Kidney Disease",
+      conditionDescription:
+        "A progressive condition where kidneys gradually lose their ability to filter waste and regulate fluids.",
       reviewerName: "Dr. Rahul Sharma",
       reviewerCredentials: "B.A.M.S., M.D.",
     },
@@ -56,10 +64,10 @@ export default function PillarKidneyPage() {
     breadcrumbs: [
       { name: "Home", url: "/" },
       {
-        name: "Ayurvedic Treatment of Kidney Diseases",
+        name: "Chronic Kidney Disease",
         url: "/ayurvedic-treatment-of-kidney-diseases",
       },
-    ]
+    ],
   });
 
   return (
@@ -72,142 +80,195 @@ export default function PillarKidneyPage() {
         />
       ))}
 
-      <Breadcrumb title="Ayurvedic Treatment of Kidney Diseases" />
+      <Breadcrumb title="Chronic Kidney Disease Treatment Guide" />
 
       <article style={{ maxWidth: "900px", margin: "0 auto" }}>
-        <h1>Ayurvedic Treatment of Kidney Diseases</h1>
+        {/* HERO IMAGE */}
+        <img
+          src="/assets/uploads/chronic-kidney-disease-hero.webp"
+          alt="Chronic kidney disease overview with educational medical illustration"
+          width="900"
+          height="500"
+          loading="eager"
+        />
+
+        <h1>Chronic Kidney Disease: Herbal & Ayurvedic Treatment Guide</h1>
 
         <p>
-          Kidney diseases affect the body’s ability to remove waste,
-          regulate fluids, and maintain essential mineral balance.
-          Conditions such as chronic kidney disease (CKD), nephrotic
-          syndrome, and elevated creatinine levels can significantly
-          impact overall health and quality of life.
+          Chronic kidney disease (CKD) is a long-term condition in which the
+          kidneys gradually lose their ability to filter waste, regulate
+          fluids, and maintain electrolyte balance. CKD affects millions of
+          people in the United States and is commonly linked to diabetes,
+          high blood pressure, autoimmune disorders, infections, and long-term
+          medication use.
         </p>
 
-        <p>
-          Ayurveda, the traditional system of medicine originating in
-          India, approaches kidney disorders through a holistic framework
-          that emphasizes balance, diet, lifestyle, and supportive herbal
-          practices. This page provides an educational overview of the
-          Ayurvedic treatment of kidney diseases.
-        </p>
+        <h2>Understanding Kidney Function</h2>
 
-        <h2>Understanding Kidney Diseases</h2>
-        <p>
-          Kidneys play a vital role in filtering toxins from the blood,
-          regulating blood pressure, maintaining electrolyte balance,
-          and supporting red blood cell production. Kidney diseases may
-          develop due to diabetes, high blood pressure, infections,
-          autoimmune disorders, long-term medication use, or genetic
-          factors.
-        </p>
+        <img
+          src="/assets/uploads/kidney-function-diagram.webp"
+          alt="Kidney function diagram showing blood filtration and waste removal"
+          width="800"
+          height="450"
+          loading="lazy"
+        />
 
         <p>
-          Chronic Kidney Disease (CKD) is a progressive condition where
-          kidney function declines gradually. Early stages may not
-          present noticeable symptoms, which is why regular medical
-          evaluation is important for individuals at risk.
+          The kidneys filter toxins from the blood, regulate blood pressure,
+          balance minerals, and help produce red blood cells. When kidney
+          function declines, waste products such as creatinine and excess
+          fluids may accumulate in the body.
         </p>
 
-        <h2>Ayurvedic Perspective on Kidney Disorders</h2>
-        <p>
-          In Ayurveda, kidney-related conditions are commonly associated
-          with imbalances in <strong>Vata</strong> and <strong>Kapha
-            dosha</strong>. The urinary system is linked to the
-          <strong> Mutravaha Srotas</strong>, which governs urine
-          formation and elimination.
-        </p>
+        <h2>Stages of Chronic Kidney Disease</h2>
+
+        <img
+          src="/assets/uploads/stages-of-chronic-kidney-disease.webp"
+          alt="Stages of chronic kidney disease from stage 1 to stage 5"
+          width="800"
+          height="450"
+          loading="lazy"
+        />
+
+        <table>
+          <thead>
+            <tr>
+              <th>Stage</th>
+              <th>GFR (mL/min)</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Stage 1</td>
+              <td>90+</td>
+              <td>Mild kidney damage</td>
+            </tr>
+            <tr>
+              <td>Stage 2</td>
+              <td>60–89</td>
+              <td>Early loss of kidney function</td>
+            </tr>
+            <tr>
+              <td>Stage 3</td>
+              <td>30–59</td>
+              <td>Moderate kidney damage</td>
+            </tr>
+            <tr>
+              <td>Stage 4</td>
+              <td>15–29</td>
+              <td>Severe kidney damage</td>
+            </tr>
+            <tr>
+              <td>Stage 5</td>
+              <td>&lt;15</td>
+              <td>Kidney failure</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Herbal Treatment of Chronic Kidney Disease</h2>
+
+        <img
+          src="/assets/uploads/herbal-treatment-of-kidney-disease.webp"
+          alt="Herbal treatment of kidney disease shown as educational infographic"
+          width="800"
+          height="450"
+          loading="lazy"
+        />
 
         <p>
-          When digestion and metabolism are weakened, metabolic waste
-          (Ama) may accumulate, potentially affecting kidney function.
-          Ayurvedic care focuses on restoring balance and supporting
-          natural elimination processes.
-        </p>
-
-        <h2>Can Ayurveda Help in Kidney Diseases?</h2>
-        <p>
-          Ayurvedic treatment of kidney diseases focuses on supporting
-          overall health rather than offering a cure. In early or
-          supportive stages, Ayurvedic approaches may help improve
-          digestion, support urinary health, and promote balance when
-          guided by a qualified practitioner.
-        </p>
-
-        <p>
-          Ayurveda is often used alongside modern medical care, especially
-          in chronic conditions that require long-term monitoring.
+          Herbal treatment of kidney disease focuses on plant-based
+          formulations traditionally used to support urinary health,
+          digestion, and metabolic balance. In chronic kidney disease,
+          herbal treatment is used as supportive care and should not replace
+          medical treatment prescribed by a nephrologist.
         </p>
 
         <h2>Important Ayurvedic Herbs for Kidney Health</h2>
 
+        <img
+          src="/assets/uploads/ayurvedic-herbs-for-kidney-health.webp"
+          alt="Ayurvedic herbs traditionally used for kidney health support"
+          width="800"
+          height="450"
+          loading="lazy"
+        />
+
         <h3>Punarnava (Boerhavia diffusa)</h3>
         <p>
-          Punarnava is traditionally used in Ayurveda for its
-          anti-inflammatory and diuretic properties and is commonly
-          mentioned in classical texts for supporting kidney and urinary
-          health.
+          Traditionally used in Ayurveda for supporting urinary function and
+          reducing fluid retention.
         </p>
 
         <h3>Gokshura (Tribulus terrestris)</h3>
         <p>
-          Gokshura is associated with maintaining urinary flow and
-          supporting the urinary tract. It is traditionally used as part
-          of kidney-supportive formulations.
+          Known in classical Ayurveda for maintaining urinary tract health.
         </p>
 
         <h3>Varuna (Crataeva nurvala)</h3>
         <p>
-          Varuna has been traditionally used in Ayurveda to support
-          bladder and kidney function, particularly in conditions
-          involving urinary obstruction.
+          Traditionally used for supporting bladder and kidney function.
         </p>
 
         <h2>Ayurvedic Diet for Kidney Disease</h2>
-        <p>
-          Diet is a key component of Ayurvedic care. A kidney-supportive
-          Ayurvedic diet generally emphasizes easily digestible foods,
-          controlled salt intake, adequate hydration, and avoidance of
-          overly processed or heavy foods.
-        </p>
 
-        <h2>Lifestyle Recommendations in Ayurveda</h2>
-        <p>
-          Gentle physical activity, stress management, adequate sleep,
-          and following a regular daily routine (Dinacharya) are often
-          recommended to reduce strain on the kidneys and support overall
-          balance.
-        </p>
-
-        <h2>Limitations of Ayurvedic Treatment</h2>
-        <p>
-          Ayurveda should not be considered a replacement for emergency
-          or advanced medical care. In severe kidney failure or advanced
-          CKD, conventional treatments such as dialysis or kidney
-          transplantation may be necessary.
-        </p>
-
-        <h2>Consulting a Qualified Practitioner</h2>
-        <p>
-          Individuals considering Ayurvedic treatment of kidney diseases
-          should consult a qualified Ayurvedic physician and continue
-          regular medical monitoring. Personalized care is essential,
-          as kidney conditions vary widely in severity and cause.
-        </p>
+        <img
+          src="/assets/uploads/ayurvedic-diet-for-kidney-disease.webp"
+          alt="Ayurvedic diet for kidney disease with kidney friendly foods"
+          width="800"
+          height="450"
+          loading="lazy"
+        />
 
         <p>
-          For clinical consultation and personalized evaluation, visit
-          our{" "}
+          A kidney-supportive diet emphasizes easily digestible foods,
+          controlled salt intake, proper hydration, and avoidance of heavily
+          processed foods.
+        </p>
+
+        <h2>Lifestyle Support for Kidney Health</h2>
+
+        <img
+          src="/assets/uploads/lifestyle-support-for-kidney-health.webp"
+          alt="Lifestyle support for kidney health including stress management and routine"
+          width="800"
+          height="450"
+          loading="lazy"
+        />
+
+        <p>
+          Gentle activity, stress management, proper sleep, and daily routine
+          (Dinacharya) help reduce strain on the kidneys.
+        </p>
+
+        <h2>Safety, Limitations, and Medical Care</h2>
+
+        <img
+          src="/assets/uploads/ayurveda-and-modern-kidney-care.webp"
+          alt="Integration of ayurveda and modern care for kidney disease management"
+          width="800"
+          height="450"
+          loading="lazy"
+        />
+
+        <p>
+          Herbal and Ayurvedic treatment should not be considered a cure for
+          chronic kidney disease. Patients in the United States should always
+          consult a licensed healthcare provider or nephrologist and continue
+          regular medical monitoring.
+        </p>
+
+        <p>
+          For clinical consultation and personalized evaluation, visit our{" "}
           <a href="/diseases/kidney">
             Ayurvedic kidney treatment options
-          </a>
-          .
+          </a>.
         </p>
       </article>
 
       <MedicalDisclaimer
-        lastReviewed="January 29, 2026"
+        lastReviewed="February 3, 2026"
         reviewerName="Dr. Rahul Sharma"
         reviewerCredentials="B.A.M.S., M.D."
       />

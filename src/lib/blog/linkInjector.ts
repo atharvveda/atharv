@@ -1,54 +1,134 @@
-import { BlogPost } from './types';
-
-interface LinkConfig {
-    pillar: { url: string; text: string };
-    disease: { url: string; text: string };
+interface Anchor {
+  url: string;
+  texts: string[];
 }
 
-const CATEGORY_LINKS: Record<string, LinkConfig> = {
-    kidney: {
-        pillar: {
-            url: 'https://atharvveda.us/ayurvedic-treatment-of-kidney-diseases',
-            text: 'ayurvedic treatment of kidney diseases'
-        },
-        disease: {
-            url: 'https://atharvveda.us/diseases/kidney',
-            text: 'Ayurvedic kidney treatment options'
-        }
-    }
+interface CategoryLinkConfig {
+  pillar: Anchor;
+  disease: Anchor;
+  secondary?: Anchor[];
+}
+
+/**
+ * SEO-optimized internal link configuration
+ * Built for US medical SEO + topical authority
+ */
+const CATEGORY_LINKS: Record<string, CategoryLinkConfig> = {
+  kidney: {
+    pillar: {
+      url: "https://atharvveda.us/ayurvedic-treatment-of-kidney-diseases",
+      texts: [
+        "ayurvedic treatment of kidney diseases",
+        "natural and herbal treatment for kidney disease",
+        "holistic kidney disease treatment guide",
+        "kidney disease treatment approach",
+        "natural kidney treatment"
+      ]
+    },
+    disease: {
+      url: "https://atharvveda.us/diseases/kidney",
+      texts: [
+        "Ayurvedic kidney treatment options",
+        "kidney disease care options",
+        "kidney health consultation"
+      ]
+    },
+    secondary: [
+      {
+        url: "https://atharvveda.us/chronic-kidney-disease",
+        texts: [
+          "chronic kidney disease",
+          "CKD",
+          "long-term kidney disease"
+        ]
+      },
+      {
+        url: "https://atharvveda.us/kidney-disease-stages",
+        texts: [
+          "stages of kidney disease",
+          "CKD stages",
+          "kidney disease progression"
+        ]
+      },
+      {
+        url: "https://atharvveda.us/herbal-treatment-of-kidney-disease",
+        texts: [
+          "herbal treatment of kidney disease",
+          "natural kidney treatment",
+          "plant-based kidney support",
+          "herbal kidney treatment"
+        ]
+      }
+    ]
+  }
 };
 
 /**
- * Injects internal links into blog content based on disease category.
- * Rules:
- * 1. Pillar link: Inserted at the end of the first paragraph.
- * 2. Disease link: Inserted at the end of the content.
+ * Picks a random anchor text (prevents over-optimization)
  */
-export function injectInternalLinks(content: string, category?: string): string {
-    if (!category || category === 'generic' || !CATEGORY_LINKS[category]) {
-        return content;
+function pickRandom(texts: string[]) {
+  return texts[Math.floor(Math.random() * texts.length)];
+}
+
+/**
+ * Injects SEO-safe internal links into blog content
+ * Rules:
+ * - Max 3 internal links per article
+ * - Contextual keyword matching
+ * - Pillar link early
+ * - Secondary links only if keyword exists
+ * - Disease CTA at the end
+ */
+export function injectInternalLinks(
+  content: string,
+  category?: string
+): string {
+  if (!category || !CATEGORY_LINKS[category]) return content;
+
+  const config = CATEGORY_LINKS[category];
+  let updated = content;
+  let linksInserted = 0;
+
+  // ---------- 1. Pillar Link (after first paragraph) ----------
+  const firstParagraphEnd = updated.indexOf("</p>");
+  if (firstParagraphEnd !== -1 && linksInserted < 1) {
+    const anchorText = pickRandom(config.pillar.texts);
+    const pillarHTML = ` Learn more in our <a href="${config.pillar.url}">${anchorText}</a>.`;
+    updated =
+      updated.slice(0, firstParagraphEnd) +
+      pillarHTML +
+      updated.slice(firstParagraphEnd);
+    linksInserted++;
+  }
+
+  // ---------- 2. Contextual Secondary Links ----------
+  if (config.secondary) {
+    for (const sec of config.secondary) {
+      if (linksInserted >= 3) break;
+
+      for (const keyword of sec.texts) {
+        const regex = new RegExp(`\\b(${keyword})\\b`, "i");
+        if (regex.test(updated)) {
+          updated = updated.replace(
+            regex,
+            `<a href="${sec.url}">$1</a>`
+          );
+          linksInserted++;
+          break;
+        }
+      }
     }
+  }
 
-    const config = CATEGORY_LINKS[category];
-    let newContent = content;
+  // ---------- 3. Disease CTA (end of content) ----------
+  if (linksInserted < 3) {
+    const diseaseText = pickRandom(config.disease.texts);
+    updated += `
+      <p style="margin-top:24px;font-weight:500;">
+        Explore our <a href="${config.disease.url}">${diseaseText}</a> for personalized guidance.
+      </p>
+    `;
+  }
 
-    // 1. Inject Pillar Link (First 20% - typically after first paragraph)
-    // We look for the first closing </p> tag
-    const firstParagraphEndIndex = newContent.indexOf('</p>');
-
-    if (firstParagraphEndIndex !== -1) {
-        const pillarLinkHtml = ` Learn more about <a href="${config.pillar.url}" style="color: #cd8973; text-decoration: underline;">${config.pillar.text}</a>.`;
-        newContent = newContent.slice(0, firstParagraphEndIndex) + pillarLinkHtml + newContent.slice(firstParagraphEndIndex);
-    } else {
-        // Fallback: Prepend if no paragraph found (unlikely with Lexical)
-        const pillarLinkHtml = `<p>Learn more about <a href="${config.pillar.url}" style="color: #cd8973; text-decoration: underline;">${config.pillar.text}</a>.</p>`;
-        newContent = pillarLinkHtml + newContent;
-    }
-
-    // 2. Inject Disease Link (Near End)
-    // We strictly append a new paragraph at the end
-    const diseaseLinkHtml = `<p style="margin-top: 20px; font-weight: 500;">Explore our full range of <a href="${config.disease.url}" style="color: #cd8973; text-decoration: underline;">${config.disease.text}</a>.</p>`;
-    newContent = newContent + diseaseLinkHtml;
-
-    return newContent;
+  return updated;
 }
