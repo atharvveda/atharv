@@ -7,7 +7,7 @@ import AchievementSection from "@/components/AchievementSection";
 import WhySection from "@/components/WhySection";
 import TeamSection from "@/components/TeamSection";
 import TestimonialSection from "@/components/TestimonialSection";
-import BlogSection from "@/components/BlogSection";
+// import BlogSection from "@/components/BlogSection";
 // import Footer from "@/components/Footer";
 
 export default function Home() {
