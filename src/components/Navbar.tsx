@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
+import NextImage from "next/image";
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -52,7 +52,14 @@ const Navbar = () => {
                     <div className="col-lg-2 col-md-4 col-sm-5 col-6">
                         <div className="ayur-menu-logo">
                             <Link href="/">
-                                <img src="/assets/images/New-Logo.png" alt="Logo" />
+                                <NextImage
+                                    src="/assets/images/New-Logo.png"
+                                    alt="Atharv Veda Logo"
+                                    width={180}
+                                    height={60}
+                                    style={{ height: 'auto', width: 'auto', maxHeight: '60px' }}
+                                    priority
+                                />
                             </Link>
                         </div>
                     </div>

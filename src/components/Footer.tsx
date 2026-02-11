@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import NextImage from "next/image";
 
 const Footer = () => {
     return (
@@ -30,7 +31,13 @@ const Footer = () => {
                         <div className="col-lg-4 col-md-6 col-sm-6">
                             <div className="ayur-footer-logosec">
                                 <div className="ayur-footer-logo">
-                                    <img src="/assets/images/New-Logo.png" alt="logo" />
+                                    <NextImage
+                                        src="/assets/images/New-Logo.png"
+                                        alt="Atharv Veda Logo"
+                                        width={160}
+                                        height={50}
+                                        style={{ height: 'auto', width: 'auto' }}
+                                    />
                                 </div>
                                 <p>Discover the essence of Ayurveda with Atharv Veda. Your journey to holistic health and well-being starts here.</p>
                                 <ul className="ayur-social-link">

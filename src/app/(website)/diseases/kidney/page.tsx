@@ -64,24 +64,24 @@ export default function KidneyPage() {
     });
 
     const treatments = [
-        { name: "ACUTE KIDNEY DISEASE", img: "chronic-kidney.webp" },
-        { name: "CHRONIC KIDNEY DISEASE(CKD)", img: "chronic-kidney.webp" },
-        { name: "NEPHROTIC SYNDROME", img: "nephrotic.webp" },
-        { name: "POLYCYSTIC KIDNEY DISEASE(PKD)", img: "kidney-shrinkage.webp" },
-        { name: "High Creatinine Levels", img: "elevated-creatinine.webp" },
-        { name: "PROTEINURIA", img: "urine-test.png" },
-        { name: "KIDNEY SHRINKAGE", img: "kidney-shrinkage.webp" },
-        { name: "IGA-NEPHROPATHY", img: "nephropathy.webp" },
-        { name: "Kidney Detox", img: "diabetes.webp" },
-        { name: "Avoiding Dialysis", img: "gall-bladder.webp" },
-        { name: "Kidney Cysts", img: "liver-cirrhosis.jpg" },
-        { name: "Kidney Swelling", img: "eczema.webp" },
-        { name: "Glomerulonephritis", img: "arthritis.webp" },
-        { name: "Kidney Failure", img: "obesity.webp" },
-        { name: "Kidney Infection", img: "eczema.webp" },
-        { name: "Kidney Stones", img: "eczema.webp" },
-        { name: "High Blood Urea", img: "eczema.webp" },
-        { name: "Foamy Urine", img: "eczema.webp" },
+        { name: "ACUTE KIDNEY DISEASE", img: "chronic-kidney.webp", url: "/diseases/kidney" }, // Fallback to same page if no specific page
+        { name: "CHRONIC KIDNEY DISEASE(CKD)", img: "chronic-kidney.webp", url: "/chronic-kidney-disease" },
+        { name: "NEPHROTIC SYNDROME", img: "nephrotic.webp", url: "/diseases/kidney" },
+        { name: "POLYCYSTIC KIDNEY DISEASE(PKD)", img: "kidney-shrinkage.webp", url: "/diseases/kidney" },
+        { name: "High Creatinine Levels", img: "elevated-creatinine.webp", url: "/herbal-treatment-of-kidney-disease" },
+        { name: "PROTEINURIA", img: "urine-test.png", url: "/diseases/kidney" },
+        { name: "KIDNEY SHRINKAGE", img: "kidney-shrinkage.webp", url: "/diseases/kidney" },
+        { name: "IGA-NEPHROPATHY", img: "nephropathy.webp", url: "/diseases/kidney" },
+        { name: "Kidney Detox", img: "diabetes.webp", url: "/herbal-treatment-of-kidney-disease" },
+        { name: "Avoiding Dialysis", img: "gall-bladder.webp", url: "/ayurvedic-treatment-of-kidney-diseases" },
+        { name: "Kidney Cysts", img: "liver-cirrhosis.jpg", url: "/diseases/kidney" },
+        { name: "Kidney Swelling", img: "eczema.webp", url: "/diseases/kidney" },
+        { name: "Glomerulonephritis", img: "arthritis.webp", url: "/diseases/kidney" },
+        { name: "Kidney Failure", img: "obesity.webp", url: "/kidney-disease-stages" },
+        { name: "Kidney Infection", img: "eczema.webp", url: "/diseases/kidney" },
+        { name: "Kidney Stones", img: "eczema.webp", url: "/diseases/kidney" },
+        { name: "High Blood Urea", img: "eczema.webp", url: "/diseases/kidney" },
+        { name: "Foamy Urine", img: "eczema.webp", url: "/diseases/kidney" },
     ];
 
     return (
@@ -106,7 +106,7 @@ export default function KidneyPage() {
                                     Treatment Without Dialysis
                                 </h1>
                                 <div style={{ display: "flex", alignItems: "center", gap: "10px", marginTop: "10px", background: "rgba(255,179,0,0.1)", padding: "8px 16px", borderRadius: "32px", width: "fit-content" }}>
-                                    <img src="/assets/images/checkmark.png" alt="verified" style={{ width: "16px" }} />
+                                    <Image src="/assets/images/checkmark.png" alt="verified" width={16} height={16} />
                                     <span style={{ fontSize: "0.9rem", color: "#ffb300", fontWeight: 600 }}>Medically Reviewed by Dr. Rahul Sharma (B.A.M.S., M.D.)</span>
                                 </div>
                                 <div style={{ margin: "32px 0 24px 0" }}>
@@ -114,7 +114,7 @@ export default function KidneyPage() {
                                 </div>
                                 <div style={{ fontSize: "2rem", color: "#fff", fontWeight: 400 }}>Best 100% Ayurvedic Care</div>
                                 <div style={{ marginTop: "40px" }}>
-                                    <img src="/assets/images/chronic-kidney.webp" alt="Ayurvedic Kidney Treatment at Atharv Veda" style={{ maxWidth: "180px", display: "block" }} />
+                                    <Image src="/assets/images/chronic-kidney.webp" alt="Ayurvedic Kidney Treatment at Atharv Veda" width={180} height={180} style={{ maxWidth: "180px", display: "block" }} />
                                 </div>
                             </div>
                         </div>
@@ -223,10 +223,10 @@ export default function KidneyPage() {
                         <div className="col-12">
                             <div className="treatments-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "32px" }}>
                                 {treatments.map((t, i) => (
-                                    <div className="treatment-box" key={i}>
-                                        <img src={`/assets/images/${t.img}`} alt={t.name} />
+                                    <Link key={i} href={t.url} className="treatment-box" style={{ textDecoration: 'none' }}>
+                                        <Image src={`/assets/images/${t.img}`} alt={t.name} width={90} height={90} style={{ borderRadius: '50%' }} />
                                         <span>{t.name}</span>
-                                    </div>
+                                    </Link>
                                 ))}
                             </div>
                         </div>

@@ -53,7 +53,7 @@ export default function PsoriasisPage() {
 
                 <div style={{ marginTop: "40px" }}>
                   <img
-                    src="/assets/images/psoriasis.png"
+                    src="/assets/images/psoriasis.webp"
                     alt="Psoriasis"
                     style={{ maxWidth: "180px", display: "block" }}
                   />
@@ -120,7 +120,7 @@ export default function PsoriasisPage() {
                 }}
               >
                 <img
-                  src="/assets/images/psoriasis.png"
+                  src="/assets/images/psoriasis.webp"
                   alt="Psoriasis"
                   style={{
                     maxWidth: "100%",
@@ -261,7 +261,7 @@ export default function PsoriasisPage() {
           <div className="row align-items-center">
             <div className="col-lg-5 col-md-12 mb-4 mb-lg-0 text-center">
               <img
-                src="/assets/images/psoriasis.png"
+                src="/assets/images/psoriasis.webp"
                 alt="Psoriasis"
                 style={{
                   maxWidth: "340px",

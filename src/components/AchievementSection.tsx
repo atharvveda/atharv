@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import NextImage from "next/image";
 
 const AchievementSection = () => {
     return (
@@ -16,7 +17,7 @@ const AchievementSection = () => {
                         <div className="ayur-achieve-box-wrapper">
                             <div className="ayur-achieve-box">
                                 <div className="ayur-achieve-icon">
-                                    <img src="/assets/images/achieve-icon1.png" alt="icon" />
+                                    <NextImage src="/assets/images/achieve-icon1.png" alt="icon" width={60} height={60} style={{ width: 'auto', height: 'auto' }} />
                                 </div>
                                 <div className="ayur-achieve-text">
                                     <h2 className="ayur-counting">167,576 +</h2>
@@ -25,7 +26,7 @@ const AchievementSection = () => {
                             </div>
                             <div className="ayur-achieve-box">
                                 <div className="ayur-achieve-icon">
-                                    <img src="/assets/images/achieve-icon2.png" alt="icon" />
+                                    <NextImage src="/assets/images/achieve-icon2.png" alt="icon" width={60} height={60} style={{ width: 'auto', height: 'auto' }} />
                                 </div>
                                 <div className="ayur-achieve-text">
                                     <h2 className="ayur-counting">30 +</h2>
@@ -34,7 +35,7 @@ const AchievementSection = () => {
                             </div>
                             <div className="ayur-achieve-box">
                                 <div className="ayur-achieve-icon">
-                                    <img src="/assets/images/achieve-icon3.png" alt="icon" />
+                                    <NextImage src="/assets/images/achieve-icon3.png" alt="icon" width={60} height={60} style={{ width: 'auto', height: 'auto' }} />
                                 </div>
                                 <div className="ayur-achieve-text">
                                     <h2 className="ayur-counting">17 +</h2>
@@ -43,7 +44,7 @@ const AchievementSection = () => {
                             </div>
                             <div className="ayur-achieve-box">
                                 <div className="ayur-achieve-icon">
-                                    <img src="/assets/images/achieve-icon4.png" alt="icon" />
+                                    <NextImage src="/assets/images/achieve-icon4.png" alt="icon" width={60} height={60} style={{ width: 'auto', height: 'auto' }} />
                                 </div>
                                 <div className="ayur-achieve-text">
                                     <h2 className="ayur-counting percent">98%</h2>

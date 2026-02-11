@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
+import NextImage from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 
@@ -10,25 +12,25 @@ import "swiper/css/navigation";
 
 const CareSlider = () => {
     const careItems = [
-        { title: "Kidney Disorders", img: "/assets/images/care-img1.png" },
-        { title: "Liver & Gallbladder", img: "/assets/images/care-img2.png" },
-        { title: "Diabetes", img: "/assets/images/care-img3.png" },
-        { title: "PCOD / PCOS", img: "/assets/images/care-img4.png" },
-        { title: "Skin & Hair Conditions", img: "/assets/images/care-img5.png" },
-        { title: "Joint & Bone Health", img: "/assets/images/care-img6.png" },
-        { title: "Heart & Blood Pressure", img: "/assets/images/care-img7.png" },
-        { title: "Stress & Anxiety", img: "/assets/images/care-img8.png" },
+        { title: "Kidney Disorders", img: "/assets/images/care-img1.png", link: "/chronic-kidney-disease" },
+        { title: "Liver & Gallbladder", img: "/assets/images/care-img2.png", link: "/diseases/liver-cirrhosis" },
+        { title: "Diabetes", img: "/assets/images/care-img3.png", link: "/diseases/diabetes" },
+        { title: "PCOD / PCOS", img: "/assets/images/care-img4.png", link: "/diseases/pcod" },
+        { title: "Skin Conditions", img: "/assets/images/care-img5.png", link: "/diseases/psoriasis" },
+        { title: "Joint & Bone Health", img: "/assets/images/care-img6.png", link: "/diseases/arthritis" },
+        { title: "Parkinson's", img: "/assets/images/care-img7.png", link: "/diseases/parkinson" },
+        { title: "Kidney Stones", img: "/assets/images/care-img8.png", link: "/chronic-kidney-disease" },
     ];
 
     return (
-        <div className="ayur-care-slider-wrapper">
+        <section className="ayur-care-slider-wrapper">
             <div className="ayur-banner-heading">
-                <h1>
+                <h2>
                     Explore Solutions for Your Specific<span> Health Needs.</span>{" "}
-                </h1>
+                </h2>
                 <p>
-                    Whether it’s kidney health, hormonal imbalances, or chronic pain -
-                    we’ve got nature’s answers ready for you.
+                    From specialized kidney care to lifestyle disorder management —
+                    explore our dedicated treatment hubs.
                 </p>
             </div>
             <div className="container-fluid">
@@ -58,9 +60,9 @@ const CareSlider = () => {
                         {careItems.map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className="ayur-careslide-box">
-                                    <a href="/contact" className="ayur-btn">Consult Now</a>
+                                    <Link href={item.link} className="ayur-btn">Learn More</Link>
                                     <div className="ayur-careslider-img">
-                                        <img src={item.img} alt={item.title} />
+                                        <NextImage src={item.img} alt={item.title} width={200} height={200} style={{ width: '100%', height: 'auto' }} />
                                     </div>
                                     <h3>{item.title}</h3>
                                 </div>
@@ -79,7 +81,7 @@ const CareSlider = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     );
 };
 

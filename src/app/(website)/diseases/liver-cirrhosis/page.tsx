@@ -22,7 +22,7 @@ export default function LiverCirrhosisPage() {
                                 </div>
                                 <div style={{ fontSize: "2rem", color: "#fff", fontWeight: 400 }}>100% Ayurvedic Treatment</div>
                                 <div style={{ marginTop: "40px" }}>
-                                    <img src="/assets/images/liver-cirrhosis.webp" alt="Liver Cirrhosis" style={{ maxWidth: "180px", display: "block" }} />
+                                    <img src="/assets/images/liver-cirrhosis.jpg" alt="Liver Cirrhosis" style={{ maxWidth: "180px", display: "block" }} />
                                 </div>
                             </div>
                         </div>
@@ -47,7 +47,7 @@ export default function LiverCirrhosisPage() {
                         </div>
                         <div className="col-lg-5 col-md-12 text-center">
                             <div style={{ background: "#fff", borderRadius: "24px", boxShadow: "0 8px 32px rgba(0,0,0,0.08)", padding: "16px 0 0 0", display: "inline-block" }}>
-                                <img src="/assets/images/liver-cirrhosis.webp" alt="Liver Cirrhosis" style={{ maxWidth: "100%", borderRadius: "16px", boxShadow: "0 4px 24px rgba(255,179,0,0.15)" }} />
+                                <img src="/assets/images/liver-cirrhosis.jpg" alt="Liver Cirrhosis" style={{ maxWidth: "100%", borderRadius: "16px", boxShadow: "0 4px 24px rgba(255,179,0,0.15)" }} />
                             </div>
                         </div>
                     </div>
@@ -59,7 +59,7 @@ export default function LiverCirrhosisPage() {
                 <div className="container">
                     <div className="row align-items-center">
                         <div className="col-lg-5 col-md-12 mb-4 mb-lg-0 text-center">
-                            <img src="/assets/images/liver-cirrhosis.webp" alt="Liver Cirrhosis" style={{ maxWidth: "340px", borderRadius: "16px", boxShadow: "0 8px 32px rgba(0,0,0,0.10)", background: "#fff", padding: "16px" }} />
+                            <img src="/assets/images/liver-cirrhosis.jpg" alt="Liver Cirrhosis" style={{ maxWidth: "340px", borderRadius: "16px", boxShadow: "0 8px 32px rgba(0,0,0,0.10)", background: "#fff", padding: "16px" }} />
                         </div>
                         <div className="col-lg-7 col-md-12">
                             <h2 style={{ fontSize: "2.8rem", fontWeight: 800, color: "#00423b", marginBottom: "18px" }}>

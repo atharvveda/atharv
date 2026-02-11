@@ -93,7 +93,7 @@ export default function About() {
                                             title: "Root-Cause Based Healing",
                                             desc: "Instead of temporary relief, we focus on correcting the underlying imbalances responsible for disease."
                                         },
-                                        {
+                                        { 
                                             title: "Online & Accessible Consultations",
                                             desc: "Our secure online consultation services allow patients worldwide to access authentic Ayurvedic care from home."
                                         }

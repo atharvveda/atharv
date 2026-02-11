@@ -22,7 +22,7 @@ export default function ArthritisPage() {
                                 </div>
                                 <div style={{ fontSize: "2rem", color: "#fff", fontWeight: 400 }}>100% Ayurvedic Treatment</div>
                                 <div style={{ marginTop: "40px" }}>
-                                    <img src="/assets/images/liver-cirrhosis.webp" alt="Arthritis" style={{ maxWidth: "180px", display: "block" }} />
+                                    <img src="/assets/images/arthritis.webp" alt="Arthritis" style={{ maxWidth: "180px", display: "block" }} />
                                 </div>
                             </div>
                         </div>

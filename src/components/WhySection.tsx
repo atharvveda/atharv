@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import NextImage from "next/image";
 
 const WhySection = () => {
     const [isVideoOpen, setIsVideoOpen] = useState(false);
@@ -27,7 +28,7 @@ const WhySection = () => {
                             ].map((item, index) => (
                                 <div className="ayur-why-box" key={index}>
                                     <div className="ayur-why-boxicon">
-                                        <img src={`/assets/images/${item.icon}`} alt="icon" />
+                                        <NextImage src={`/assets/images/${item.icon}`} alt="icon" width={60} height={60} style={{ width: 'auto', height: 'auto' }} />
                                     </div>
                                     <div className="ayur-why-boxtext">
                                         <h4>{item.title}</h4>
@@ -40,9 +41,9 @@ const WhySection = () => {
                     <div className="col-lg-12 col-md-12 col-sm-12">
                         <div className="ayur-video-section">
                             <div className="ayur-video-img">
-                                <img src="/assets/images/video-bg.png" alt="img" />
+                                <NextImage src="/assets/images/video-bg.png" alt="img" width={1000} height={600} style={{ width: '100%', height: 'auto' }} />
                                 <button className="ayur-video-playicon" onClick={() => setIsVideoOpen(true)} style={{ border: "none", background: "none" }}>
-                                    <img src="/assets/images/play-icon.svg" alt="icon" />
+                                    <NextImage src="/assets/images/play-icon.svg" alt="icon" width={60} height={60} />
                                 </button>
                                 {isVideoOpen && (
                                     <div id="videoPopup1" className="ayur-popup" style={{ display: "block" }}>
@@ -58,8 +59,8 @@ const WhySection = () => {
                 </div>
             </div>
             <div className="ayur-bgshape ayur-why-bgshape">
-                <img src="/assets/images/bg-shape4.png" alt="img" />
-                <img src="/assets/images/bg-leaf4.png" alt="img" />
+                <NextImage src="/assets/images/bg-shape4.png" alt="img" width={200} height={200} style={{ width: 'auto', height: 'auto' }} />
+                <NextImage src="/assets/images/bg-leaf4.png" alt="img" width={100} height={100} style={{ width: 'auto', height: 'auto' }} />
             </div>
         </div>
     );

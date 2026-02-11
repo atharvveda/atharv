@@ -22,7 +22,7 @@ export default function ParkinsonPage() {
                                 </div>
                                 <div style={{ fontSize: "2rem", color: "#fff", fontWeight: 400 }}>100% Ayurvedic Treatment</div>
                                 <div style={{ marginTop: "40px" }}>
-                                    <img src="/assets/images/parkinson.webp" alt="Parkinson" style={{ maxWidth: "180px", display: "block" }} />
+                                    <img src="/assets/images/parkinsons.webp" alt="Parkinson" style={{ maxWidth: "180px", display: "block" }} />
                                 </div>
                             </div>
                         </div>
@@ -48,7 +48,7 @@ export default function ParkinsonPage() {
                         </div>
                         <div className="col-lg-5 col-md-12 text-center">
                             <div style={{ background: "#fff", borderRadius: "24px", boxShadow: "0 8px 32px rgba(0,0,0,0.08)", padding: "16px 0 0 0", display: "inline-block" }}>
-                                <img src="/assets/images/parkinson.webp" alt="Parkinson" style={{ maxWidth: "100%", borderRadius: "16px", boxShadow: "0 4px 24px rgba(255,179,0,0.15)" }} />
+                                <img src="/assets/images/parkinsons.webp" alt="Parkinson" style={{ maxWidth: "100%", borderRadius: "16px", boxShadow: "0 4px 24px rgba(255,179,0,0.15)" }} />
                             </div>
                         </div>
                     </div>

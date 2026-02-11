@@ -38,7 +38,7 @@ export const useCartStore = create<CartState>()(
                     });
                 } else {
                     // Safely handle images if they are JSON strings or arrays
-                    let image = "/assets/images/placeholder.jpg";
+                    let image = "/assets/images/product-img1.png";
                     if (product.images) {
                         try {
                             const parsed = typeof product.images === 'string' ? JSON.parse(product.images) : product.images;

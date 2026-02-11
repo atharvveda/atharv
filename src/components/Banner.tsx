@@ -2,9 +2,9 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay, EffectCreative } from "swiper/modules";
-
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -15,26 +15,49 @@ const Banner = () => {
     const not_active_slide_opacity_value = 0.5;
 
     return (
-        <div className="ayur-banner-section">
+        <header className="ayur-banner-section" role="banner">
             <div className="container">
                 <div className="row">
                     <div className="col-lg-12 col-md-12 col-sm-12">
                         <div className="ayur-banner-heading">
-                            <h1>
-                                Holistic Healing Begins<span> Here.</span>{" "}
+                            <h1 style={{ fontWeight: 800, lineHeight: "1.3", letterSpacing: "-0.5px" }}>
+                                Integrative Ayurvedic Care for <br />
+                                <span style={{ color: "#ffb300" }}>Kidney Disease & Chronic Conditions</span>
                             </h1>
-                            <p>
-                                Discover personalized Ayurvedic care for over 18 health concerns
-                                guided by expert doctors, grounded in centuries of natural
-                                wisdom.
+                            <p className="mt-4 mb-5" style={{ fontSize: "1.25rem", maxWidth: "800px", margin: "0 auto", lineHeight: "1.7", color: "#000000ff" }}>
+                                Atharv Veda combines ancient Ayurvedic wisdom with modern diagnostics to safely manage
+                                <strong> Chronic Kidney Disease (CKD)</strong>, Diabetes, and lifestyle disorders.
+                                Our specialized approach focuses on root-cause healing and preserving organ function.
                             </p>
-                            <a href="tel:+13029669159" className="ayur-btn">
-                                Call Now
-                            </a>
+
+                            <div className="d-flex justify-content-center gap-3 flex-wrap mb-5">
+                                <Link href="/contact" className="ayur-btn shadow-lg" style={{ padding: "16px 32px", fontSize: "1.15rem", fontWeight: 700, borderRadius: "50px" }}>
+                                    Book Consultation
+                                </Link>
+                                <Link href="/chronic-kidney-disease" className="ayur-btn" style={{ background: "rgba(255,255,255,0.1)", border: "2px solid #fff", color: "#fff", padding: "14px 30px", fontSize: "1.15rem", borderRadius: "50px", backdropFilter: "blur(5px)" }}>
+                                    Explore Kidney Care
+                                </Link>
+                            </div>
+
+                            <div className="mt-5 d-flex justify-content-center align-items-center gap-4 trust-badges" style={{ opacity: 0.95 }}>
+                                <div className="d-flex align-items-center gap-2 bg-white px-3 py-2 rounded-pill shadow-sm">
+                                    <span style={{ fontSize: "1.2rem" }}>👨‍⚕️</span>
+                                    <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "#00423b" }}>Medically Reviewed</span>
+                                </div>
+                                <div className="d-flex align-items-center gap-2 bg-white px-3 py-2 rounded-pill shadow-sm">
+                                    <span style={{ fontSize: "1.2rem" }}>🌿</span>
+                                    <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "#00423b" }}>100% Herbal</span>
+                                </div>
+                                <div className="d-flex align-items-center gap-2 bg-white px-3 py-2 rounded-pill shadow-sm">
+                                    <span style={{ fontSize: "1.2rem" }}>🛡️</span>
+                                    <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "#00423b" }}>US-Support</span>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
-                <div className="row">
+                <div className="row mt-5">
                     <div className="col-lg-12">
                         <div className="ayur-banner-slider-sec">
                             <Swiper
@@ -45,8 +68,8 @@ const Banner = () => {
                                 grabCursor={true}
                                 speed={1500}
                                 autoplay={{
-                                    delay: 2000,
-                                    disableOnInteraction: false,
+                                    delay: 4000,
+                                    disableOnInteraction: true,
                                 }}
                                 effect="creative"
                                 creativeEffect={{
@@ -67,19 +90,10 @@ const Banner = () => {
                                     prevEl: ".swiper-button-prev",
                                 }}
                                 breakpoints={{
-                                    320: {
-                                        slidesPerView: 1,
-                                        speed: 900,
-                                    },
-                                    670: {
-                                        slidesPerView: 1,
-                                    },
-                                    767: {
-                                        slidesPerView: 2,
-                                    },
-                                    768: {
-                                        slidesPerView: 2,
-                                    },
+                                    320: { slidesPerView: 1, speed: 900 },
+                                    670: { slidesPerView: 1 },
+                                    767: { slidesPerView: 2 },
+                                    768: { slidesPerView: 2 },
                                 }}
                                 className="ayur-banner-slider"
                             >
@@ -88,7 +102,7 @@ const Banner = () => {
                                         <div className="ayur-ban-slide">
                                             <Image
                                                 src="/assets/images/ban-head-Image.png"
-                                                alt="headerimage"
+                                                alt="Ayurvedic Doctor Consultation for Kidney Disease"
                                                 width={636}
                                                 height={580}
                                                 priority
@@ -114,10 +128,10 @@ const Banner = () => {
                 </div>
             </div>
             <div className="ayur-ban-leaf">
-                <img src="/assets/images/ban-leafleft.png" alt="leaf-image" />
-                <img src="/assets/images/ban-leafright.png" alt="leaf-image" />
+                <Image src="/assets/images/ban-leafleft.png" alt="Ayurvedic herbs leaf" width={200} height={400} style={{ width: 'auto', height: 'auto' }} />
+                <Image src="/assets/images/ban-leafright.png" alt="Ayurvedic herbs leaf" width={200} height={400} style={{ width: 'auto', height: 'auto' }} />
             </div>
-        </div >
+        </header>
     );
 };
 
