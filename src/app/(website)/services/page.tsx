@@ -1,5 +1,14 @@
 import React from "react";
 import Breadcrumb from "@/components/Breadcrumb";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Ayurvedic Services & Treatments | Atharv Veda",
+    description: "Explore our range of Ayurvedic services including autoimmune disease treatment, kidney care, skin disorders, and Panchakarma therapy.",
+    alternates: {
+        canonical: "/services",
+    },
+};
 
 export default function ServicesPage() {
     return (

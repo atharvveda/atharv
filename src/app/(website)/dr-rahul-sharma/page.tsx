@@ -8,6 +8,9 @@ export const metadata = {
   title: "Dr. Rahul Sharma | Ayurvedic Kidney Care Specialist | Atharva Veda",
   description:
     "Dr. Rahul Sharma is an Ayurvedic physician specializing in kidney health and chronic disease support. View qualifications, certifications, and medical expertise.",
+  alternates: {
+    canonical: "/dr-rahul-sharma",
+  },
 };
 
 export default function DoctorPage() {

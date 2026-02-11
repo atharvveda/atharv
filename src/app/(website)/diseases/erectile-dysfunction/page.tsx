@@ -1,6 +1,15 @@
 import React from "react";
 import Breadcrumb from "@/components/Breadcrumb";
 import EnquiryFormSide from "@/components/EnquiryFormSide";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Ayurvedic Erectile Dysfunction Treatment | Natural ED Solutions",
+    description: "Effective Ayurvedic treatment for Erectile Dysfunction (ED). Restore vitality and performance naturally without side effects.",
+    alternates: {
+        canonical: "/diseases/erectile-dysfunction",
+    },
+};
 
 export default function EDPage() {
     return (

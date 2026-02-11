@@ -1,6 +1,15 @@
 import React from "react";
 import Breadcrumb from "@/components/Breadcrumb";
 import EnquiryFormSide from "@/components/EnquiryFormSide";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Ayurvedic Cerebral Palsy Treatment | Holistic Care",
+    description: "Ayurvedic treatment for Cerebral Palsy focusing on improving motor functions and coordination through natural therapies.",
+    alternates: {
+        canonical: "/diseases/cerebral-palsy",
+    },
+};
 
 export default function CerebralPalsyPage() {
     return (

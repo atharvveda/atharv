@@ -1,6 +1,14 @@
-import React from "react";
 import Breadcrumb from "@/components/Breadcrumb";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "About Atharv Veda | Authentic Ayurvedic Healing",
+    description: "Learn about Atharv Veda's mission to provide authentic Ayurvedic healthcare. Led by Dr. Rahul Sharma, we focus on root-cause healing.",
+    alternates: {
+        canonical: "/about",
+    },
+};
 
 export default function About() {
     return (
@@ -93,7 +101,7 @@ export default function About() {
                                             title: "Root-Cause Based Healing",
                                             desc: "Instead of temporary relief, we focus on correcting the underlying imbalances responsible for disease."
                                         },
-                                        { 
+                                        {
                                             title: "Online & Accessible Consultations",
                                             desc: "Our secure online consultation services allow patients worldwide to access authentic Ayurvedic care from home."
                                         }

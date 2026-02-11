@@ -1,6 +1,15 @@
 import React from "react";
 import Breadcrumb from "@/components/Breadcrumb";
 import EnquiryFormSide from "@/components/EnquiryFormSide";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Ayurvedic PCOD Treatment | Natural PCOS Solution",
+    description: "Holistic Ayurvedic treatment for PCOD/PCOS. Balance hormones and restore fertility naturally with herbs and lifestyle changes.",
+    alternates: {
+        canonical: "/diseases/pcod",
+    },
+};
 
 export default function PCODPage() {
     return (

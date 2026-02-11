@@ -1,6 +1,15 @@
 import React from "react";
 import Breadcrumb from "@/components/Breadcrumb";
 import EnquiryFormSide from "@/components/EnquiryFormSide";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Ayurvedic Jaundice Treatment | Natural Liver Care",
+    description: "Recover from Jaundice (Kamala) with effective Ayurvedic treatment. Restore liver function and eliminate toxins naturally.",
+    alternates: {
+        canonical: "/diseases/jaundice",
+    },
+};
 
 export default function JaundicePage() {
     return (

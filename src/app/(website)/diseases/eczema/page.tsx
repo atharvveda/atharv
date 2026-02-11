@@ -1,6 +1,15 @@
 import React from "react";
 import Breadcrumb from "@/components/Breadcrumb";
 import EnquiryFormSide from "@/components/EnquiryFormSide";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Ayurvedic Eczema Treatment | Natural Skin Care | Atharv Veda",
+    description: "Holistic Ayurvedic treatment for Eczema (Atopic Dermatitis). Relieve itching and redness naturally with herbal remedies.",
+    alternates: {
+        canonical: "/diseases/eczema",
+    },
+};
 
 export default function EczemaPage() {
     return (

@@ -1,6 +1,15 @@
 import React from "react";
 import Breadcrumb from "@/components/Breadcrumb";
 import EnquiryFormSide from "@/components/EnquiryFormSide";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Ayurvedic Leucoderma Treatment | Vitiligo & White Patches Care",
+    description: "Natural Ayurvedic treatment for Leucoderma (Vitiligo). Restore skin pigmentation with herbal remedies and detox therapies.",
+    alternates: {
+        canonical: "/diseases/leucoderma",
+    },
+};
 
 export default function LeucodermaPage() {
     return (

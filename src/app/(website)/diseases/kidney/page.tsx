@@ -15,7 +15,7 @@ export const generateMetadata = (): Metadata => {
         description: "Start your journey to better kidney health with authentic Ayurvedic treatments. Effective solutions for CKD, Nephrotic Syndrome, and High Creatinine without dialysis.",
         keywords: ["Kidney Treatment Ayurveda", "Ayurvedic Medicine for Kidney Failure", "CKD Treatment", "Natural Kidney Healing", "Avoid Dialysis Ayurveda"],
         alternates: {
-            canonical: "https://atharvveda.us/diseases/kidney",
+            canonical: "/diseases/kidney",
         },
         openGraph: {
             title: "Best Ayurvedic Kidney Treatment | Atharv Veda",

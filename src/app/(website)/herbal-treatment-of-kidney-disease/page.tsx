@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   description: "Guide to herbal supplements for kidney health. Understand therapeutic potential and safety precautions of herbs like Dandelion, Nettle, and Punarnava.",
   keywords: ["Herbal kidney remedies", "Kidney detox herbs", "Safety of kidney herbs", "Natural diuretics"],
   alternates: {
-    canonical: "https://atharvveda.us/herbal-treatment-of-kidney-disease",
+    canonical: "/herbal-treatment-of-kidney-disease",
   },
 };
 

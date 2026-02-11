@@ -1,6 +1,15 @@
 import React from "react";
 import Breadcrumb from "@/components/Breadcrumb";
 import EnquiryFormSide from "@/components/EnquiryFormSide";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Ayurvedic Diabetes Treatment | Natural Blood Sugar Management",
+    description: "Effective Ayurvedic treatment for Diabetes Type 1 & 2. Manage blood sugar levels naturally with herbal remedies and detox.",
+    alternates: {
+        canonical: "/diseases/diabetes",
+    },
+};
 
 export default function DiabetesPage() {
     return (

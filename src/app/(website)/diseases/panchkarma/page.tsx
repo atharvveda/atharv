@@ -1,6 +1,15 @@
 import React from "react";
 import Breadcrumb from "@/components/Breadcrumb";
 import EnquiryFormSide from "@/components/EnquiryFormSide";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Ayurvedic Panchakarma Therapy | Detox & Rejuvenation",
+    description: "Authentic Panchakarma detoxification therapy. Cleanse your body, eliminate toxins, and restore dosha balance naturally.",
+    alternates: {
+        canonical: "/diseases/panchkarma",
+    },
+};
 
 export default function PanchakarmaPage() {
     return (

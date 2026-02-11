@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   description: "Learn about the 5 stages of Chronic Kidney Disease (CKD), from mild damage (Stage 1) to kidney failure (Stage 5), and how to manage each stage.",
   keywords: ["Stages of Kidney Disease", "Stage 3 CKD Life Expectancy", "CKD Stage 4 Symptoms", "GFR Levels", "Kidney Failure Stages"],
   alternates: {
-    canonical: "https://atharvveda.us/kidney-disease-stages",
+    canonical: "/kidney-disease-stages",
   },
 };
 

@@ -1,6 +1,15 @@
 import React from "react";
 import Breadcrumb from "@/components/Breadcrumb";
 import EnquiryFormSide from "@/components/EnquiryFormSide";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Ayurvedic Alzheimer’s Disease Treatment | Atharv Veda",
+    description: "Holistic Ayurvedic treatment for Alzheimer’s disease focusing on root causes and natural symptom management.",
+    alternates: {
+        canonical: "/diseases/alzheimer",
+    },
+};
 
 export default function AlzheimerPage() {
     return (

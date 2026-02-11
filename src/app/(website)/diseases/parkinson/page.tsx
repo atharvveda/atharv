@@ -1,6 +1,15 @@
 import React from "react";
 import Breadcrumb from "@/components/Breadcrumb";
 import EnquiryFormSide from "@/components/EnquiryFormSide";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Ayurvedic Parkinson's Treatment | Natural Tremor Control",
+    description: "Effective Ayurvedic treatment for Parkinson's Disease. Manage tremors and stiffness naturally with herbal remedies.",
+    alternates: {
+        canonical: "/diseases/parkinson",
+    },
+};
 
 export default function ParkinsonPage() {
     return (

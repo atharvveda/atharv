@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   title: "Atharv Veda | Ayurvedic Kidney Care & Chronic Disease Management",
   description: "Specialized Ayurvedic consultation for Chronic Kidney Disease (CKD), Diabetes, and lifestyle disorders. Book a consultation with US-based support.",
   alternates: {
-    canonical: "https://atharvveda.us",
+    canonical: "/",
   },
 };
 

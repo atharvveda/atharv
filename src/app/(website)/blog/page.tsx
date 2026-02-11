@@ -2,6 +2,15 @@ import React from "react";
 import Breadcrumb from "@/components/Breadcrumb";
 import BlogCard from "@/components/BlogCard";
 import { getBlogPosts, toBlogCardData } from "@/lib/blog/adapter";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Ayurveda Health Blog | Expert Insights & Tips",
+    description: "Read the latest articles on Ayurveda, kidney health, lifestyle tips, and natural remedies from expert practitioners at Atharv Veda.",
+    alternates: {
+        canonical: "/blog",
+    },
+};
 
 export default async function Blog() {
     const posts = await getBlogPosts();

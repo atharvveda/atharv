@@ -1,6 +1,15 @@
 import React from "react";
 import Breadcrumb from "@/components/Breadcrumb";
 import EnquiryFormSide from "@/components/EnquiryFormSide";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Ayurvedic MND Treatment | Motor Neuron Disease Care",
+    description: "Holistic Ayurvedic treatment for Motor Neuron Disease (MND/ALS). Strengthen nerves and muscles naturally with herbal support.",
+    alternates: {
+        canonical: "/diseases/motor-neuron-disease",
+    },
+};
 
 export default function MotorNeuronDiseasePage() {
     return (

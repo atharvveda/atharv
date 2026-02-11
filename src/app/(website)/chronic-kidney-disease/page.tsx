@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   description: "Understand Chronic Kidney Disease (CKD) stages, causes, and symptoms. Learn how Ayurveda offers supportive management for kidney health.",
   keywords: ["Chronic Kidney Disease", "CKD Stages", "Kidney Failure Symptoms", "Ayurvedic Treatment for CKD", "Creatinine Levels"],
   alternates: {
-    canonical: "https://atharvveda.us/chronic-kidney-disease",
+    canonical: "/chronic-kidney-disease",
   },
 };
 

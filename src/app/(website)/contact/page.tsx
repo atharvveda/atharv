@@ -1,5 +1,14 @@
 import React from "react";
 import Breadcrumb from "@/components/Breadcrumb";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Contact Us | Atharv Veda Ayurveda Clinic",
+    description: "Get in touch with Atharv Veda for online Ayurvedic consultations. Book your appointment with Dr. Rahul Sharma today.",
+    alternates: {
+        canonical: "/contact",
+    },
+};
 
 export default function Contact() {
     return (

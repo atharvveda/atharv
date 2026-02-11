@@ -1,6 +1,15 @@
 import React from "react";
 import Breadcrumb from "@/components/Breadcrumb";
 import EnquiryFormSide from "@/components/EnquiryFormSide";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Ayurvedic Gallbladder Stone Treatment | Natural Removal",
+    description: "Avoid surgery with Ayurvedic treatment for Gallbladder Stones. Dissolve stones naturally using powerful herbal formulations.",
+    alternates: {
+        canonical: "/diseases/gallbladder",
+    },
+};
 
 export default function GallbladderPage() {
     return (

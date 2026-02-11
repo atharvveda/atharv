@@ -1,6 +1,15 @@
 import React from "react";
 import Breadcrumb from "@/components/Breadcrumb";
 import EnquiryFormSide from "@/components/EnquiryFormSide";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Ayurvedic Liver Cirrhosis Treatment | Natural Liver Repair",
+    description: "Effective Ayurvedic treatment for Liver Cirrhosis. Heal liver scarring and restore function with natural herbs and detox.",
+    alternates: {
+        canonical: "/diseases/liver-cirrhosis",
+    },
+};
 
 export default function LiverCirrhosisPage() {
     return (

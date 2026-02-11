@@ -48,9 +48,9 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  alternates: {
-    canonical: "/",
-  },
+  // alternates: {
+  //   canonical: "/",
+  // },
   openGraph: {
     title: "Atharv Veda - Best Ayurveda Treatment",
     description:

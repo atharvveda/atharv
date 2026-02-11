@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   description: "Explore Ayurvedic supportive care for kidney diseases. Learn about herbs like Punarnava, Panchakarma therapies, and diet plans to support renal function.",
   keywords: ["Ayurveda for Kidney", "Natural Kidney Treatment", "Punarnava for Kidney", "Panchakarma Kidney", "Renal Diet Ayurveda"],
   alternates: {
-    canonical: "https://atharvveda.us/ayurvedic-treatment-of-kidney-diseases",
+    canonical: "/ayurvedic-treatment-of-kidney-diseases",
   },
 };
 

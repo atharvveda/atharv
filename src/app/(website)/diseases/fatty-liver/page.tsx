@@ -1,6 +1,15 @@
 import React from "react";
 import Breadcrumb from "@/components/Breadcrumb";
 import EnquiryFormSide from "@/components/EnquiryFormSide";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Ayurvedic Fatty Liver Treatment | Reverse NAFLD Naturally",
+    description: "Natural Ayurvedic treatment for Fatty Liver Disease (Hepatic Steatosis). Detoxify and rejuvenate your liver with herbal care.",
+    alternates: {
+        canonical: "/diseases/fatty-liver",
+    },
+};
 
 export default function FattyLiverPage() {
     return (
