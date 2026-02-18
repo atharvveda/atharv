@@ -9,7 +9,7 @@ export function generateOrganizationSchema() {
             "url": "https://atharvveda.us/assets/images/New-Logo.png"
         },
         "image": "https://atharvveda.us/assets/images/New-Logo.png",
-        "telephone": "+91-9518276222",
+        "telephone": "+1-646-624-3465",
         "email": "info@atharvveda.us",
         "address": {
             "@type": "PostalAddress",

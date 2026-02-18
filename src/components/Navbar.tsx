@@ -4,6 +4,47 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import NextImage from "next/image";
+import { useUser } from "@clerk/nextjs";
+
+function AuthButton() {
+    const { user, isLoaded, isSignedIn } = useUser();
+
+    if (!isLoaded) return null;
+
+    if (!isSignedIn) {
+        return (
+            <Link href="/login" className="nav-link-btn">
+                Login
+            </Link>
+        );
+    }
+
+    const role = user?.publicMetadata?.role as string | undefined;
+
+    // Determine the dashboard URL based on environment and role
+    let dashboardUrl = '#';
+    if (typeof window !== 'undefined') {
+        const hostname = window.location.hostname;
+        const isLocal = hostname === 'localhost' || hostname === '127.0.0.1';
+
+        if (role === 'admin') {
+            dashboardUrl = isLocal
+                ? '/doctor/dashboard'
+                : 'https://doctor.atharvveda.us';
+        } else if (role === 'patient') {
+            dashboardUrl = isLocal
+                ? '/patient/dashboard'
+                : 'https://patient.atharvveda.us';
+        }
+    }
+
+    return (
+        <a href={dashboardUrl} className="nav-link-btn" style={{ fontWeight: 600 }}>
+            Dashboard
+        </a>
+    );
+}
+
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -108,6 +149,9 @@ const Navbar = () => {
                                     </li>
                                     <li className={pathname === "/contact" ? "active" : ""}>
                                         <Link href="/contact">Contact</Link>
+                                    </li>
+                                    <li>
+                                        <AuthButton />
                                     </li>
                                 </ul>
                             </div>

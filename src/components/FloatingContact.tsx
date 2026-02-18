@@ -2,30 +2,30 @@
 import React from "react";
 
 const FloatingContact = () => {
-    const phone = "+12022021994";
-    const wa = "12022021994";
+  const phone = "+16466243465";
+  const wa = "16466243465";
 
-    return (
-        <div className="ayur-float-contact">
-            <a
-                className="ayur-float-btn ayur-float-whatsapp"
-                href={`https://wa.me/${wa}?text=Hello%20Atharv%20Veda`}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Chat on WhatsApp"
-            >
-                <img src="/assets/images/wp.png" alt="WhatsApp" style={{ width: "18px", height: "18px" }} />
-                <span>WhatsApp</span>
-            </a>
-            <a
-                className="ayur-float-btn ayur-float-call"
-                href={`tel:${phone}`}
-                aria-label="Call Now"
-            >
-                <img src="/assets/images/call.png" alt="Call" style={{ width: "18px", height: "18px" }} />
-                <span>Call Now</span>
-            </a>
-            <style jsx>{`
+  return (
+    <div className="ayur-float-contact">
+      <a
+        className="ayur-float-btn ayur-float-whatsapp"
+        href={`https://wa.me/${wa}?text=Hello%20Atharv%20Veda`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Chat on WhatsApp"
+      >
+        <img src="/assets/images/wp.png" alt="WhatsApp" style={{ width: "18px", height: "18px" }} />
+        <span>WhatsApp</span>
+      </a>
+      <a
+        className="ayur-float-btn ayur-float-call"
+        href={`tel:${phone}`}
+        aria-label="Call Now"
+      >
+        <img src="/assets/images/call.png" alt="Call" style={{ width: "18px", height: "18px" }} />
+        <span>Call Now</span>
+      </a>
+      <style jsx>{`
         .ayur-float-contact {
           position: fixed;
           left: 20px;
@@ -72,8 +72,8 @@ const FloatingContact = () => {
           }
         }
       `}</style>
-        </div>
-    );
+    </div>
+  );
 };
 
 export default FloatingContact;

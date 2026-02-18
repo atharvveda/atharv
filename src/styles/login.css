@@ -1,0 +1,313 @@
+/* ===== Login Role Selection Page ===== */
+.login-role-section {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px 60px;
+    background: linear-gradient(135deg, #f5f0e8 0%, #e8f5e9 50%, #f5f0e8 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.login-role-section::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(76, 175, 80, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.login-role-section::after {
+    content: '';
+    position: absolute;
+    bottom: -80px;
+    left: -80px;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(139, 119, 42, 0.06) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.login-role-container {
+    max-width: 900px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.login-role-header {
+    margin-bottom: 50px;
+}
+
+.login-role-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2e3d28;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+}
+
+.login-role-header p {
+    font-size: 1.1rem;
+    color: #6b7c61;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.login-role-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.login-role-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 45px 35px;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    border: 2px solid transparent;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-role-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    border-radius: 20px 20px 0 0;
+    transition: height 0.3s ease;
+}
+
+.login-role-card.doctor-card::before {
+    background: linear-gradient(90deg, #2e7d32, #4caf50);
+}
+
+.login-role-card.patient-card::before {
+    background: linear-gradient(90deg, #8b772a, #c5a84e);
+}
+
+.login-role-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+}
+
+.login-role-card.doctor-card:hover {
+    border-color: rgba(76, 175, 80, 0.3);
+}
+
+.login-role-card.patient-card:hover {
+    border-color: rgba(197, 168, 78, 0.3);
+}
+
+.login-role-card:hover::before {
+    height: 6px;
+}
+
+.login-role-icon {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    transition: transform 0.3s ease;
+}
+
+.login-role-card:hover .login-role-icon {
+    transform: scale(1.08);
+}
+
+.doctor-card .login-role-icon {
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+}
+
+.patient-card .login-role-icon {
+    background: linear-gradient(135deg, #fdf6e3, #f5ecd0);
+}
+
+.login-role-icon svg {
+    width: 44px;
+    height: 44px;
+}
+
+.doctor-card .login-role-icon svg {
+    color: #2e7d32;
+}
+
+.patient-card .login-role-icon svg {
+    color: #8b772a;
+}
+
+.login-role-card h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #2e3d28;
+}
+
+.login-role-card p {
+    font-size: 0.95rem;
+    color: #7a8a70;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.login-role-card .card-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+.doctor-card .card-action {
+    color: #2e7d32;
+    background: #e8f5e9;
+}
+
+.doctor-card:hover .card-action {
+    background: #2e7d32;
+    color: #fff;
+}
+
+.patient-card .card-action {
+    color: #8b772a;
+    background: #fdf6e3;
+}
+
+.patient-card:hover .card-action {
+    background: #8b772a;
+    color: #fff;
+}
+
+.card-action svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.3s ease;
+}
+
+.login-role-card:hover .card-action svg {
+    transform: translateX(4px);
+}
+
+/* ===== Doctor & Patient Login Pages ===== */
+.login-page-section {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px 60px;
+    background: linear-gradient(135deg, #f5f0e8 0%, #e8f5e9 50%, #f5f0e8 100%);
+}
+
+.login-page-container {
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+.login-page-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #6b7c61;
+    font-size: 0.95rem;
+    text-decoration: none;
+    margin-bottom: 24px;
+    transition: color 0.2s ease;
+    font-weight: 500;
+}
+
+.login-page-back:hover {
+    color: #2e7d32;
+}
+
+.login-page-back svg {
+    width: 18px;
+    height: 18px;
+}
+
+.login-page-header {
+    margin-bottom: 30px;
+}
+
+.login-page-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2e3d28;
+    margin-bottom: 8px;
+}
+
+.login-page-header p {
+    font-size: 1rem;
+    color: #6b7c61;
+}
+
+.login-clerk-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+/* Override Clerk styling to match site */
+.login-clerk-wrapper .cl-rootBox {
+    width: 100%;
+}
+
+.login-clerk-wrapper .cl-card {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+    border-radius: 16px !important;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 640px) {
+    .login-role-cards {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .login-role-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .login-role-card {
+        padding: 35px 25px;
+    }
+
+    .login-role-icon {
+        width: 72px;
+        height: 72px;
+    }
+
+    .login-role-icon svg {
+        width: 36px;
+        height: 36px;
+    }
+
+    .login-page-header h1 {
+        font-size: 1.6rem;
+    }
+}

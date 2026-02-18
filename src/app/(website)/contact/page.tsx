@@ -1,16 +1,50 @@
-import React from "react";
-import Breadcrumb from "@/components/Breadcrumb";
-import { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-    title: "Contact Us | Atharv Veda Ayurveda Clinic",
-    description: "Get in touch with Atharv Veda for online Ayurvedic consultations. Book your appointment with Dr. Rahul Sharma today.",
-    alternates: {
-        canonical: "/contact",
-    },
-};
+import React, { useState } from "react";
+import Breadcrumb from "@/components/Breadcrumb";
+import { CircularProgress, Alert, Box } from "@mui/material";
 
 export default function Contact() {
+    const [status, setStatus] = useState<{ type: 'success' | 'error', msg: string } | null>(null);
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setLoading(true);
+        setStatus(null);
+
+        const formData = new FormData(e.currentTarget);
+        const rawData = Object.fromEntries(formData.entries());
+
+        // Map first/last name to 'name' for our API
+        const data = {
+            name: `${rawData.first_name} ${rawData.last_name}`.trim(),
+            email: rawData.email,
+            subject: rawData.subject,
+            message: rawData.message
+        };
+
+        try {
+            const res = await fetch('/api/enquiries', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+
+            const result = await res.json();
+            if (res.ok) {
+                setStatus({ type: 'success', msg: 'Message sent! We will get back to you shortly.' });
+                (e.target as HTMLFormElement).reset();
+            } else {
+                setStatus({ type: 'error', msg: result.error || 'Failed to send message.' });
+            }
+        } catch (error) {
+            setStatus({ type: 'error', msg: 'Network error. Please try again.' });
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <main>
             <Breadcrumb title="Contact Us" />
@@ -31,42 +65,41 @@ export default function Contact() {
                             <div className="ayur-contact-heading">
                                 <h3>Get in touch with us</h3>
                                 <p>
-                                    Get latest news in your inbox. Consectetur adipiscing
-                                    elitadipiscing elitse ddo eiusmod tempor incididunt ut labore et
-                                    dolore.
+                                    Have questions about Ayurvedic treatment? Our team is here to help you understand how we can support your health journey.
                                 </p>
                             </div>
                             <div className="ayur-contact-form-wrapper">
-                                <form action="https://nocodeform.io/f/68ffa5a79ecb162aca874c37" method="POST" className="ayur-contact-form">
+                                {status && <Alert severity={status.type} sx={{ mb: 3 }}>{status.msg}</Alert>}
+                                <form onSubmit={handleSubmit} className="ayur-contact-form">
                                     <div className="row">
                                         <div className="col-lg-6 col-md-6 col-sm-6">
                                             <div className="ayur-form-input">
-                                                <input type="text" name="first_name" className="form-control" placeholder="First Name" required />
+                                                <input type="text" name="first_name" className="form-control" placeholder="First Name" required disabled={loading} />
                                             </div>
                                         </div>
                                         <div className="col-lg-6 col-md-6 col-sm-6">
                                             <div className="ayur-form-input">
-                                                <input type="text" name="last_name" className="form-control" placeholder="Last Name" required />
+                                                <input type="text" name="last_name" className="form-control" placeholder="Last Name" required disabled={loading} />
                                             </div>
                                         </div>
                                         <div className="col-lg-6 col-md-6 col-sm-6">
                                             <div className="ayur-form-input">
-                                                <input type="email" name="email" className="form-control" placeholder="Your Email" required />
+                                                <input type="email" name="email" className="form-control" placeholder="Your Email" required disabled={loading} />
                                             </div>
                                         </div>
                                         <div className="col-lg-6 col-md-6 col-sm-6">
                                             <div className="ayur-form-input">
-                                                <input type="text" name="subject" className="form-control" placeholder="Subject" required />
+                                                <input type="text" name="subject" className="form-control" placeholder="Subject" required disabled={loading} />
                                             </div>
                                         </div>
                                         <div className="col-lg-12 col-md-12">
                                             <div className="ayur-form-input">
-                                                <textarea name="message" cols={3} rows={8} className="form-control" placeholder="Your Message..." required></textarea>
+                                                <textarea name="message" cols={3} rows={8} className="form-control" placeholder="Your Message..." required disabled={loading}></textarea>
                                             </div>
                                         </div>
                                         <div className="col-lg-12 col-md-12">
-                                            <button type="submit" className="ayur-btn ayur-con-btn">
-                                                Send Message
+                                            <button type="submit" className="ayur-btn ayur-con-btn" disabled={loading} style={{ position: 'relative' }}>
+                                                {loading ? <CircularProgress size={24} color="inherit" /> : 'Send Message'}
                                             </button>
                                         </div>
                                     </div>

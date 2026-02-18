@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Archivo, Inter } from "next/font/google";
 import Script from "next/script";
 import "../../styles/bootstrap.min.css";
@@ -8,6 +9,7 @@ import "../../styles/flatpickr.min.css";
 import "../../styles/swiper-bundle.min.css";
 import "../../styles/style.css";
 import "../../styles/responsive.css";
+import "../../styles/login.css";
 import "../globals.css";
 
 const archivo = Archivo({
@@ -100,51 +102,53 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en-US" suppressHydrationWarning>
-      <head>
-        {/* Google Tag Manager */}
-        <Script id="gtm-script" strategy="beforeInteractive">
-          {`
+    <ClerkProvider>
+      <html lang="en-US" suppressHydrationWarning>
+        <head>
+          {/* Google Tag Manager */}
+          <Script id="gtm-script" strategy="beforeInteractive">
+            {`
       (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
       j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
       })(window,document,'script','dataLayer','GTM-TD492XD4');
     `}
-        </Script>
-        {/* End Google Tag Manager */}
+          </Script>
+          {/* End Google Tag Manager */}
 
-        {/* Ahrefs Web Analytics */}
-        <Script
-          src="https://analytics.ahrefs.com/analytics.js"
-          data-key="SIKdrSujSdMovr9jcFfYIw"
-          strategy="afterInteractive"
-        />
-      </head>
-
-
-      <body className={`${archivo.variable} ${inter.variable}`}>
-        {/* Google Tag Manager (noscript) */}
-        <noscript>
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-TD492XD4"
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
+          {/* Ahrefs Web Analytics */}
+          <Script
+            src="https://analytics.ahrefs.com/analytics.js"
+            data-key="SIKdrSujSdMovr9jcFfYIw"
+            strategy="afterInteractive"
           />
-        </noscript>
-        {/* End Google Tag Manager (noscript) */}
+        </head>
 
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(globalSchemaGraph) }}
-        />
 
-        <Navbar />
-        {children}
-        <Footer />
-        <FloatingContact />
-      </body>
-    </html>
+        <body className={`${archivo.variable} ${inter.variable}`}>
+          {/* Google Tag Manager (noscript) */}
+          <noscript>
+            <iframe
+              src="https://www.googletagmanager.com/ns.html?id=GTM-TD492XD4"
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+            />
+          </noscript>
+          {/* End Google Tag Manager (noscript) */}
+
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(globalSchemaGraph) }}
+          />
+
+          <Navbar />
+          {children}
+          <Footer />
+          <FloatingContact />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

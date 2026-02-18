@@ -27,7 +27,7 @@ export default function Home() {
     "url": "https://atharvveda.us",
     "logo": "https://atharvveda.us/assets/images/logo.png",
     "description": "Specialized Ayurvedic clinic for Chronic Kidney Disease and lifestyle disorders.",
-    "telephone": "+13029669159",
+    "telephone": "+16466243465",
     "address": {
       "@type": "PostalAddress",
       "addressCountry": "USA"
