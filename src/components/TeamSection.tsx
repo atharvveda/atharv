@@ -1,20 +1,17 @@
 "use client";
 import React from "react";
-import NextImage from "next/image";
 
 const TeamSection = () => {
     const doctors = [
         {
             name: "Dr. Rahul Sharma",
             specialty: "Ayurvedic Nephrology Expert",
-            year: "M.D. (Ayu)",
-            img: "team-1.png"
+            year: "M.D. (Ayu)"
         },
         {
             name: "Dr. Anjali Arora",
             specialty: "Diabetes & Lifestyle Disorders",
-            year: "B.A.M.S.",
-            img: "team-2.png"
+            year: "B.A.M.S."
         }
     ];
 
@@ -43,62 +40,16 @@ const TeamSection = () => {
                             key={index}
                         >
                             <div className="ayur-team-box w-100 text-center">
-
-                                <div className="ayur-team-img-wrapper">
-                                    <div className="ayur-team-img">
-                                        <NextImage
-                                            src={`/assets/images/${doc.img}`}
-                                            alt={doc.name}
-                                            width={300}
-                                            height={350}
-                                            style={{ width: "100%", height: "auto" }}
-                                        />
-                                    </div>
-
-                                    <div className="ayur-team-hoverimg">
-                                        <div className="ayur-team-hoversmall">
-                                            <NextImage
-                                                src={`/assets/images/${doc.img}`}
-                                                alt={doc.name}
-                                                width={80}
-                                                height={80}
-                                                style={{ width: "100%", height: "auto" }}
-                                            />
-                                        </div>
-                                        <p>{doc.specialty}</p>
-                                        <div className="ayur-team-sociallink">
-                                            {/* Social links removed until real profiles are available */}
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <div className="ayur-team-name">
                                     <h3>{doc.name}</h3>
                                     <p>{doc.specialty}</p>
                                     <p>{doc.year}</p>
                                 </div>
-
                             </div>
                         </div>
                     ))}
                 </div>
 
-            </div>
-
-            {/* Background Shapes */}
-            <div className="ayur-bgshape ayur-team-bgshape">
-                <NextImage
-                    src="/assets/images/bg-shape5.png"
-                    alt="bg-shape"
-                    width={200}
-                    height={200}
-                />
-                <NextImage
-                    src="/assets/images/bg-leaf5.png"
-                    alt="bg-leaf"
-                    width={100}
-                    height={100}
-                />
             </div>
         </div>
     );

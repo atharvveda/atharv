@@ -116,7 +116,11 @@ const Footer = () => {
                                     </li>
                                     <li className="ayur-contact-box">
                                         <img src="/assets/images/mobile.png" alt="icon" />
+<<<<<<< HEAD
                                         <p>+1 (646) 624 3465</p>
+=======
+                                        <p>+1 (646) 969 0948 </p>
+>>>>>>> a46868736db0863f8fd3b58b552fb99327c21037
                                     </li>
                                 </ul>
                             </div>
