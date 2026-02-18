@@ -4,6 +4,7 @@ import React from "react";
 const FloatingContact = () => {
   const phone = "+16466243465";
   const wa = "16466243465";
+  const displayPhone = "+1 (646) 624 3465";
 
   return (
     <div className="ayur-float-contact">
@@ -12,7 +13,8 @@ const FloatingContact = () => {
         href={`https://wa.me/${wa}?text=Hello%20Atharv%20Veda`}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Chat on WhatsApp"
+        aria-label={`Chat on WhatsApp: ${displayPhone}`}
+        title={`WhatsApp: ${displayPhone}`}
       >
         <img src="/assets/images/wp.png" alt="WhatsApp" style={{ width: "18px", height: "18px" }} />
         <span>WhatsApp</span>
@@ -20,7 +22,8 @@ const FloatingContact = () => {
       <a
         className="ayur-float-btn ayur-float-call"
         href={`tel:${phone}`}
-        aria-label="Call Now"
+        aria-label={`Call Now: ${displayPhone}`}
+        title={`Call Now: ${displayPhone}`}
       >
         <img src="/assets/images/call.png" alt="Call" style={{ width: "18px", height: "18px" }} />
         <span>Call Now</span>
