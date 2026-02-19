@@ -9,6 +9,7 @@ import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import MedicationIcon from '@mui/icons-material/Medication';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import DescriptionIcon from '@mui/icons-material/Description';
 
 export default function DoctorDashboardPage() {
     const { user, isLoaded } = useUser();
@@ -194,6 +195,9 @@ export default function DoctorDashboardPage() {
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
                             <Button component={Link} href="/doctor/patients" variant="outlined" startIcon={<PeopleIcon />} fullWidth>
                                 View All Patients
+                            </Button>
+                            <Button component={Link} href="/doctor/documents" variant="outlined" startIcon={<DescriptionIcon />} fullWidth>
+                                Document Vault
                             </Button>
                             <Button component={Link} href="/doctor/support" variant="outlined" startIcon={<SupportAgentIcon />} fullWidth>
                                 Support Tickets

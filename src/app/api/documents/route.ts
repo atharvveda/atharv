@@ -1,7 +1,74 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { auth } from '@clerk/nextjs/server';
+import { auth, createClerkClient } from '@clerk/nextjs/server';
 import { supabaseAdmin } from '../../../lib/supabase';
 
+const clerk = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
+
+// GET: Fetch document list for a patient (patient can see own, admin can see target)
+export async function GET(req: NextRequest) {
+    const { userId, sessionClaims } = await auth();
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+    let role = (sessionClaims?.publicMetadata as any)?.role;
+    if (!role) {
+        try {
+            const user = await clerk.users.getUser(userId);
+            role = user.publicMetadata?.role;
+        } catch (e) {
+            console.error('Clerk Fallback Error:', e);
+        }
+    }
+
+    const { searchParams } = new URL(req.url);
+    const targetPatientId = searchParams.get('patientClerkId');
+
+    let patientClerkId: string;
+    if (role === 'admin') {
+        if (!targetPatientId) return NextResponse.json({ error: 'Missing patientClerkId' }, { status: 400 });
+        patientClerkId = targetPatientId;
+    } else if (role === 'patient') {
+        patientClerkId = userId;
+    } else {
+        return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    try {
+        // List files in the patient's folder
+        const { data: files, error } = await supabaseAdmin
+            .storage
+            .from('patient-documents')
+            .list(patientClerkId, {
+                limit: 20,
+                sortBy: { column: 'created_at', order: 'desc' },
+            });
+
+        if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+        if (!files) return NextResponse.json({ documents: [] });
+
+        // Generate signed URLs for all files
+        const docs = await Promise.all(files.map(async (file) => {
+            const { data: signedData } = await supabaseAdmin
+                .storage
+                .from('patient-documents')
+                .createSignedUrl(`${patientClerkId}/${file.name}`, 3600);
+
+            return {
+                name: file.name,
+                url: signedData?.signedUrl,
+                created_at: file.created_at,
+                size: file.metadata?.size,
+                type: file.metadata?.mimetype
+            };
+        }));
+
+        return NextResponse.json({ documents: docs });
+    } catch (e: any) {
+        console.error('Documents GET Error:', e);
+        return NextResponse.json({ error: 'Internal Server Error', details: e.message }, { status: 500 });
+    }
+}
+
+// POST: Upload a document (Patient uploads own, Admin can upload for patient)
 export async function POST(req: NextRequest) {
     try {
         const { userId, sessionClaims } = await auth();
@@ -9,41 +76,34 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        const role = (sessionClaims?.publicMetadata as any)?.role;
+        let role = (sessionClaims?.publicMetadata as any)?.role;
+        if (!role) {
+            try {
+                const user = await clerk.users.getUser(userId);
+                role = user.publicMetadata?.role;
+            } catch (e) {
+                console.error('Clerk Fallback Error:', e);
+            }
+        }
 
-        // Strict Role Check
         if (role !== 'admin' && role !== 'patient') {
             return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }
 
         const formData = await req.formData();
         const file = formData.get('file') as File;
+        const targetPatientId = formData.get('patientId') as string;
 
         if (!file) {
             return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
         }
 
-        // Role Logic:
-        // Patient: Upload to own folder.
-        // Admin: Can upload to any folder (need logic to specify target).
-        // For this example, we upload to the user's own folder (if patient) 
-        // or a 'admin-uploads' folder if admin doesn't specify (or strictly to userId for simplicity).
-
-        // If Admin wants to upload for a patient, they should pass 'patientId'.
-        const targetPatientId = formData.get('patientId') as string;
-
         let uploadPath = '';
-
         if (role === 'patient') {
-            // Patient force uploaded to own ID
             uploadPath = `${userId}/${Date.now()}-${file.name}`;
         } else if (role === 'admin') {
-            if (targetPatientId) {
-                uploadPath = `${targetPatientId}/${Date.now()}-${file.name}`;
-            } else {
-                // Fallback or upload to admin's own space?
-                uploadPath = `admin-uploads/${userId}/${Date.now()}-${file.name}`;
-            }
+            if (!targetPatientId) return NextResponse.json({ error: 'Missing patientId' }, { status: 400 });
+            uploadPath = `${targetPatientId}/${Date.now()}-${file.name}`;
         }
 
         const buffer = Buffer.from(await file.arrayBuffer());
@@ -61,8 +121,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Upload failed: ' + error.message }, { status: 500 });
         }
 
-        // Generate signed URL (valid for 1 hour) for immediate view
-        const { data: signedData, error: signedError } = await supabaseAdmin
+        const { data: signedData } = await supabaseAdmin
             .storage
             .from('patient-documents')
             .createSignedUrl(uploadPath, 3600);
@@ -70,11 +129,12 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({
             success: true,
             path: data.path,
-            url: signedData?.signedUrl
+            url: signedData?.signedUrl,
+            name: file.name
         });
 
-    } catch (error) {
-        console.error('API Error:', error);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    } catch (error: any) {
+        console.error('Documents API POST Error:', error);
+        return NextResponse.json({ error: 'Internal Server Error', details: error.message }, { status: 500 });
     }
 }

@@ -6,13 +6,15 @@ import {
     Typography, Paper, Box, Tabs, Tab, TextField, Button, Grid, Divider,
     Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
     Chip, CircularProgress, Alert, Select, MenuItem, FormControl, InputLabel,
-    IconButton, Card, CardContent, Snackbar
+    IconButton, Card, CardContent, Snackbar, alpha
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import DownloadIcon from '@mui/icons-material/Download';
 
 interface TabPanelProps { children?: React.ReactNode; index: number; value: number; }
 function TabPanel({ children, value, index }: TabPanelProps) {
@@ -40,6 +42,10 @@ export default function PatientDetailPage() {
     const [consultations, setConsultations] = useState<any[]>([]);
     const [consForm, setConsForm] = useState({ title: '', description: '', consultation_type: 'video', scheduled_at: '', duration_minutes: 30, meeting_link: '' });
 
+    // Patient Documents state
+    const [patientDocs, setPatientDocs] = useState<any[]>([]);
+    const [docsLoading, setDocsLoading] = useState(false);
+
     const [snackbar, setSnackbar] = useState<{ open: boolean; msg: string; type: 'success' | 'error' }>({ open: false, msg: '', type: 'success' });
 
     const showAlert = (msg: string, type: 'success' | 'error' = 'success') => {
@@ -51,6 +57,15 @@ export default function PatientDetailPage() {
             .then(r => r.json())
             .then(data => setDietPdfs(data.files || []))
             .catch(() => { });
+    };
+
+    const fetchPatientDocs = () => {
+        setDocsLoading(true);
+        fetch(`/api/documents?patientClerkId=${clerkId}`)
+            .then(r => r.json())
+            .then(data => setPatientDocs(data.documents || []))
+            .catch(() => { })
+            .finally(() => setDocsLoading(false));
     };
 
     useEffect(() => {
@@ -67,6 +82,7 @@ export default function PatientDetailPage() {
             setLoading(false);
         }).catch(() => setLoading(false));
         fetchPdfs();
+        fetchPatientDocs();
     }, [clerkId]);
 
     const handlePdfUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -186,6 +202,7 @@ export default function PatientDetailPage() {
                     <Tab label="Diet Plan" />
                     <Tab label="Medications" />
                     <Tab label="Consultations" />
+                    <Tab label="Clinical Documents" />
                 </Tabs>
 
                 {/* ===== DIET TAB ===== */}
@@ -440,6 +457,67 @@ export default function PatientDetailPage() {
                                     </CardContent>
                                 </Card>
                             ))
+                        )}
+                    </Box>
+                </TabPanel>
+
+                {/* ===== CLINICAL DOCUMENTS TAB ===== */}
+                <TabPanel value={tab} index={3}>
+                    <Box sx={{ p: 3 }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                            <Typography variant="h6" fontWeight="bold">Clinical Records & Lab Reports</Typography>
+                            <Button size="small" variant="outlined" onClick={fetchPatientDocs} disabled={docsLoading}>
+                                Refresh List
+                            </Button>
+                        </Box>
+                        <Divider sx={{ mb: 3 }} />
+
+                        {docsLoading ? (
+                            <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}><CircularProgress size={30} /></Box>
+                        ) : patientDocs.length === 0 ? (
+                            <Box sx={{ py: 4, textAlign: 'center', bgcolor: alpha('#1B5E20', 0.02), borderRadius: 2 }}>
+                                <InsertDriveFileIcon sx={{ fontSize: 48, color: 'text.disabled', opacity: 0.5, mb: 1 }} />
+                                <Typography color="text.secondary">No clinical documents uploaded by this patient.</Typography>
+                            </Box>
+                        ) : (
+                            <TableContainer>
+                                <Table size="small">
+                                    <TableHead>
+                                        <TableRow sx={{ bgcolor: 'grey.50' }}>
+                                            <TableCell><strong>File Name</strong></TableCell>
+                                            <TableCell><strong>Date Uploaded</strong></TableCell>
+                                            <TableCell><strong>Size</strong></TableCell>
+                                            <TableCell align="center"><strong>Actions</strong></TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {patientDocs.map((doc, idx) => (
+                                            <TableRow key={idx} hover>
+                                                <TableCell>
+                                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                                                        <InsertDriveFileIcon color="primary" fontSize="small" />
+                                                        <Typography variant="body2" fontWeight="600">{doc.name}</Typography>
+                                                    </Box>
+                                                </TableCell>
+                                                <TableCell>{new Date(doc.created_at).toLocaleDateString()}</TableCell>
+                                                <TableCell>{doc.size ? `${(doc.size / 1024 / 1024).toFixed(2)} MB` : '-'}</TableCell>
+                                                <TableCell align="center">
+                                                    <IconButton
+                                                        size="small"
+                                                        color="primary"
+                                                        component="a"
+                                                        href={doc.url}
+                                                        target="_blank"
+                                                        title="View/Download"
+                                                    >
+                                                        <DownloadIcon fontSize="small" />
+                                                    </IconButton>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
                         )}
                     </Box>
                 </TabPanel>
