@@ -53,7 +53,21 @@ export async function GET(req: NextRequest) {
 // POST: Doctor creates a consultation
 export async function POST(req: NextRequest) {
     const { userId, sessionClaims } = await auth();
-    if (!userId || (sessionClaims?.publicMetadata as any)?.role !== 'admin') {
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+    let role = (sessionClaims?.publicMetadata as any)?.role;
+
+    // Fallback: Fetch directly from Clerk backend if role is missing from claims
+    if (!role && userId) {
+        try {
+            const user = await clerk.users.getUser(userId);
+            role = user.publicMetadata?.role;
+        } catch (e) {
+            console.error('Clerk Fallback Error:', e);
+        }
+    }
+
+    if (role !== 'admin') {
         return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
@@ -84,7 +98,21 @@ export async function POST(req: NextRequest) {
 // PUT: Update consultation (add remarks, change status)
 export async function PUT(req: NextRequest) {
     const { userId, sessionClaims } = await auth();
-    if (!userId || (sessionClaims?.publicMetadata as any)?.role !== 'admin') {
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+    let role = (sessionClaims?.publicMetadata as any)?.role;
+
+    // Fallback: Fetch directly from Clerk backend if role is missing from claims
+    if (!role && userId) {
+        try {
+            const user = await clerk.users.getUser(userId);
+            role = user.publicMetadata?.role;
+        } catch (e) {
+            console.error('Clerk Fallback Error:', e);
+        }
+    }
+
+    if (role !== 'admin') {
         return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
