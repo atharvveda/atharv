@@ -549,11 +549,7 @@ export default function DashboardPage() {
                                     onChange={(e) => setRequestForm({ ...requestForm, description: e.target.value })}
                                 />
                             </Grid>
-                            <Grid size={{ xs: 12 }}>
-                                <Typography variant="caption" color="text.secondary">
-                                    Note: Please select the time in your <strong>local timezone</strong>. Our doctors in India will coordinate based on this selection.
-                                </Typography>
-                            </Grid>
+
                         </Grid>
                     )}
                 </DialogContent>

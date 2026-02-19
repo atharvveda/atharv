@@ -15,6 +15,7 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import DownloadIcon from '@mui/icons-material/Download';
+import WarehouseIcon from '@mui/icons-material/Warehouse';
 
 interface TabPanelProps { children?: React.ReactNode; index: number; value: number; }
 function TabPanel({ children, value, index }: TabPanelProps) {
@@ -36,7 +37,7 @@ export default function PatientDetailPage() {
 
     // Medications state
     const [medications, setMedications] = useState<any[]>([]);
-    const [medForm, setMedForm] = useState({ name: '', dosage: '', frequency: '', instructions: '', start_date: '', end_date: '' });
+    const [medForm, setMedForm] = useState({ name: '', dosage: '', frequency: '', instructions: '', start_date: '', prescription: '' });
 
     // Consultations state
     const [consultations, setConsultations] = useState<any[]>([]);
@@ -144,7 +145,7 @@ export default function PatientDetailPage() {
             body: JSON.stringify({ ...medForm, patient_clerk_id: clerkId }),
         });
         const data = await res.json();
-        if (data.medication) { setMedications(prev => [data.medication, ...prev]); setMedForm({ name: '', dosage: '', frequency: '', instructions: '', start_date: '', end_date: '' }); showAlert('Medication added'); }
+        if (data.medication) { setMedications(prev => [data.medication, ...prev]); setMedForm({ name: '', dosage: '', frequency: '', instructions: '', start_date: '', prescription: '' }); showAlert('Medication added'); }
         else showAlert(data.error || 'Failed', 'error');
     };
 
@@ -320,7 +321,7 @@ export default function PatientDetailPage() {
                         <Typography variant="h6" gutterBottom>Add Medication</Typography>
                         <Grid container spacing={2} alignItems="flex-end">
                             <Grid size={{ xs: 12, sm: 3 }}>
-                                <TextField fullWidth size="small" label="Name" value={medForm.name} onChange={e => setMedForm({ ...medForm, name: e.target.value })} />
+                                <TextField fullWidth size="small" label="Medication Name" value={medForm.name} onChange={e => setMedForm({ ...medForm, name: e.target.value })} />
                             </Grid>
                             <Grid size={{ xs: 12, sm: 2 }}>
                                 <TextField fullWidth size="small" label="Dosage" value={medForm.dosage} onChange={e => setMedForm({ ...medForm, dosage: e.target.value })} />
@@ -332,10 +333,20 @@ export default function PatientDetailPage() {
                                 <TextField fullWidth size="small" type="date" label="Start" InputLabelProps={{ shrink: true }} value={medForm.start_date} onChange={e => setMedForm({ ...medForm, start_date: e.target.value })} />
                             </Grid>
                             <Grid size={{ xs: 12, sm: 1.5 }}>
-                                <TextField fullWidth size="small" type="date" label="End" InputLabelProps={{ shrink: true }} value={medForm.end_date} onChange={e => setMedForm({ ...medForm, end_date: e.target.value })} />
-                            </Grid>
-                            <Grid size={{ xs: 12, sm: 1.5 }}>
                                 <Button variant="contained" fullWidth onClick={addMedication}>Add</Button>
+                            </Grid>
+                            <Grid size={{ xs: 12 }}>
+                                <TextField
+                                    fullWidth
+                                    size="small"
+                                    label="Prescription / Usage Instructions (visible to patient after delivery)"
+                                    multiline
+                                    rows={2}
+                                    value={medForm.prescription}
+                                    onChange={e => setMedForm({ ...medForm, prescription: e.target.value })}
+                                    placeholder="e.g. Take 1 tablet after meals. Avoid direct sunlight. Full course must be completed."
+                                    helperText="This prescription note will only be visible to the patient once delivery status is set to Delivered."
+                                />
                             </Grid>
                         </Grid>
 
@@ -347,45 +358,88 @@ export default function PatientDetailPage() {
                             <TableContainer>
                                 <Table size="small">
                                     <TableHead>
-                                        <TableRow>
+                                        <TableRow sx={{ bgcolor: 'grey.50' }}>
                                             <TableCell><strong>Medication</strong></TableCell>
-                                            <TableCell><strong>Dosage</strong></TableCell>
-                                            <TableCell><strong>Frequency</strong></TableCell>
+                                            <TableCell><strong>Dosage / Freq.</strong></TableCell>
                                             <TableCell><strong>Dates</strong></TableCell>
-                                            <TableCell><strong>Delivery</strong></TableCell>
+                                            <TableCell><strong>Delivery Status</strong></TableCell>
                                             <TableCell><strong>Tracking #</strong></TableCell>
-                                            <TableCell><strong>Actions</strong></TableCell>
+                                            <TableCell><strong>Prescription</strong></TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {medications.map((m: any) => (
-                                            <TableRow key={m.id}>
-                                                <TableCell><strong>{m.name}</strong></TableCell>
-                                                <TableCell>{m.dosage}</TableCell>
-                                                <TableCell>{m.frequency}</TableCell>
-                                                <TableCell>{m.start_date} {m.end_date ? `— ${m.end_date}` : ''}</TableCell>
-                                                <TableCell>
-                                                    <FormControl size="small" sx={{ minWidth: 120 }}>
-                                                        <Select value={m.delivery_status} onChange={e => updateDelivery(m.id, e.target.value as string, m.tracking_number)}>
-                                                            <MenuItem value="pending">Pending</MenuItem>
-                                                            <MenuItem value="processing">Processing</MenuItem>
-                                                            <MenuItem value="shipped">Shipped</MenuItem>
-                                                            <MenuItem value="delivered">Delivered</MenuItem>
-                                                        </Select>
-                                                    </FormControl>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <TextField
-                                                        size="small" placeholder="Enter #" defaultValue={m.tracking_number || ''}
-                                                        onBlur={e => { if (e.target.value !== (m.tracking_number || '')) updateDelivery(m.id, m.delivery_status, e.target.value); }}
-                                                        sx={{ width: 120 }}
-                                                    />
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Chip label={m.is_active ? 'Active' : 'Inactive'} color={m.is_active ? 'success' : 'default'} size="small" />
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
+                                        {medications.map((m: any) => {
+                                            const statusColor: Record<string, 'default' | 'warning' | 'info' | 'success'> = {
+                                                on_the_way: 'warning',
+                                                in_transit: 'info',
+                                                delivered: 'success',
+                                            };
+                                            return (
+                                                <TableRow key={m.id} hover>
+                                                    <TableCell>
+                                                        <Typography variant="body2" fontWeight={700}>{m.name}</Typography>
+                                                        <Chip label={m.is_active ? 'Active' : 'Inactive'} color={m.is_active ? 'success' : 'default'} size="small" sx={{ mt: 0.5 }} />
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <Typography variant="body2">{m.dosage}</Typography>
+                                                        <Typography variant="caption" color="text.secondary">{m.frequency}</Typography>
+                                                    </TableCell>
+                                                    <TableCell sx={{ whiteSpace: 'nowrap' }}>
+                                                        <Typography variant="caption">{m.start_date}{m.end_date ? ` — ${m.end_date}` : ''}</Typography>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <FormControl size="small" sx={{ minWidth: 140 }}>
+                                                            <Select
+                                                                value={m.delivery_status || 'on_the_way'}
+                                                                onChange={e => updateDelivery(m.id, e.target.value as string, m.tracking_number)}
+                                                                renderValue={(val) => (
+                                                                    <Chip
+                                                                        label={val === 'on_the_way' ? 'On the Way' : val === 'nearest_local_facility' ? 'Nearest Local Facility' : 'Delivered'}
+                                                                        size="small"
+                                                                        color={statusColor[val] || 'default'}
+                                                                        sx={{ fontWeight: 700, textTransform: 'capitalize' }}
+                                                                    />
+                                                                )}
+                                                            >
+                                                                <MenuItem value="on_the_way">📦 On the Way</MenuItem>
+                                                                <MenuItem value="nearest_local_facility">🏢 Nearest Local Facility</MenuItem>
+                                                                <MenuItem value="delivered">✅ Delivered</MenuItem>
+                                                            </Select>
+                                                        </FormControl>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <TextField
+                                                            size="small"
+                                                            placeholder="Tracking #"
+                                                            defaultValue={m.tracking_number || ''}
+                                                            onBlur={e => { if (e.target.value !== (m.tracking_number || '')) updateDelivery(m.id, m.delivery_status, e.target.value); }}
+                                                            sx={{ width: 130 }}
+                                                        />
+                                                    </TableCell>
+                                                    <TableCell sx={{ maxWidth: 200 }}>
+                                                        <TextField
+                                                            size="small"
+                                                            multiline
+                                                            rows={2}
+                                                            placeholder="Prescription notes…"
+                                                            defaultValue={m.prescription || ''}
+                                                            onBlur={e => {
+                                                                if (e.target.value !== (m.prescription || '')) {
+                                                                    fetch('/api/medications', {
+                                                                        method: 'PUT',
+                                                                        headers: { 'Content-Type': 'application/json' },
+                                                                        body: JSON.stringify({ id: m.id, prescription: e.target.value, delivery_status: m.delivery_status, tracking_number: m.tracking_number }),
+                                                                    }).then(r => r.json()).then(data => {
+                                                                        if (data.medication) setMedications(prev => prev.map(x => x.id === m.id ? data.medication : x));
+                                                                    });
+                                                                }
+                                                            }}
+                                                            sx={{ width: '100%', fontSize: '0.8rem' }}
+                                                        />
+                                                    </TableCell>
+                                                </TableRow>
+                                            );
+                                        })}
                                     </TableBody>
                                 </Table>
                             </TableContainer>

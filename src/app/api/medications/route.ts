@@ -76,8 +76,9 @@ export async function POST(req: NextRequest) {
                 instructions: body.instructions,
                 start_date: body.start_date,
                 end_date: body.end_date,
-                delivery_status: body.delivery_status || 'pending',
+                delivery_status: body.delivery_status || 'on_the_way',
                 tracking_number: body.tracking_number,
+                prescription: body.prescription || null,
                 is_active: true,
             })
             .select()
@@ -116,15 +117,16 @@ export async function PUT(req: NextRequest) {
         const { data, error } = await supabaseAdmin
             .from('medications')
             .update({
-                name: body.name,
-                dosage: body.dosage,
-                frequency: body.frequency,
-                instructions: body.instructions,
-                start_date: body.start_date,
-                end_date: body.end_date,
-                delivery_status: body.delivery_status,
-                tracking_number: body.tracking_number,
-                is_active: body.is_active,
+                ...(body.name !== undefined && { name: body.name }),
+                ...(body.dosage !== undefined && { dosage: body.dosage }),
+                ...(body.frequency !== undefined && { frequency: body.frequency }),
+                ...(body.instructions !== undefined && { instructions: body.instructions }),
+                ...(body.start_date !== undefined && { start_date: body.start_date }),
+                ...(body.end_date !== undefined && { end_date: body.end_date }),
+                ...(body.delivery_status !== undefined && { delivery_status: body.delivery_status }),
+                ...(body.tracking_number !== undefined && { tracking_number: body.tracking_number }),
+                ...(body.is_active !== undefined && { is_active: body.is_active }),
+                ...(body.prescription !== undefined && { prescription: body.prescription }),
                 updated_at: new Date().toISOString(),
             })
             .eq('id', body.id)
