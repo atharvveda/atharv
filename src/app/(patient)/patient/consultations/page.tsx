@@ -7,8 +7,9 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-const statusColors: Record<string, 'warning' | 'success' | 'error' | 'default'> = {
+const statusColors: Record<string, 'warning' | 'success' | 'error' | 'info' | 'default'> = {
     scheduled: 'warning',
+    requested: 'info',
     completed: 'success',
     cancelled: 'error',
 };
@@ -32,13 +33,14 @@ export default function ConsultationsPage() {
     }
 
     const now = new Date();
+    const requested = consultations.filter(c => c.status === 'requested');
     const upcoming = consultations.filter(c => c.status === 'scheduled' && new Date(c.scheduled_at) >= now);
     const past = consultations.filter(c => c.status === 'completed' || (c.status === 'scheduled' && new Date(c.scheduled_at) < now));
     const cancelled = consultations.filter(c => c.status === 'cancelled');
 
     return (
         <Box>
-            <Typography variant="h4" gutterBottom sx={{ mb: 4, fontWeight: 'bold', color: 'primary.main' }}>
+            <Typography variant="h4" gutterBottom sx={{ mb: 4, fontWeight: 'bold', color: '#1B5E20' }}>
                 My Consultations
             </Typography>
 
@@ -50,12 +52,44 @@ export default function ConsultationsPage() {
                             No consultations yet.
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            Your doctor will schedule consultations for you.
+                            Request your first consultation using the button on the dashboard!
                         </Typography>
                     </Box>
                 </Paper>
             ) : (
                 <>
+                    {/* Requested / Pending Approval */}
+                    {requested.length > 0 && (
+                        <Box sx={{ mb: 4 }}>
+                            <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <VideoCameraFrontIcon color="info" /> Pending Requests
+                            </Typography>
+                            <Grid container spacing={2}>
+                                {requested.map((c: any) => (
+                                    <Grid size={{ xs: 12, md: 6 }} key={c.id}>
+                                        <Card sx={{ borderLeft: '4px solid #0288d1', bgcolor: 'rgba(2, 136, 209, 0.02)' }}>
+                                            <CardContent>
+                                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                                                    <Typography variant="h6">{c.title}</Typography>
+                                                    <Chip label="Requested" color="info" size="small" variant="outlined" sx={{ fontWeight: 'bold' }} />
+                                                </Box>
+                                                {c.description && <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>{c.description}</Typography>}
+                                                <Box sx={{ display: 'flex', gap: 2, mt: 1, flexWrap: 'wrap' }}>
+                                                    <Chip icon={<CalendarTodayIcon />} label={new Date(c.scheduled_at).toLocaleDateString()} size="small" variant="outlined" />
+                                                    <Chip icon={<AccessTimeIcon />} label={new Date(c.scheduled_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} size="small" variant="outlined" />
+                                                    <Chip label={c.consultation_type} size="small" color="primary" variant="outlined" />
+                                                </Box>
+                                                <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1.5, fontStyle: 'italic' }}>
+                                                    Wait for doctor approval. The time shown is your local time.
+                                                </Typography>
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Box>
+                    )}
+
                     {/* Upcoming */}
                     {upcoming.length > 0 && (
                         <Box sx={{ mb: 4 }}>

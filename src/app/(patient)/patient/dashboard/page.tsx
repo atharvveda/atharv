@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import {
     Typography, Paper, Box, Button, Divider, Chip, CircularProgress,
-    Grid, Avatar, Card, CardContent, alpha, useTheme
+    Grid, Avatar, Card, CardContent, alpha, useTheme, Dialog, DialogTitle,
+    DialogContent, DialogActions, TextField, MenuItem, Alert, Stack
 } from '@mui/material';
 import Link from 'next/link';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
@@ -68,14 +69,67 @@ const StatCard = ({ icon, title, value, color, delay }: { icon: any, title: stri
     </Card>
 );
 
+const DataChips = ({ value, label, color = '#1B5E20' }: { value: string, label: string, color?: string }) => {
+    if (!value) return (
+        <Box sx={{ mt: 1 }}>
+            <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 600, textTransform: 'uppercase', mb: 0.5, display: 'block' }}>{label}</Typography>
+            <Typography variant="body2" sx={{ color: 'text.disabled', fontStyle: 'italic' }}>Not specified</Typography>
+        </Box>
+    );
+
+    const chips = value.split(/[,;|]/).map(s => s.trim()).filter(Boolean);
+
+    return (
+        <Box sx={{ mt: 1.5 }}>
+            <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 600, textTransform: 'uppercase', mb: 1, display: 'block' }}>{label}</Typography>
+            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                {chips.map((chip, idx) => (
+                    <Chip
+                        key={idx}
+                        label={chip}
+                        size="small"
+                        sx={{
+                            borderRadius: 1.5,
+                            fontWeight: 600,
+                            bgcolor: alpha(color, 0.08),
+                            color: color,
+                            border: '1px solid',
+                            borderColor: alpha(color, 0.2),
+                            mb: 1
+                        }}
+                    />
+                ))}
+            </Stack>
+        </Box>
+    );
+};
+
 export default function DashboardPage() {
     const { user, isLoaded } = useUser();
     const theme = useTheme();
     const [stats, setStats] = useState<DashboardStats | null>(null);
     const [loading, setLoading] = useState(true);
 
+    // Consultation Request States
+    const [openRequest, setOpenRequest] = useState(false);
+    const [requestLoading, setRequestLoading] = useState(false);
+    const [requestError, setRequestError] = useState('');
+    const [requestSuccess, setRequestSuccess] = useState(false);
+    const [requestForm, setRequestForm] = useState({
+        title: 'General Consultation',
+        type: 'video',
+        datetime: '',
+        description: ''
+    });
+
     useEffect(() => {
         if (!isLoaded || !user) return;
+
+        refreshDashboard();
+    }, [isLoaded, user]);
+
+    const refreshDashboard = () => {
+        if (!user) return;
 
         Promise.all([
             fetch('/api/consultations').then(r => r.json()),
@@ -108,7 +162,50 @@ export default function DashboardPage() {
             });
             setLoading(false);
         }).catch(() => setLoading(false));
-    }, [isLoaded, user]);
+    };
+
+    const handleRequestSubmit = async () => {
+        if (!requestForm.datetime) {
+            setRequestError('Please select a date and time');
+            return;
+        }
+
+        setRequestLoading(true);
+        setRequestError('');
+
+        try {
+            // Logic: Capture local time (from patient in USA) and convert to ISO (UTC) string for storage
+            const utcDateTime = new Date(requestForm.datetime).toISOString();
+
+            const res = await fetch('/api/consultations', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: requestForm.title,
+                    consultation_type: requestForm.type,
+                    scheduled_at: utcDateTime,
+                    description: requestForm.description,
+                })
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                throw new Error(err.error || 'Failed to submit request');
+            }
+
+            setRequestSuccess(true);
+            setTimeout(() => {
+                setOpenRequest(false);
+                setRequestSuccess(false);
+                setRequestForm({ title: 'General Consultation', type: 'video', datetime: '', description: '' });
+                refreshDashboard();
+            }, 2000);
+        } catch (err: any) {
+            setRequestError(err.message);
+        } finally {
+            setRequestLoading(false);
+        }
+    };
 
     if (!isLoaded || loading) {
         return (
@@ -130,23 +227,24 @@ export default function DashboardPage() {
             {/* Header Section */}
             <Box sx={{
                 display: 'flex',
-                flexDirection: { xs: 'column', sm: 'row' },
-                alignItems: { xs: 'flex-start', sm: 'center' },
+                flexDirection: { xs: 'column', md: 'row' },
+                alignItems: { xs: 'center', md: 'center' },
                 justifyContent: 'space-between',
                 gap: 3,
-                mb: 6,
-                p: { xs: 2.5, sm: 4 },
+                mb: { xs: 4, md: 6 },
+                p: { xs: 3, md: 4 },
                 borderRadius: 5,
                 bgcolor: 'white',
                 boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
-                border: '1px solid rgba(0,0,0,0.04)'
+                border: '1px solid rgba(0,0,0,0.04)',
+                textAlign: { xs: 'center', md: 'left' }
             }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+                <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', gap: 3 }}>
                     <Avatar
                         src={genderAvatar}
                         sx={{
-                            width: { xs: 70, sm: 90 },
-                            height: { xs: 70, sm: 90 },
+                            width: { xs: 80, md: 90 },
+                            height: { xs: 80, md: 90 },
                             border: '4px solid #fff',
                             boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                             bgcolor: '#f0f4f0'
@@ -155,10 +253,10 @@ export default function DashboardPage() {
                         {user?.firstName?.charAt(0)}
                     </Avatar>
                     <Box>
-                        <Typography variant="h4" fontWeight="800" sx={{ color: '#1B5E20', mb: 0.5, letterSpacing: -0.5 }}>
+                        <Typography variant="h4" fontWeight="800" sx={{ color: '#1B5E20', mb: 0.5, letterSpacing: -0.5, fontSize: { xs: '1.75rem', md: '2.125rem' } }}>
                             Welcome back, {user?.firstName || 'Patient'}
                         </Typography>
-                        <Typography variant="body1" color="text.secondary" sx={{ fontWeight: 500 }}>
+                        <Typography variant="body1" color="text.secondary" sx={{ fontWeight: 500, fontSize: { xs: '0.9rem', md: '1rem' } }}>
                             A healthier life starts with small, daily steps.
                         </Typography>
                     </Box>
@@ -166,18 +264,20 @@ export default function DashboardPage() {
                 <Button
                     variant="contained"
                     startIcon={<VideoCameraFrontIcon />}
-                    component={Link}
-                    href="/patient/consultations"
+                    onClick={() => setOpenRequest(true)}
+                    fullWidth={false}
                     sx={{
                         borderRadius: 3,
-                        px: 3,
-                        py: 1.2,
+                        px: 4,
+                        py: 1.5,
                         bgcolor: '#1B5E20',
-                        '&:hover': { bgcolor: '#144517' },
-                        boxShadow: '0 8px 16px rgba(27, 94, 32, 0.2)'
+                        '&:hover': { bgcolor: '#144517', transform: 'translateY(-2px)' },
+                        boxShadow: '0 8px 16px rgba(27, 94, 32, 0.2)',
+                        transition: 'all 0.3s ease',
+                        width: { xs: '100%', md: 'auto' }
                     }}
                 >
-                    Book Appointment
+                    Request Consultation
                 </Button>
             </Box>
 
@@ -215,30 +315,24 @@ export default function DashboardPage() {
                             <Chip label="Verified Profile" color="success" size="small" variant="outlined" sx={{ fontWeight: 600, borderRadius: 1.5 }} />
                         </Box>
 
-                        <Grid container spacing={4}>
+                        <Grid container spacing={3}>
                             <Grid size={{ xs: 12, sm: 6 }}>
-                                <Box sx={{ p: 2, bgcolor: '#f9fbf9', borderRadius: 3 }}>
-                                    <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 600, textTransform: 'uppercase', mb: 1, display: 'block' }}>Primary Diagnosis</Typography>
-                                    <Typography variant="body1" fontWeight="700" color="primary.dark">{stats?.profile?.health_condition || 'Not specified'}</Typography>
+                                <Box sx={{ p: 2.5, bgcolor: alpha('#1B5E20', 0.03), borderRadius: 4, height: '100%', border: '1px solid', borderColor: alpha('#1B5E20', 0.05) }}>
+                                    <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, textTransform: 'uppercase', mb: 1, display: 'block', letterSpacing: 0.5 }}>Primary Diagnosis</Typography>
+                                    <Typography variant="body1" fontWeight="800" sx={{ color: '#1B5E20' }}>{stats?.profile?.health_condition || 'Loading...'}</Typography>
                                 </Box>
                             </Grid>
                             <Grid size={{ xs: 12, sm: 6 }}>
-                                <Box sx={{ p: 2, bgcolor: '#f9fbf9', borderRadius: 3 }}>
-                                    <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 600, textTransform: 'uppercase', mb: 1, display: 'block' }}>Clinical Status</Typography>
-                                    <Typography variant="body1" fontWeight="700" color="success.main">Stable & Active</Typography>
+                                <Box sx={{ p: 2.5, bgcolor: alpha('#4CAF50', 0.03), borderRadius: 4, height: '100%', border: '1px solid', borderColor: alpha('#4CAF50', 0.05) }}>
+                                    <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, textTransform: 'uppercase', mb: 1, display: 'block', letterSpacing: 0.5 }}>Clinical Status</Typography>
+                                    <Typography variant="body1" fontWeight="800" color="success.main">Stable & Active</Typography>
                                 </Box>
                             </Grid>
-                            <Grid size={{ xs: 12 }}>
-                                <Typography variant="subtitle2" sx={{ color: 'text.secondary', fontWeight: 700, mb: 1, mt: 1 }}>Family Medical History</Typography>
-                                <Typography variant="body1" sx={{ color: '#444', fontStyle: stats?.profile?.family_history ? 'normal' : 'italic' }}>
-                                    {stats?.profile?.family_history || 'No significant history shared.'}
-                                </Typography>
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                                <DataChips label="Family Medical History" value={stats?.profile?.family_history} color="#D32F2F" />
                             </Grid>
-                            <Grid size={{ xs: 12 }}>
-                                <Typography variant="subtitle2" sx={{ color: 'text.secondary', fontWeight: 700, mb: 1 }}>Previous Hospitalizations</Typography>
-                                <Typography variant="body1" sx={{ color: '#444' }}>
-                                    {stats?.profile?.hospitalization_history || 'No previous hospitalization records found.'}
-                                </Typography>
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                                <DataChips label="Previous Hospitalizations" value={stats?.profile?.hospitalization_history} color="#1976D2" />
                             </Grid>
                         </Grid>
                     </Paper>
@@ -260,22 +354,33 @@ export default function DashboardPage() {
                         <Divider sx={{ my: 2.5 }} />
 
                         {stats?.nextConsultation ? (
-                            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: { xs: 'flex-start', md: 'center' }, justifyContent: 'space-between', gap: 3 }}>
+                            <Box sx={{
+                                display: 'flex',
+                                flexDirection: { xs: 'column', md: 'row' },
+                                alignItems: { xs: 'stretch', md: 'center' },
+                                justifyContent: 'space-between',
+                                gap: 3,
+                                p: 2,
+                                borderRadius: 4,
+                                bgcolor: alpha(theme.palette.primary.main, 0.02),
+                                border: '1px solid',
+                                borderColor: alpha(theme.palette.primary.main, 0.05)
+                            }}>
                                 <Box>
-                                    <Typography variant="h6" fontWeight="700" sx={{ mb: 1 }}>{stats.nextConsultation.title}</Typography>
-                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+                                    <Typography variant="h6" fontWeight="800" sx={{ mb: 1, color: '#1B5E20' }}>{stats.nextConsultation.title}</Typography>
+                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
                                         <Chip
                                             icon={<CalendarTodayIcon sx={{ fontSize: '1rem !important' }} />}
                                             label={new Date(stats.nextConsultation.scheduled_at).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}
                                             variant="outlined"
                                             size="small"
-                                            sx={{ borderRadius: 1.5, fontWeight: 500 }}
+                                            sx={{ borderRadius: 1.5, fontWeight: 600, px: 0.5 }}
                                         />
                                         <Chip
                                             label={stats.nextConsultation.consultation_type}
                                             color="primary"
                                             size="small"
-                                            sx={{ textTransform: 'capitalize', fontWeight: 600, borderRadius: 1.5 }}
+                                            sx={{ textTransform: 'capitalize', fontWeight: 700, borderRadius: 1.5, px: 1 }}
                                         />
                                     </Box>
                                 </Box>
@@ -285,7 +390,14 @@ export default function DashboardPage() {
                                         href={stats.nextConsultation.meeting_link}
                                         target="_blank"
                                         endIcon={<ArrowForwardIosIcon sx={{ fontSize: '12px !important' }} />}
-                                        sx={{ borderRadius: 2.5, px: 3, bgcolor: '#1B5E20' }}
+                                        sx={{
+                                            borderRadius: 3,
+                                            px: 4,
+                                            py: 1.2,
+                                            bgcolor: '#1B5E20',
+                                            boxShadow: '0 6px 12px rgba(27, 94, 32, 0.15)',
+                                            width: { xs: '100%', md: 'auto' }
+                                        }}
                                     >
                                         Join Meeting
                                     </Button>
@@ -293,8 +405,14 @@ export default function DashboardPage() {
                             </Box>
                         ) : (
                             <Box sx={{ py: 3, textAlign: 'center' }}>
-                                <Typography variant="body1" color="text.secondary">No consultations scheduled for this week.</Typography>
-                                <Button variant="text" sx={{ mt: 1, color: '#1B5E20', fontWeight: 600 }}>Schedule Now</Button>
+                                <Typography variant="body1" color="text.secondary" fontWeight="500">No consultations scheduled for this week.</Typography>
+                                <Button
+                                    variant="outlined"
+                                    onClick={() => setOpenRequest(true)}
+                                    sx={{ mt: 2, color: '#1B5E20', borderColor: '#1B5E20', fontWeight: 700, borderRadius: 2 }}
+                                >
+                                    Schedule Now
+                                </Button>
                             </Box>
                         )}
                     </Paper>
@@ -325,21 +443,29 @@ export default function DashboardPage() {
                                         variant="outlined"
                                         sx={{
                                             justifyContent: 'flex-start',
-                                            py: 1.5,
-                                            px: 2,
-                                            borderRadius: 3,
-                                            borderColor: alpha(action.color, 0.2),
+                                            py: { xs: 1.8, md: 1.5 },
+                                            px: 2.5,
+                                            borderRadius: 3.5,
+                                            borderColor: alpha(action.color, 0.15),
                                             color: 'text.primary',
-                                            transition: 'all 0.2s',
+                                            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                            bgcolor: 'white',
                                             '&:hover': {
-                                                bgcolor: alpha(action.color, 0.04),
+                                                bgcolor: alpha(action.color, 0.05),
                                                 borderColor: action.color,
-                                                transform: 'scale(1.02)'
+                                                transform: 'translateX(6px)',
+                                                boxShadow: `0 4px 12px ${alpha(action.color, 0.1)}`
                                             }
                                         }}
-                                        startIcon={<Box sx={{ color: action.color, display: 'flex' }}>{action.icon}</Box>}
+                                        startIcon={<Box sx={{
+                                            color: action.color,
+                                            display: 'flex',
+                                            p: 1,
+                                            borderRadius: 2,
+                                            bgcolor: alpha(action.color, 0.05)
+                                        }}>{action.icon}</Box>}
                                     >
-                                        <Typography variant="body2" fontWeight="600">{action.label}</Typography>
+                                        <Typography variant="body2" fontWeight="700" sx={{ letterSpacing: 0.2 }}>{action.label}</Typography>
                                     </Button>
                                 ))}
                             </Box>
@@ -358,17 +484,91 @@ export default function DashboardPage() {
                                     <InfoIcon fontSize="small" />
                                     <Typography variant="subtitle2" fontWeight="800" sx={{ textTransform: 'uppercase', letterSpacing: 1 }}>Notice</Typography>
                                 </Box>
-                                <Typography variant="body2" sx={{ opacity: 0.9, lineHeight: 1.6 }}>
+                                <Typography variant="body2" sx={{ opacity: 0.9, lineHeight: 1.7, fontSize: '0.85rem' }}>
                                     Your records are strictly confidential and managed by Atharvveda Healthcare specialists. Contact our care team for any clinical updates.
                                 </Typography>
                             </Box>
-                            <Box sx={{ position: 'absolute', bottom: -20, right: -20, opacity: 0.1 }}>
-                                <HealthAndSafetyIcon sx={{ fontSize: 120 }} />
+                            <Box sx={{ position: 'absolute', bottom: -15, right: -15, opacity: 0.15 }}>
+                                <HealthAndSafetyIcon sx={{ fontSize: 100 }} />
                             </Box>
                         </Box>
                     </Box>
                 </Grid>
             </Grid>
+
+            {/* Request Consultation Dialog */}
+            <Dialog open={openRequest} onClose={() => !requestLoading && setOpenRequest(false)} maxWidth="sm" fullWidth>
+                <DialogTitle sx={{ fontWeight: 'bold', color: '#1B5E20' }}>Request a Consultation</DialogTitle>
+                <DialogContent dividers>
+                    {requestSuccess ? (
+                        <Alert severity="success" sx={{ mb: 2 }}>Request submitted successfully! We will confirm your visit shortly.</Alert>
+                    ) : (
+                        <Grid container spacing={3} sx={{ mt: 0.5 }}>
+                            {requestError && (
+                                <Grid size={{ xs: 12 }}>
+                                    <Alert severity="error">{requestError}</Alert>
+                                </Grid>
+                            )}
+                            <Grid size={{ xs: 12 }}>
+                                <TextField
+                                    label="Purpose of Visit"
+                                    fullWidth
+                                    value={requestForm.title}
+                                    onChange={(e) => setRequestForm({ ...requestForm, title: e.target.value })}
+                                />
+                            </Grid>
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                                <TextField
+                                    select
+                                    label="Consultation Type"
+                                    fullWidth
+                                    value={requestForm.type}
+                                    onChange={(e) => setRequestForm({ ...requestForm, type: e.target.value })}
+                                >
+                                    <MenuItem value="video">Video Call</MenuItem>
+                                    <MenuItem value="physical">Physical Visit</MenuItem>
+                                </TextField>
+                            </Grid>
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                                <TextField
+                                    label="Date & Time (Local)"
+                                    type="datetime-local"
+                                    fullWidth
+                                    InputLabelProps={{ shrink: true }}
+                                    value={requestForm.datetime}
+                                    onChange={(e) => setRequestForm({ ...requestForm, datetime: e.target.value })}
+                                />
+                            </Grid>
+                            <Grid size={{ xs: 12 }}>
+                                <TextField
+                                    label="Symptoms or Notes"
+                                    fullWidth
+                                    multiline
+                                    rows={3}
+                                    value={requestForm.description}
+                                    onChange={(e) => setRequestForm({ ...requestForm, description: e.target.value })}
+                                />
+                            </Grid>
+                            <Grid size={{ xs: 12 }}>
+                                <Typography variant="caption" color="text.secondary">
+                                    Note: Please select the time in your <strong>local timezone</strong>. Our doctors in India will coordinate based on this selection.
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                    )}
+                </DialogContent>
+                <DialogActions sx={{ p: 2.5 }}>
+                    <Button onClick={() => setOpenRequest(false)} disabled={requestLoading}>Cancel</Button>
+                    <Button
+                        variant="contained"
+                        onClick={handleRequestSubmit}
+                        disabled={requestLoading || requestSuccess}
+                        sx={{ bgcolor: '#1B5E20', '&:hover': { bgcolor: '#144517' } }}
+                    >
+                        {requestLoading ? <CircularProgress size={24} color="inherit" /> : 'Submit Request'}
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Box>
     );
 }

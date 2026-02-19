@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
     }
 }
 
-// POST: Doctor creates a consultation
+// POST: Doctor schedules OR Patient requests a consultation
 export async function POST(req: NextRequest) {
     const { userId, sessionClaims } = await auth();
     if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -67,24 +67,28 @@ export async function POST(req: NextRequest) {
         }
     }
 
-    if (role !== 'admin') {
+    if (role !== 'admin' && role !== 'patient') {
         return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     try {
         const body = await req.json();
+
+        // Security: Patient can only create a 'requested' consultation for themselves
+        const insertData = {
+            patient_clerk_id: role === 'patient' ? userId : body.patient_clerk_id,
+            title: body.title,
+            description: body.description,
+            consultation_type: body.consultation_type || 'video',
+            status: role === 'patient' ? 'requested' : (body.status || 'scheduled'),
+            scheduled_at: body.scheduled_at,
+            duration_minutes: body.duration_minutes || 30,
+            meeting_link: role === 'patient' ? null : body.meeting_link,
+        };
+
         const { data, error } = await supabaseAdmin
             .from('consultations')
-            .insert({
-                patient_clerk_id: body.patient_clerk_id,
-                title: body.title,
-                description: body.description,
-                consultation_type: body.consultation_type || 'video',
-                status: body.status || 'scheduled',
-                scheduled_at: body.scheduled_at,
-                duration_minutes: body.duration_minutes || 30,
-                meeting_link: body.meeting_link,
-            })
+            .insert(insertData)
             .select()
             .single();
 
@@ -118,26 +122,42 @@ export async function PUT(req: NextRequest) {
 
     try {
         const body = await req.json();
+        const { id, ...updates } = body;
+
+        if (!id) {
+            return NextResponse.json({ error: 'Missing consultation ID' }, { status: 400 });
+        }
+
+        // Build update object dynamically to avoid over-writing with undefined/null
+        const updateData: any = {
+            updated_at: new Date().toISOString(),
+        };
+
+        const allowedFields = [
+            'title', 'description', 'consultation_type', 'status',
+            'scheduled_at', 'duration_minutes', 'doctor_remarks', 'meeting_link'
+        ];
+
+        allowedFields.forEach(field => {
+            if (updates[field] !== undefined) {
+                updateData[field] = updates[field];
+            }
+        });
+
         const { data, error } = await supabaseAdmin
             .from('consultations')
-            .update({
-                title: body.title,
-                description: body.description,
-                consultation_type: body.consultation_type,
-                status: body.status,
-                scheduled_at: body.scheduled_at,
-                duration_minutes: body.duration_minutes,
-                doctor_remarks: body.doctor_remarks,
-                meeting_link: body.meeting_link,
-                updated_at: new Date().toISOString(),
-            })
-            .eq('id', body.id)
+            .update(updateData)
+            .eq('id', id)
             .select()
             .single();
 
-        if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+        if (error) {
+            console.error('Supabase Update Error:', error);
+            return NextResponse.json({ error: error.message }, { status: 500 });
+        }
         return NextResponse.json({ consultation: data });
-    } catch (e) {
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    } catch (e: any) {
+        console.error('Consultations PUT Error:', e);
+        return NextResponse.json({ error: 'Internal Server Error', details: e.message }, { status: 500 });
     }
 }
