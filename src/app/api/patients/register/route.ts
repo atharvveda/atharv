@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
         // 1. Check if already exists in Supabase
         const { data: existing } = await supabaseAdmin
             .from('patient_profiles')
-            .select('id')
+            .select('*')
             .eq('clerk_id', userId)
             .single();
 
@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
             await clerk.users.updateUserMetadata(userId, {
                 publicMetadata: { role: 'patient' }
             });
-            return NextResponse.json({ message: 'Profile already exists', exists: true });
+            return NextResponse.json({ patient: existing, exists: true });
         }
 
         // 2. Create new profile in Supabase

@@ -36,17 +36,22 @@ export default function SupportPage() {
         if (!subject.trim() || !message.trim()) return;
         setSubmitting(true);
         try {
-            await fetch('/api/support', {
+            const res = await fetch('/api/support', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ subject, message }),
             });
-            setSubject('');
-            setMessage('');
-            setSnackbar({ open: true, msg: 'Ticket submitted successfully!', type: 'success' });
-            fetchTickets();
+            const data = await res.json();
+            if (!res.ok) {
+                setSnackbar({ open: true, msg: data.error || 'Failed to submit ticket', type: 'error' });
+            } else {
+                setSubject('');
+                setMessage('');
+                setSnackbar({ open: true, msg: 'Ticket submitted successfully!', type: 'success' });
+                fetchTickets();
+            }
         } catch {
-            setSnackbar({ open: true, msg: 'Failed to submit ticket', type: 'error' });
+            setSnackbar({ open: true, msg: 'Network error — please try again', type: 'error' });
         }
         setSubmitting(false);
     };

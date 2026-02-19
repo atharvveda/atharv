@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled, useTheme, alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -23,7 +23,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 
-const drawerWidth = 240;
+const drawerWidth = 260;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
     open?: boolean;
@@ -35,6 +35,8 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
         duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: `-${drawerWidth}px`,
+    backgroundColor: '#f5f7fa',
+    minHeight: '100vh',
     ...(open && {
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.easeOut,
@@ -51,6 +53,8 @@ interface AppBarProps extends MuiAppBarProps {
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
 })<AppBarProps>(({ theme, open }) => ({
+    background: 'linear-gradient(135deg, #1a5632 0%, #2e7d4a 50%, #1b5e20 100%)',
+    boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
     transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -69,7 +73,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'space-between',
 }));
@@ -91,13 +94,10 @@ export default function DashboardLayout({ children, title, menuItems }: Dashboar
     const [open, setOpen] = React.useState(true);
     const pathname = usePathname();
 
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
+    const handleDrawerOpen = () => setOpen(true);
+    const handleDrawerClose = () => setOpen(false);
 
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
+    const isActive = (href: string) => pathname === href || pathname?.startsWith(href + '/');
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -113,7 +113,7 @@ export default function DashboardLayout({ children, title, menuItems }: Dashboar
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+                    <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, fontWeight: 600, letterSpacing: 0.5 }}>
                         {title}
                     </Typography>
                     <SignedIn>
@@ -131,6 +131,8 @@ export default function DashboardLayout({ children, title, menuItems }: Dashboar
                     '& .MuiDrawer-paper': {
                         width: drawerWidth,
                         boxSizing: 'border-box',
+                        background: 'linear-gradient(180deg, #fafdf7 0%, #f0f5ec 100%)',
+                        borderRight: '1px solid rgba(0,0,0,0.06)',
                     },
                 }}
                 variant="persistent"
@@ -139,24 +141,50 @@ export default function DashboardLayout({ children, title, menuItems }: Dashboar
             >
                 <DrawerHeader>
                     <Box sx={{ display: 'flex', alignItems: 'center', pl: 1 }}>
-                        <Image src="/assets/images/New-Logo.png" alt="Logo" width={120} height={40} style={{ objectFit: 'contain' }} />
+                        <Image src="/assets/images/New-Logo.png" alt="Logo" width={130} height={44} style={{ objectFit: 'contain' }} />
                     </Box>
                     <IconButton onClick={handleDrawerClose}>
                         {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
-                <List>
-                    {menuItems.map((item) => (
-                        <ListItem key={item.label} disablePadding>
-                            <ListItemButton component={Link} href={item.href} selected={pathname === item.href || pathname?.startsWith(item.href + '/')}>
-                                <ListItemIcon>
-                                    {item.icon}
-                                </ListItemIcon>
-                                <ListItemText primary={item.label} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
+                <List sx={{ px: 1, pt: 1 }}>
+                    {menuItems.map((item) => {
+                        const active = isActive(item.href);
+                        return (
+                            <ListItem key={item.label} disablePadding sx={{ mb: 0.5 }}>
+                                <ListItemButton
+                                    component={Link}
+                                    href={item.href}
+                                    selected={active}
+                                    sx={{
+                                        borderRadius: 2,
+                                        mx: 0.5,
+                                        py: 1.2,
+                                        transition: 'all 0.2s ease',
+                                        ...(active && {
+                                            bgcolor: alpha('#1b5e20', 0.12),
+                                            color: '#1b5e20',
+                                            '& .MuiListItemIcon-root': { color: '#1b5e20' },
+                                            borderLeft: '3px solid #1b5e20',
+                                        }),
+                                        '&:hover': {
+                                            bgcolor: alpha('#1b5e20', 0.06),
+                                            transform: 'translateX(2px)',
+                                        },
+                                    }}
+                                >
+                                    <ListItemIcon sx={{ minWidth: 40 }}>
+                                        {item.icon}
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        primary={item.label}
+                                        primaryTypographyProps={{ fontWeight: active ? 600 : 400, fontSize: '0.9rem' }}
+                                    />
+                                </ListItemButton>
+                            </ListItem>
+                        );
+                    })}
                 </List>
             </Drawer>
             <Main open={open}>

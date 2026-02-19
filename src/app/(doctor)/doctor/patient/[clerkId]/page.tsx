@@ -10,6 +10,9 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 interface TabPanelProps { children?: React.ReactNode; index: number; value: number; }
 function TabPanel({ children, value, index }: TabPanelProps) {
@@ -25,6 +28,8 @@ export default function PatientDetailPage() {
 
     // Diet state
     const [diet, setDiet] = useState<any[]>([]);
+    const [dietPdfs, setDietPdfs] = useState<any[]>([]);
+    const [pdfUploading, setPdfUploading] = useState(false);
     const [dietForm, setDietForm] = useState({ meal_type: 'breakfast', items: '', instructions: '' });
 
     // Medications state
@@ -41,6 +46,13 @@ export default function PatientDetailPage() {
         setSnackbar({ open: true, msg, type });
     };
 
+    const fetchPdfs = () => {
+        fetch(`/api/diet/pdf?patientClerkId=${clerkId}`)
+            .then(r => r.json())
+            .then(data => setDietPdfs(data.files || []))
+            .catch(() => { });
+    };
+
     useEffect(() => {
         Promise.all([
             fetch(`/api/patients?clerkId=${clerkId}`).then(r => r.json()),
@@ -54,7 +66,41 @@ export default function PatientDetailPage() {
             setConsultations(consRes.consultations || []);
             setLoading(false);
         }).catch(() => setLoading(false));
+        fetchPdfs();
     }, [clerkId]);
+
+    const handlePdfUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        if (file.type !== 'application/pdf') {
+            showAlert('Only PDF files are allowed', 'error');
+            return;
+        }
+        setPdfUploading(true);
+        try {
+            const fd = new FormData();
+            fd.append('file', file);
+            fd.append('patientClerkId', clerkId);
+            const res = await fetch('/api/diet/pdf', { method: 'POST', body: fd });
+            const data = await res.json();
+            if (res.ok) {
+                showAlert('Diet plan PDF uploaded successfully');
+                fetchPdfs();
+            } else {
+                showAlert(data.error || 'Upload failed', 'error');
+            }
+        } catch {
+            showAlert('Upload failed — network error', 'error');
+        }
+        setPdfUploading(false);
+        e.target.value = '';
+    };
+
+    const deletePdf = async (path: string) => {
+        await fetch(`/api/diet/pdf?path=${encodeURIComponent(path)}`, { method: 'DELETE' });
+        showAlert('PDF removed');
+        fetchPdfs();
+    };
 
     // --- Diet Actions ---
     const addDiet = async () => {
@@ -171,6 +217,54 @@ export default function PatientDetailPage() {
                         </Grid>
 
                         <Divider sx={{ my: 3 }} />
+
+                        {/* PDF Upload Section */}
+                        <Box sx={{ mb: 3, p: 2.5, border: '2px dashed', borderColor: 'primary.light', borderRadius: 2, bgcolor: 'primary.50' }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                    <PictureAsPdfIcon color="error" />
+                                    <Typography variant="subtitle1" fontWeight="bold">Diet Plan PDF</Typography>
+                                </Box>
+                                <Button
+                                    component="label"
+                                    variant="contained"
+                                    size="small"
+                                    startIcon={<UploadFileIcon />}
+                                    disabled={pdfUploading}
+                                >
+                                    {pdfUploading ? 'Uploading...' : 'Upload PDF'}
+                                    <input type="file" hidden accept="application/pdf" onChange={handlePdfUpload} />
+                                </Button>
+                            </Box>
+                            {dietPdfs.length > 0 && (
+                                <Box sx={{ mt: 1.5 }}>
+                                    {dietPdfs.map((pdf: any, i: number) => (
+                                        <Box key={i} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', py: 0.75, borderBottom: '1px solid', borderColor: 'divider' }}>
+                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                <PictureAsPdfIcon fontSize="small" color="error" />
+                                                <Typography variant="body2">{pdf.name.replace(/^\d+-/, '')}</Typography>
+                                            </Box>
+                                            <Box sx={{ display: 'flex', gap: 0.5 }}>
+                                                {pdf.url && (
+                                                    <IconButton size="small" href={pdf.url} target="_blank" color="primary">
+                                                        <OpenInNewIcon fontSize="small" />
+                                                    </IconButton>
+                                                )}
+                                                <IconButton size="small" color="error" onClick={() => deletePdf(`${clerkId}/${pdf.name}`)}>
+                                                    <DeleteIcon fontSize="small" />
+                                                </IconButton>
+                                            </Box>
+                                        </Box>
+                                    ))}
+                                </Box>
+                            )}
+                            {dietPdfs.length === 0 && (
+                                <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>No PDFs uploaded yet. Upload a diet plan for this patient.</Typography>
+                            )}
+                        </Box>
+
+                        <Divider sx={{ my: 2 }} />
+                        <Typography variant="subtitle1" fontWeight="bold" sx={{ mb: 1 }}>Diet Entries</Typography>
 
                         {diet.length === 0 ? (
                             <Typography color="text.secondary">No diet entries yet.</Typography>
