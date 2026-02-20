@@ -17,9 +17,7 @@ export default function PatientLoginPage() {
             const role = user?.publicMetadata?.role as string | undefined;
             // If they are a patient OR have no role yet (auto-reg will handle it), send to dashboard
             if (!role || role === "patient") {
-                const hostname = window.location.hostname;
-                const isLocal = hostname === "localhost" || hostname === "127.0.0.1";
-                const target = isLocal ? "/patient/dashboard" : "https://patient.atharvveda.us";
+                const target = "/patient/dashboard";
 
                 // Small delay to ensure state is settled
                 setTimeout(() => router.push(target), 500);

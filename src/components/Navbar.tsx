@@ -21,23 +21,20 @@ function AuthButton() {
 
     const role = user?.publicMetadata?.role as string | undefined;
 
-    // Determine dashboard URL based on role and environment.
+    // Determine dashboard URL based on role.
     // Default to '/' so users without a recognized role land on the homepage.
     let dashboardUrl = '/';
 
-    const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
-    const isLocal = hostname === 'localhost' || hostname === '127.0.0.1';
-
     if (role === 'admin') {
-        dashboardUrl = isLocal ? '/doctor/dashboard' : 'https://doctor.atharvveda.us';
+        dashboardUrl = '/doctor/dashboard';
     } else if (role === 'patient') {
-        dashboardUrl = isLocal ? '/patient/dashboard' : 'https://patient.atharvveda.us';
+        dashboardUrl = '/patient/dashboard';
     }
 
     return (
-        <a href={dashboardUrl} className="nav-link-btn" style={{ fontWeight: 600 }}>
+        <Link href={dashboardUrl} className="nav-link-btn" style={{ fontWeight: 600 }}>
             Dashboard
-        </a>
+        </Link>
     );
 }
 

@@ -18,10 +18,7 @@ export default function DoctorLoginPage() {
             // For doctors, we expect the 'admin' role to be set by an administrator 
             // but we allow them to reach the dashboard if metadata is pending.
             if (!role || role === "admin") {
-                const hostname = window.location.hostname;
-                const isLocal = hostname === "localhost" || hostname === "127.0.0.1";
-                const target = isLocal ? "/doctor/dashboard" : "https://doctor.atharvveda.us";
-
+                const target = "/doctor/dashboard";
                 setTimeout(() => router.push(target), 500);
             } else if (role === "patient") {
                 router.push("/patient/dashboard");
