@@ -45,26 +45,24 @@ const CareSlider = () => {
                             prevEl: ".ayur-care-slider-sec .swiper-button-prev",
                         }}
                         breakpoints={{
-                            1800: { slidesPerView: 8, spaceBetween: 30 },
-                            1600: { slidesPerView: 8, spaceBetween: 10 },
-                            1199: { slidesPerView: 8, spaceBetween: 0 },
-                            1024: { slidesPerView: 7, spaceBetween: 0 },
-                            991: { slidesPerView: 6, spaceBetween: 0 },
-                            767: { slidesPerView: 5, spaceBetween: 0 },
-                            600: { slidesPerView: 4, spaceBetween: 0 },
-                            460: { slidesPerView: 3, spaceBetween: 0 },
-                            0: { slidesPerView: 2, spaceBetween: 0 },
+                            1800: { slidesPerView: 5, spaceBetween: 30 },
+                            1400: { slidesPerView: 4, spaceBetween: 25 },
+                            1024: { slidesPerView: 4, spaceBetween: 20 },
+                            991: { slidesPerView: 3, spaceBetween: 20 },
+                            767: { slidesPerView: 2, spaceBetween: 15 },
+                            460: { slidesPerView: 2, spaceBetween: 15 },
+                            0: { slidesPerView: 1.2, spaceBetween: 10 },
                         }}
                         className="ayur-care-slider"
                     >
                         {careItems.map((item, index) => (
                             <SwiperSlide key={index}>
-                                <div className="ayur-careslide-box">
-                                    <Link href={item.link} className="ayur-btn">Learn More</Link>
-                                    <div className="ayur-careslider-img">
-                                        <NextImage src={item.img} alt={item.title} width={200} height={200} style={{ width: '100%', height: 'auto' }} />
+                                <div className="ayur-careslide-box" style={{ padding: "10px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                                    <div className="ayur-careslider-img" style={{ position: "relative", width: "100%", maxWidth: "200px", margin: "0 auto", overflow: "hidden", borderRadius: "50%" }}>
+                                        <NextImage src={item.img} alt={item.title} width={200} height={200} style={{ width: '100%', height: 'auto', aspectRatio: "1/1", objectFit: "cover" }} />
                                     </div>
-                                    <h3>{item.title}</h3>
+                                    <h3 style={{ marginTop: "15px", marginBottom: "15px", fontWeight: "600" }}>{item.title}</h3>
+                                    <Link href={item.link} className="ayur-btn" style={{ minWidth: "120px", padding: "8px 20px", fontSize: "0.9rem", minHeight: "auto" }}>Learn More</Link>
                                 </div>
                             </SwiperSlide>
                         ))}

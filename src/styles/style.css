@@ -21,21 +21,21 @@ html {
   overflow-x: hidden;
 }
 :root {
-  --ayur-primary-color: #cd8973;
+  --ayur-primary-color: #CD7A5E;
   --ayur-white-color: #ffffff;
-  --ayur-primary-light: #d6cdca;
-  --ayur-banheading-color: #222222;
-  --ayur-heading-color: #000;
-  --ayur-para-color: #797979;
-  --ayur-text-color: #ababab;
-  --ayur-testpara-bgcolor: #fcf9f8;
-  --ayur-border-color: #ffebe4;
-  --ayur-borderbox-color: #f0f0f0;
-  --ayur-checkbox-label-color: #e0e7ef;
-  --ayur-formtext-color: #dbd1d9;
-  --ayur-footer-bg: #220f08;
-  --ayur-footertext-color: #e4d4cf;
-  --ayur-primary-lightcolor: #f6f1ed;
+  --ayur-primary-light: #E0D4CE;
+  --ayur-banheading-color: #1A362D;
+  --ayur-heading-color: #11261F;
+  --ayur-para-color: #5C6B66;
+  --ayur-text-color: #8C9994;
+  --ayur-testpara-bgcolor: #F7F5F2;
+  --ayur-border-color: #EAE3DE;
+  --ayur-borderbox-color: #EAE3DE;
+  --ayur-checkbox-label-color: #E0D4CE;
+  --ayur-formtext-color: #A3ACA8;
+  --ayur-footer-bg: #11261F;
+  --ayur-footertext-color: #D3DACF;
+  --ayur-primary-lightcolor: #F4F0EB;
 }
 
 body {
@@ -43,14 +43,15 @@ body {
   transition: all 0.3s;
   -webkit-transition: all 0.3s;
   -o-transition: all 0.3s;
-  line-height: 1.5;
-  background-color: #fdffff;
+  line-height: 1.6;
+  background-color: #FCFBF8;
   box-shadow: none;
   font-size: 16px;
   font-weight: 400;
   scroll-behavior: smooth;
   position: relative;
   overflow-x: hidden;
+  color: var(--ayur-para-color);
 }
 
 h1,
@@ -248,24 +249,28 @@ button.ayur-btn,
 input.ayur-btn {
   min-width: 145px;
   max-width: 100%;
-  border-radius: 22px;
+  border-radius: 50px;
   background-color: var(--ayur-primary-color);
   min-height: 45px;
-  border: 1px solid #f2efec;
+  border: 1px solid transparent;
   font-size: 16px;
   color: var(--ayur-white-color);
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 0.3px;
   text-align: center;
   text-transform: capitalize;
   display: inline-block;
-  padding: 9px 0;
+  padding: 10px 24px;
   position: relative;
   overflow: hidden;
   z-index: 1;
-  transition: box-shadow 0.5s;
   font-family: var(--font-inter);
-  overflow: hidden;
-  transition: all 0.3s linear;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.ayur-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
 }
 .ayur-btn::after {
   position: absolute;
@@ -588,7 +593,7 @@ li.ayur-has-menu a svg {
   background-size: cover;
   background-repeat: no-repeat;
   padding: 116px 0 103px;
-  margin-bottom: 207px;
+  margin-bottom: 0;
 }
 .ayur-banner-section::before {
   position: absolute;
@@ -614,7 +619,7 @@ li.ayur-has-menu a svg {
 }
 .ayur-banner-slider-sec {
   padding: 7px 0 0;
-  margin: 0 auto -230px;
+  margin: 0 auto;
   max-width: 1030px;
 }
 .ayur-banner-heading {
@@ -2658,3 +2663,107 @@ tr.ayur-cartsubtotal td {
   color: white;
 }
 /* Kidney section css End */
+
+/* ========================================
+   PREMIUM SECTION COLOR OVERRIDES
+   ======================================== */
+
+/* Achievement Section — on Deep Forest Green */
+.ayur-achievement-sec {
+  background-image: none !important;
+}
+.ayur-achievement-sec .ayur-heading-wrap h5 {
+  color: #CD7A5E !important;
+}
+.ayur-achievement-sec .ayur-heading-wrap h3 {
+  color: #ffffff !important;
+}
+.ayur-achievement-sec .ayur-achieve-box {
+  background: rgba(255,255,255,0.07) !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+  backdrop-filter: blur(4px);
+}
+.ayur-achievement-sec .ayur-achieve-text h2 {
+  color: #ffffff !important;
+}
+.ayur-achievement-sec .ayur-achieve-text p {
+  color: rgba(255,255,255,0.75) !important;
+}
+.ayur-achievement-sec .ayur-achieve-text {
+  border-left: 1px solid rgba(255,255,255,0.15) !important;
+}
+
+/* WhySection — on Deep Teal gradient */
+.ayur-why-sec {
+  background: none !important;
+}
+.ayur-why-head h5 {
+  color: #CD7A5E !important;
+}
+.ayur-why-head h3 {
+  color: #ffffff !important;
+}
+.ayur-why-box {
+  background: rgba(255,255,255,0.07) !important;
+  border: 1px solid rgba(255,255,255,0.12) !important;
+  backdrop-filter: blur(4px);
+}
+.ayur-why-box h4 {
+  color: #ffffff !important;
+}
+.ayur-why-box p {
+  color: rgba(255,255,255,0.75) !important;
+}
+.ayur-why-box:hover {
+  background: rgba(255,255,255,0.12) !important;
+  transform: translateY(-5px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2) !important;
+}
+
+/* Care Slider — on Warm Linen */
+.ayur-care-slider-wrapper .ayur-banner-heading h2 {
+  color: #1A362D !important;
+}
+.ayur-care-slider-wrapper .ayur-banner-heading h2 span {
+  color: #CD7A5E !important;
+}
+.ayur-care-slider-wrapper .ayur-banner-heading p {
+  color: #5C6B66 !important;
+}
+.ayur-careslide-box h3 {
+  color: #1A362D !important;
+}
+
+/* Team Section — on Sage Cream */
+.ayur-team-sec {
+  background: none !important;
+}
+.ayur-team-box {
+  background: #ffffff !important;
+  border: 1px solid #D8EBE2 !important;
+  box-shadow: 0 4px 20px rgba(26, 54, 45, 0.06) !important;
+}
+.ayur-team-box:hover {
+  box-shadow: 0 8px 32px rgba(26, 54, 45, 0.12) !important;
+  transform: translateY(-4px);
+}
+
+/* Testimonial — on Parchment */
+.ayur-testimonial-sec {
+  background: none !important;
+}
+
+/* Heading overrides — premium look on light sections */
+.ayur-heading-wrap h5 {
+  color: #CD7A5E;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+.ayur-heading-wrap h3 {
+  color: var(--ayur-banheading-color);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+

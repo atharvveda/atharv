@@ -46,63 +46,78 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
       />
 
-      {/* Hero Section - No extra spacing needed as it tops the page */}
+      {/* Hero Section */}
       <Banner />
 
-      {/* Social Proof - Increased spacing for authority breathability */}
-      <div style={{ padding: "60px 0" }}>
+      {/* 1. Achievement Stats — Deep Forest Green */}
+      <div style={{ background: "linear-gradient(135deg, #1A362D 0%, #254D3E 100%)" }}>
         <AchievementSection />
       </div>
 
-      {/* Funnel - Disease Hubs - Clear separation */}
-      <div style={{ padding: "80px 0", background: "#fdfdfd" }}>
+      {/* 2. Care Slider — Warm Linen */}
+      <div style={{ background: "#F5EFE6" }}>
         <CareSlider />
       </div>
 
-      {/* Institutional Definition & About - Premium feel */}
-      <div style={{ padding: "100px 0" }}>
+      {/* 3. About Section — Pure White */}
+      <div style={{ background: "#FFFFFF" }}>
         <AboutSection />
       </div>
 
-      {/* Value Proposition - Differentiator */}
-      <div style={{ padding: "80px 0", background: "#fff" }}>
+      {/* 4. Why Us — Deep Teal */}
+      <div style={{ background: "linear-gradient(160deg, #0D2B22 0%, #1A4035 100%)" }}>
         <WhySection />
       </div>
 
-      {/* Authority - Real Doctors */}
-      <div style={{ padding: "80px 0" }}>
+      {/* 5. Team Section — Soft Sage Cream */}
+      <div style={{ background: "#EEF5F0" }}>
         <TeamSection />
       </div>
 
-      {/* Safety / Verification Section (New YMYL Trust Signal) */}
-      <section style={{ background: "#e0f2f1", padding: "60px 0" }}>
+      {/* 6. Medical Guidance — Rich Copper gradient */}
+      <section style={{ background: "linear-gradient(135deg, #7B3F2A 0%, #A0522D 100%)", padding: "80px 0" }}>
         <div className="container">
           <div className="row justify-content-center text-center">
             <div className="col-lg-8">
-              <h3 style={{ color: "#00695c", fontWeight: 700, fontSize: "1.5rem" }}>When to See a Doctor?</h3>
-              <p style={{ fontSize: "1.1rem", color: "#333", marginTop: "15px" }}>
-                Early detection of kidney issues is critical. If you notice persistent fatigue, swelling in ankles,
-                or changes in urination, consult a specialist immediately. Our Ayurvedic approach works best when integrated early
-                alongside your standard medical care monitoring.
+              <div style={{
+                display: "inline-flex", alignItems: "center", justifyContent: "center",
+                width: "70px", height: "70px", borderRadius: "50%",
+                background: "rgba(255,255,255,0.15)", marginBottom: "25px",
+                color: "#ffffff", boxShadow: "0 0 0 10px rgba(255,255,255,0.05)"
+              }}>
+                <svg width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                  <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                </svg>
+              </div>
+              <h3 style={{ color: "#FFFFFF", fontWeight: 800, fontSize: "2rem", letterSpacing: "-0.5px" }}>Medical Guidance</h3>
+              <p style={{ fontSize: "1.1rem", color: "rgba(255,255,255,0.85)", marginTop: "20px", lineHeight: "1.9", maxWidth: "700px", margin: "20px auto 0" }}>
+                Early detection is critical in chronic care. If you experience persistent fatigue, sudden swelling,
+                or changes in urination, please consult a healthcare specialist immediately. Our Ayurvedic approach
+                is most effective when integrated thoughtfully alongside standard medical monitoring.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Social Proof - Testimonials */}
-      <div style={{ padding: "100px 0" }}>
+      {/* 7. Testimonials — Warm Parchment */}
+      <div style={{ background: "#FAF6F1" }}>
         <TestimonialSection />
       </div>
 
-      {/* NEW: Blog Preview - Content Authority */}
-      <HomeBlogSection />
+      {/* 8. Blog — Mint Tint */}
+      <div style={{ background: "#F0F4F0" }}>
+        <HomeBlogSection />
+      </div>
 
-      {/* Authority - FAQ Schema */}
-      <HomeFAQ />
+      {/* 9. FAQ — Clean White */}
+      <div style={{ background: "#FFFFFF" }}>
+        <HomeFAQ />
+      </div>
 
-      {/* Conversion - Bottom Form - Final Destination */}
-      <div style={{ marginTop: "0" }}>
+      {/* 10. Enquiry Form — Forest Anchor Green */}
+      <div style={{ background: "linear-gradient(180deg, #1A362D 0%, #0D2218 100%)" }}>
         <EnquiryForm />
       </div>
 
