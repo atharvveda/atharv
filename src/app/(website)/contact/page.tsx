@@ -53,11 +53,13 @@ export default function Contact() {
                 <div className="container">
                     <div className="ayur-contactpage-box">
                         <div className="ayur-contact-map">
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2822.7806761080233!2d-93.29138368446431!3d44.96844997909819!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x52b32b6ee2c87c91%3A0xc20dff2748d2bd92!2sWalker+Art+Center!5e0!3m2!1sen!2sus!4v1514524647889"
-                                style={{ border: 0 }}
-                                allowFullScreen
-                                loading="lazy"
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.21333642108!2d-74.00971940000001!3d40.713319899999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a18e02a7ccd%3A0x98f5f904c5cc9379!2s102%20Church%20St%2C%20New%20York%2C%20NY%2010007%2C%20USA!5e0!3m2!1sen!2sin!4v1776865240180!5m2!1sen!2sin" 
+                                width="100%" 
+                                height="450" 
+                                style={{ border: 0 }} 
+                                allowFullScreen 
+                                loading="lazy" 
                                 referrerPolicy="no-referrer-when-downgrade"
                             ></iframe>
                         </div>
@@ -67,6 +69,11 @@ export default function Contact() {
                                 <p>
                                     Have questions about Ayurvedic treatment? Our team is here to help you understand how we can support your health journey.
                                 </p>
+                                <div className="mt-4">
+                                    <h5 className="font-weight-bold" style={{ color: "#00695c" }}>Our Location</h5>
+                                    <p className="mb-0">102 Church St</p>
+                                    <p>New York, NY 10007, USA</p>
+                                </div>
                             </div>
                             <div className="ayur-contact-form-wrapper">
                                 {status && <Alert severity={status.type} sx={{ mb: 3 }}>{status.msg}</Alert>}

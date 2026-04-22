@@ -30,6 +30,10 @@ export default function Home() {
     "telephone": "+16466243465",
     "address": {
       "@type": "PostalAddress",
+      "streetAddress": "102 Church St",
+      "addressLocality": "New York",
+      "addressRegion": "NY",
+      "postalCode": "10007",
       "addressCountry": "USA"
     },
     "medicalSpecialty": "Ayurvedic Medicine",
