@@ -4,10 +4,6 @@ import Link from "next/link";
 export const metadata: Metadata = {
     title: "Login | Atharv Veda",
     description: "Login as a Doctor or Patient to access your Atharv Veda dashboard.",
-    robots: {
-        index: false,
-        follow: false,
-    },
 };
 
 export default function LoginRoleSelectionPage() {
