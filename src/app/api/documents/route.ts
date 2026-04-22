@@ -5,6 +5,9 @@ import { supabaseAdmin } from '../../../lib/supabase';
 const clerk = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
 
 // GET: Fetch document list for a patient (patient can see own, admin can see target)
+
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
     const { userId, sessionClaims } = await auth();
     if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -138,3 +141,5 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Internal Server Error', details: error.message }, { status: 500 });
     }
 }
+
+

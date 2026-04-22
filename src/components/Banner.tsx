@@ -4,29 +4,83 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay, EffectCreative } from "swiper/modules";
+import { Navigation, Autoplay, EffectCreative, EffectFade } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/effect-creative";
+import "swiper/css/effect-fade";
+
+const heroImages = [
+    "/Heroimages/hero-1.jpg",
+    "/Heroimages/hero-2.jpeg",
+    "/Heroimages/hero-3.jpeg",
+    "/Heroimages/hero-4.jpeg",
+    "/Heroimages/hero-5.jpeg",
+    "/Heroimages/hero-6.jpeg",
+    "/Heroimages/hero-7.jpeg",
+    "/Heroimages/hero-8.jpeg",
+    "/Heroimages/hero-9.jpeg",
+    "/Heroimages/hero-10.jpeg",
+    "/Heroimages/hero-11.jpeg"
+];
 
 const Banner = () => {
     const not_active_slide_scale_value = 0.85;
     const not_active_slide_opacity_value = 0.5;
 
     return (
-        <header className="ayur-banner-section" role="banner">
+        <header className="ayur-banner-section" role="banner" style={{ position: 'relative', overflow: 'hidden' }}>
+            {/* Background Image Slider */}
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: -1 }}>
+                <Swiper
+                    modules={[Autoplay, EffectFade]}
+                    effect="fade"
+                    fadeEffect={{ crossFade: true }}
+                    loop={true}
+                    speed={2000}
+                    allowTouchMove={false}
+                    autoplay={{
+                        delay: 4000,
+                        disableOnInteraction: false,
+                    }}
+                    style={{ width: '100%', height: '100%' }}
+                >
+                    {heroImages.map((img, i) => (
+                        <SwiperSlide key={i} style={{ height: '100%', width: '100%', position: 'relative' }}>
+                            {/* Blurred background to fill empty space without zooming */}
+                            <Image
+                                src={img}
+                                alt={`Hero background blur ${i + 1}`}
+                                fill
+                                style={{ objectFit: 'cover', filter: 'blur(20px)', transform: 'scale(1.1)', opacity: 0.6 }}
+                                priority={i === 0}
+                            />
+                            {/* Actual image contained so it's not cropped/zoomed */}
+                            <Image
+                                src={img}
+                                alt={`Hero image ${i + 1}`}
+                                fill
+                                style={{ objectFit: 'contain' }}
+                                priority={i === 0}
+                            />
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+                {/* Overlay to ensure text readability against any image */}
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.8) 100%)', zIndex: 1 }}></div>
+            </div>
             <div className="container">
                 <div className="row">
                     <div className="col-lg-12 col-md-12 col-sm-12">
                         <div className="ayur-banner-heading">
-                            <h1 style={{ fontWeight: 800, lineHeight: "1.3", letterSpacing: "-0.5px" }}>
+                            <h1 style={{ fontWeight: 800, lineHeight: "1.3", letterSpacing: "-0.5px", color: "#ffffff" }}>
                                 Integrative Ayurvedic Care for <br />
                                 <span style={{ color: "#ffb300" }}>Kidney Disease & Chronic Conditions</span>
                             </h1>
-                            <p className="mt-4 mb-5" style={{ fontSize: "1.25rem", maxWidth: "800px", margin: "0 auto", lineHeight: "1.7", color: "#000000ff" }}>
+                            <p className="mt-4 mb-5" style={{ fontSize: "1.25rem", maxWidth: "800px", margin: "0 auto", lineHeight: "1.7", color: "#f8f9fa" }}>
                                 Atharv Veda combines ancient Ayurvedic wisdom with modern diagnostics to safely manage
-                                <strong> Chronic Kidney Disease (CKD)</strong>, Diabetes, and lifestyle disorders.
+                                <strong style={{ color: "#ffffff" }}> Chronic Kidney Disease (CKD)</strong>, Diabetes, and lifestyle disorders.
                                 Our specialized approach focuses on root-cause healing and preserving organ function.
                             </p>
 
@@ -97,20 +151,20 @@ const Banner = () => {
                                 }}
                                 className="ayur-banner-slider"
                             >
-                                {[1, 2, 3, 4, 5].map((item) => (
-                                    <SwiperSlide key={item}>
-                                        <div className="ayur-ban-slide">
-                                            <Image
-                                                src="/assets/images/ban-head-Image.png"
-                                                alt="Ayurvedic Doctor Consultation for Kidney Disease"
-                                                width={636}
-                                                height={580}
-                                                priority
-                                                style={{ width: '100%', height: 'auto' }}
-                                            />
-                                        </div>
-                                    </SwiperSlide>
-                                ))}
+                                {/* {[1, 2, 3, 4, 5, 6, 7].map((item) => (
+                                    // <SwiperSlide key={item}>
+                                    //     <div className="ayur-ban-slide">
+                                    //         <Image
+                                    //             src="/assets/images/ban-head-Image.png"
+                                    //             alt="Ayurvedic Doctor Consultation for Kidney Disease"
+                                    //             width={636}
+                                    //             height={580}
+                                    //             priority
+                                    //             style={{ width: '100%', height: 'auto' }}
+                                    //         />
+                                    //     </div>
+                                    // </SwiperSlide>
+                                ))} */}
 
                                 <div className="swiper-button-prev">
                                     <svg width="46" height="22" viewBox="0 0 46 22" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -18,7 +18,7 @@ export default async function ProductsPage() {
             <div className="container">
                 <h2 className="mb-4">All Products</h2>
                 <div className="row">
-                    {products.map((product) => (
+                    {products.map((product: any) => (
                         <div key={product.id} className="col-lg-4 col-md-6 mb-4">
                             <div className="card h-100 product-card">
                                 {/* Images would go here */}

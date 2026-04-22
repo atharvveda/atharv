@@ -39,11 +39,12 @@ export default function DoctorPage() {
         <div className="row mt-4">
           <div className="col-md-4">
             <Image
-              src="/assets/images/profile-img.png"
+              src="/doctorpic/dr-rahul-sharma.jpeg"
               alt="Dr Rahul Sharma Ayurvedic Doctor"
               width={400}
               height={450}
               className="img-fluid rounded"
+              style={{ objectFit: 'cover' }}
             />
           </div>
 
@@ -86,7 +87,7 @@ export default function DoctorPage() {
           <AuthorCredentials
             name="Dr. Rahul Sharma"
             credentials="B.A.M.S., M.D. (Ayurveda)"
-            imageUrl="/assets/images/profile-img.png"
+            imageUrl="/doctorpic/dr-rahul-sharma.jpeg"
             bio="Specialist in Ayurvedic Kidney Care and Chronic Disease Management. Dedicated to providing holistic healing through ancient Vedic wisdom."
           />
 

@@ -40,7 +40,7 @@ export default async function ShopHome() {
                                 <p>No products found. seeding...</p>
                             </div>
                         ) : (
-                            products.map((product) => (
+                            products.map((product: any) => (
                                 <div key={product.id} className="col-lg-4 col-md-6 mb-4">
                                     <div className="card h-100 product-card">
                                         <div className="card-body">

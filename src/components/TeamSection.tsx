@@ -1,17 +1,20 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 
 const TeamSection = () => {
     const doctors = [
         {
             name: "Dr. Rahul Sharma",
             specialty: "Ayurvedic Nephrology Expert",
-            year: "M.D. (Ayu)"
+            year: "M.D. (Ayu)",
+            image: "/doctorpic/dr-rahul-sharma.jpeg"
         },
         {
-            name: "Dr. Anjali Arora",
-            specialty: "Diabetes & Lifestyle Disorders",
-            year: "B.A.M.S."
+            name: "Dr. Ravi",
+            specialty: "Dietician",
+            year: "",
+            image: null
         }
     ];
 
@@ -40,6 +43,11 @@ const TeamSection = () => {
                             key={index}
                         >
                             <div className="ayur-team-box w-100 text-center">
+                                {doc.image && (
+                                    <div className="ayur-team-img mb-3" style={{ width: '150px', height: '150px', margin: '0 auto', overflow: 'hidden', borderRadius: '50%' }}>
+                                        <Image src={doc.image} alt={doc.name} width={150} height={150} style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
+                                    </div>
+                                )}
                                 <div className="ayur-team-name">
                                     <h3>{doc.name}</h3>
                                     <p>{doc.specialty}</p>

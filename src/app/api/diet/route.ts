@@ -5,6 +5,9 @@ import { supabaseAdmin } from '../../../lib/supabase';
 const clerk = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
 
 // GET: Fetch diet plan
+
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
     const { userId, sessionClaims } = await auth();
     if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -165,3 +168,5 @@ export async function DELETE(req: NextRequest) {
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }
+
+

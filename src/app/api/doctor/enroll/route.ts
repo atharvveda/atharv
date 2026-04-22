@@ -4,6 +4,9 @@ import { supabaseAdmin } from '../../../../lib/supabase';
 
 const clerk = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
 
+
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest) {
     const { userId, sessionClaims } = await auth();
 
@@ -111,3 +114,5 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }
+
+

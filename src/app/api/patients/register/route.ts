@@ -5,6 +5,9 @@ import { supabaseAdmin } from '../../../../lib/supabase';
 const clerk = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
 
 // POST: Auto-register patient profile on first login
+
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest) {
     const { userId } = await auth();
     if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -56,3 +59,5 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }
+
+

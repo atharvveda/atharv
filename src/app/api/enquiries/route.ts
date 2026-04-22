@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '../../../lib/supabase';
 
+export const dynamic = 'force-dynamic';
+
 // POST: Submit a new enquiry from the website
 export async function POST(req: NextRequest) {
     try {
@@ -50,3 +52,4 @@ export async function GET() {
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }
+
